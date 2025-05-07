@@ -1,4 +1,3 @@
-
 package utils;
 
 import base.BaseTest;
@@ -19,51 +18,33 @@ public class Listeners implements ITestListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(Listeners.class);
 
     @Override
-    public void onTestStart(ITestResult result) {
-        LOGGER.info("Test STARTED: {}", result.getName());
-    }
-
-    @Override
-    public void onTestSuccess(ITestResult result) {
-        LOGGER.info("Test PASSED: {}", result.getName());
-    }
-
-    @Override
     public void onTestFailure(ITestResult result) {
         LOGGER.error("Test FAILED: {}", result.getName());
 
-        WebDriver driver = ((BaseTest) result.getInstance()).driver;
+        WebDriver driver = ((BaseTest) result.getInstance()).getDriver();
 
         if (driver != null) {
-            takeScreenshot(driver);
-            attachScreenshotToAllure(driver);
+            saveScreenshotLocally(driver);         // необов'язково
+            attachScreenshotToAllure(driver);      // обов’язково
+            attachLogs(result);
         } else {
-            LOGGER.warn("Driver was null — cannot take screenshot.");
+            LOGGER.warn("Driver був null — скріншот не зроблено.");
         }
-
-        attachLogs(result);
     }
 
-    @Override
-    public void onTestSkipped(ITestResult result) {
-        LOGGER.warn("Test SKIPPED: {}", result.getName());
-    }
-
-    @Attachment(value = "Screenshot", type = "image/png")
+    @Attachment(value = "Screenshot on failure", type = "image/png")
     private byte[] attachScreenshotToAllure(WebDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
-    private void takeScreenshot(WebDriver driver) {
+    private void saveScreenshotLocally(WebDriver driver) {
         try {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            String fileName = "screenshot_" + System.currentTimeMillis() + ".png";
-            File dest = new File("target/screenshots/" + fileName);
-            dest.getParentFile().mkdirs();
+            File dest = new File("target/screenshots/screenshot_" + System.currentTimeMillis() + ".png");
             FileUtils.copyFile(src, dest);
-            LOGGER.info("Screenshot saved: {}", dest.getAbsolutePath());
+            LOGGER.info("Збережено локальний скріншот: {}", dest.getAbsolutePath());
         } catch (Exception e) {
-            LOGGER.error("Failed to save screenshot locally: {}", e.getMessage());
+            LOGGER.error("Помилка при збереженні скріншота: {}", e.getMessage());
         }
     }
 

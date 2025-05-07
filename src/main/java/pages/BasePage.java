@@ -1,11 +1,13 @@
 package pages;
 
+import fragments.CookiesFragment;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ConfigReader;
 
 import java.time.Duration;
 import java.util.List;
@@ -13,13 +15,22 @@ import java.util.List;
 import static constant.Constant.TimeOutVariable.EXPLICIT_WAIT;
 
 
-public class BasePage {
+public class BasePage<T extends BasePage<T>> {
+    protected static final String BASE_URL = ConfigReader.getProperty("production.baseUrl");
+    private final CookiesFragment cookiesFragment;
     protected WebDriver driver;
     protected final WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofMillis(EXPLICIT_WAIT));
+        this.cookiesFragment = new CookiesFragment(driver);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T acceptCookies() {
+        cookiesFragment.clickAcceptAllButton();
+        return (T) this;
     }
 
     public WebElement waitElementIsVisible(By locator) {
@@ -43,9 +54,9 @@ public class BasePage {
     }
 
     public BasePage scrollToElement(By locator) {
-        WebElement listGoods = waitElementIsVisible(locator);
+        WebElement element = waitElementIsVisible(locator);
         Actions actions = new Actions(driver);
-        actions.moveToElement(listGoods).perform();
+        actions.moveToElement(element).perform();
         return this;
     }
 }

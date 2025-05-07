@@ -36,7 +36,7 @@ public class CommonActions {
         return elements.stream().map(WebElement::getText).toList();
     }
 
-    public static void scrollToElement(WebElement element , WebElement driver) {
+    public static void scrollToElementJs(WebElement element, WebElement driver) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
     }
 }

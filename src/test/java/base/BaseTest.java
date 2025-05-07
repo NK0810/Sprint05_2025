@@ -19,6 +19,10 @@ public class BaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     protected static final Properties properties = new Properties();
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     static {
         try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("common.properties")) {
             if (input == null) {
