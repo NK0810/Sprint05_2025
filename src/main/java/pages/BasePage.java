@@ -45,7 +45,7 @@ public class BasePage<T extends BasePage<T>> {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public boolean waitElementToBeInvisible(By locator) {
+    public boolean isElementToBeInvisible(By locator) {
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
@@ -58,5 +58,11 @@ public class BasePage<T extends BasePage<T>> {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
         return this;
+    }
+
+    public List<WebElement> waitElementsAreUpdated(By locator) {
+        List<WebElement> oldElements = driver.findElements(locator);
+        wait.until(ExpectedConditions.stalenessOf(oldElements.get(0)));
+        return driver.findElements(locator);
     }
 }
