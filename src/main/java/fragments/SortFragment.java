@@ -16,9 +16,15 @@ public class SortFragment extends BasePage {
         MAX_DISCOUNT("ua_products_discount_percent_desc");
 
         private String dataValue;
+        private final By locator;
 
         SortOptions(String dataValue) {
             this.dataValue = dataValue;
+            this.locator = By.xpath("//li[@data-value='" + dataValue + "']");
+        }
+
+        public By getLocator() {
+            return locator;
         }
 
         public String getDataValue() {
@@ -38,8 +44,7 @@ public class SortFragment extends BasePage {
 
     @Step("Select sort option: {option}")
     public SortFragment selectOption(SortOptions option) {
-        String xpath = "//li[@data-value='" + option.getDataValue() + "']";
-        waitElementToBeClickable(By.xpath(xpath)).click();
+        waitElementToBeClickable(option.getLocator()).click();
         return this;
     }
 }
