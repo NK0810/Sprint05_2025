@@ -1,7 +1,6 @@
 package pages;
 
 import fragments.SortFragment;
-import fragments.SortOptions;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 
@@ -13,17 +12,10 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage>{
         this.sortFragment = new SortFragment(driver);
     }
 
-    @Step("Sorts products by lowest price")
-    public ProductCatalogPage clickSortByLowestPriceButton() {
+    @Step("Sorts products by {optionName}")
+    public ProductCatalogPage sortByOption(SortFragment.SortOptions optionName) {
         sortFragment.clickDropdownButton()
-                .selectOption(SortOptions.LOWEST_PRICE);
-        return this;
-    }
-
-    @Step("Sorts products by highest price")
-    public ProductCatalogPage clickSortByHighestPriceButton(){
-        sortFragment.clickDropdownButton()
-                .selectOption(SortOptions.HIGHEST_PRICE);
+                .selectOption(optionName);
         return this;
     }
 }

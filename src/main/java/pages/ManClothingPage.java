@@ -10,26 +10,20 @@ import java.util.stream.Collectors;
 
 public class ManClothingPage extends ProductCatalogPage {
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
-    private static final String PRODUCT_CARDS = "//div[@class='product-card product-card--type-default ']";
-    private static final String PRODUCTS_PRICE = "//div[@class='c-price__current']";
+    private static final String PRODUCT_PRICES = "//div[@class='c-price__current']";
 
     public ManClothingPage(WebDriver driver) {
         super(driver);
     }
 
-    @Step("Open home page")
+    @Step("Open man clothing page")
     public ManClothingPage openUrl() {
         driver.get(URL);
         return this;
     }
 
-    public ManClothingPage waitUpdateProductCard(){
-        waitElementsAreVisible(By.xpath(PRODUCT_CARDS));
-        return this;
-    }
-
     public List<String> getVisiblePriceTexts() {
-        By priceLocator = By.xpath(PRODUCTS_PRICE);
+        By priceLocator = By.xpath(PRODUCT_PRICES);
 
         return waitElementsAreVisible(priceLocator)
                 .stream()
@@ -37,7 +31,8 @@ public class ManClothingPage extends ProductCatalogPage {
                 .collect(Collectors.toList());
     }
 
+    @Step("Waits until product prices are updated")
     public List<WebElement> waitAreProductPricesAreUpdated() {
-        return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
+        return waitElementsAreUpdated(By.xpath(PRODUCT_PRICES));
     }
 }
