@@ -48,7 +48,7 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Enter name product (Ukrainian)")
+    @Step("Enter search query")
     public HomePage enterTextInSeachField(String searchQuery){
         driver.findElement(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
