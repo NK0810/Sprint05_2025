@@ -9,7 +9,6 @@ import pages.BasePage;
 import pages.HomePage;
 
 public class HeaderFragment extends BasePage {
-
     private static final String WISHLIST_BUTTON = "//div[@class='wishlist__inner']";
     private static final String HEADER = "//div[@class='header__content header__container container']";
     private static final String SUBSCRIBE_ON_NEWSLETTER_BUTTON = "//*[@id='newsletter']";

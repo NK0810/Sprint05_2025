@@ -14,7 +14,6 @@ public class AddAndRemoveFromWishlistFromHomePageTest extends BaseTest {
     @Test
     public void checkAdditionToWishlist() {
         HomePage homePage = new HomePage(driver);
-        HeaderFragment headerFragment = new HeaderFragment(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
 
         homePage
