@@ -12,6 +12,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON =
             "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String SEARCH_FIELD = "//input[contains(@id, 'autocomplete-input')]";
+    private static final String SEARCH_BUTTON = "//button[contains(@class, 'autocomplete-button--text')]";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -37,6 +39,24 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Click add to wishlist button")
     public HomePage clickAddToWishlistButton() {
         waitElementToBeClickable(By.xpath(ADD_TO_WISHLIST_BUTTON)).click();
+        return this;
+    }
+
+    @Step("Click search field")
+    public HomePage clickSearchField(){
+        waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
+        return this;
+    }
+
+    @Step("Enter name product (Ukrainian)")
+    public HomePage enterTextInSeachField(String searchQuery){
+        driver.findElement(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
+        return this;
+    }
+
+    @Step("Click search button")
+    public HomePage clickSearchButton(){
+        waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
 }
