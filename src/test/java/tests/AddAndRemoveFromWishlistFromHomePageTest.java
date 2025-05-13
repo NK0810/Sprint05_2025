@@ -1,7 +1,6 @@
 package tests;
 
 import base.BaseTest;
-import fragments.CookiesFragment;
 import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import org.testng.Assert;
