@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
 public class HeaderFragment extends BasePage {
-
     private static final String WISHLIST_BUTTON = "//div[@class='wishlist__inner']";
     private static final String HEADER = "//div[@class='header__content header__container container']";
 
