@@ -32,10 +32,7 @@ public class BasePage<T extends BasePage<T>> {
         cookiesFragment.clickAcceptAllButton();
         return (T) this;
     }
-    public WebElement waitElementToBeVisible(By locator) {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
+
     public WebElement waitElementIsVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
