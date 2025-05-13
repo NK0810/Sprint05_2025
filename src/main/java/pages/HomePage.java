@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
-
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON =
