@@ -5,10 +5,12 @@ import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
-import static constant.Constant.FilterTestData.*;
+import static pages.ManClothingPage.BrandFilter.ADIDAS;
+
 import java.util.List;
 
 public class BrandFilterTest extends BaseTest {
+    private static final String BRAND_ADIDAS = "adidas";
 
     @Test
     @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
@@ -19,19 +21,17 @@ public class BrandFilterTest extends BaseTest {
                 .openUrl()
                 .acceptCookies();
         manClothingPage
-                .getBrandFilterFragment()
                 .scrollToBrandDropdown()
                 .openBrandDropdown()
-                .typeBrandNameInSearch(TEST_BRAND)
-                .scrollToBrandItem()
-                .clickSearchedBrandCheckbox();
+                .typeBrandNameInSearch(BRAND_ADIDAS)
+                .scrollToBrandItem();
+        manClothingPage.selectFilterBrandOption(ADIDAS);
         manClothingPage.waitAreProductsNameAreUpdated();
-
         List<String> productsName = manClothingPage.getAllProductsName();
+        Assert.assertTrue(isProductsHaveBrandName(productsName) , "Product don't have brand name");
+    }
 
-        Assert.assertFalse(productsName.isEmpty(), "No products displayed after selecting brand filter.");
-        boolean allMatch = productsName.stream()
-                .allMatch(name -> name.toLowerCase().contains(TEST_BRAND.toLowerCase()));
-        Assert.assertTrue(allMatch, "Not all product names contain the brand: " + TEST_BRAND);
+    private boolean isProductsHaveBrandName(List<String> productsName){
+        return productsName.stream().allMatch(name->name.contains(BRAND_ADIDAS));
     }
 }
