@@ -11,13 +11,19 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         SALE("discount");
 
         private String dataValue;
+        private final String xpath;
 
         FilterOption(String dataValue) {
             this.dataValue = dataValue;
+            this.xpath = "//div[@class='ais-Panel']//li[@class='refinement-item refinement-item--is_" + dataValue + "']";
         }
 
         public String getDataValue() {
             return dataValue;
+        }
+
+        public String getXpath() {
+            return xpath;
         }
     }
 
@@ -37,8 +43,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
 
     @Step("Select filter option: {option}")
     public ProductCatalogPage selectfilterOption(FilterOption option) {
-        String xpath = "//div[@class='ais-Panel']//li[@class='refinement-item refinement-item--is_" + option.getDataValue() + "']";
-        waitElementToBeClickable(By.xpath(xpath)).click();
+        waitElementToBeClickable(By.xpath(option.getXpath())).click();
         return this;
     }
 

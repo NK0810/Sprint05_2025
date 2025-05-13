@@ -21,13 +21,12 @@ public class ProductFilterTests extends BaseTest {
                 .acceptCookies()
                 .filterByOption(NEW_ARRIVALS);
         manClothingPage
-                .waitAreNewTagAreUpdated();
+                .waitUntilTagsAreUpdated();
 
         List<String> productNewTagsFilterByNewArrivals = manClothingPage.getVisibleNewTag();
 
         Assert.assertTrue(
-                productNewTagsFilterByNewArrivals.stream().allMatch(tag -> tag.contains("Новий"))
-                , "Not all product tags contain 'Новий'"
+                productNewTagsFilterByNewArrivals.stream().allMatch(tag -> tag.contains("Новий")), "Not all product tags contain 'Новий'"
         );
     }
 }

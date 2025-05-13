@@ -33,7 +33,7 @@ public class ManClothingPage extends ProductCatalogPage {
                 .collect(Collectors.toList());
     }
 
-    @Step("Get visible new tag text")
+    @Step("Get list of texts 'Новий' product tags")
     public List<String> getVisibleNewTag(){
         By newTagLocator = By.xpath(NEW_TAG_ELEMENTS);
 
@@ -44,12 +44,12 @@ public class ManClothingPage extends ProductCatalogPage {
     }
 
     @Step("Waits until product prices are updated")
-    public List<WebElement> waitAreProductPricesAreUpdated() {
+    public List<WebElement> waitUntilProductPricesAreUpdated() {
         return waitElementsAreUpdated(By.xpath(PRODUCT_PRICES));
     }
 
     @Step("Waits util new tag are updated")
-    public List<WebElement> waitAreNewTagAreUpdated(){
+    public List<WebElement> waitUntilTagsAreUpdated(){
         return waitElementsAreUpdated(By.xpath(NEW_TAG_ELEMENTS));
     }
 }
