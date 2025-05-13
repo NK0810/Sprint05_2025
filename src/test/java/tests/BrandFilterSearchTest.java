@@ -1,7 +1,6 @@
 package tests;
 
 import base.BaseTest;
-import fragments.BrandFilterFragment;
 import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -15,21 +14,19 @@ public class BrandFilterSearchTest extends BaseTest {
     @Description("Verify only brand-specific products are shown after applying brand filter")
     public void shouldDisplayOnlyFilteredProductsByBrand() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
-        BrandFilterFragment brandFilterFragment = new BrandFilterFragment(driver);
 
         manClothingPage
                 .openUrl()
                 .acceptCookies();
-
-        brandFilterFragment
+        manClothingPage
+                .getBrandFilterFragment()
                 .scrollToBrandDropdown()
                 .openBrandDropdown()
                 .typeBrandNameInSearch(TEST_BRAND)
-                .scrollToFirstBrandItem()
+                .scrollToBrandItem()
                 .clickSearchedBrandCheckbox();
         manClothingPage.waitUpdateProductCard();
 
-        // Отримуємо список назв товарів після застосування фільтру
         List<String> productNames = manClothingPage.getAllProductNames();
 
         Assert.assertFalse(productNames.isEmpty(), "No products displayed after selecting brand filter.");

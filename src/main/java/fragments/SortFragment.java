@@ -6,8 +6,6 @@ import pages.BasePage;
 
 public class SortFragment extends BasePage {
     private static final String DROPDOWN_BUTTON = "//span[@class=\"button-desktop\"]";
-
-
     public SortFragment(WebDriver driver) {
         super(driver);
     }
@@ -22,4 +20,3 @@ public class SortFragment extends BasePage {
         waitElementToBeClickable(By.xpath(xpath)).click();
     }
 }
-

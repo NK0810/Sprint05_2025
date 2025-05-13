@@ -6,11 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
 
-public class BrandFilterFragment extends BasePage<BrandFilterFragment> {
+public class BrandFilterFragment extends BasePage{
 
     private static final String BRANDS_DROPDOWN_LIST = "//div[@class='widget-container-brand']/div";
     private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
-//    private static final String BRAND_CHECKBOX = "//li[@class='refinement-item refinement-item--brand']//input[@class=\"refinement-checkbox\"]";
     private static final String BRAND_CHECKBOX = "//div[@class='widget-container-brand']//label[@class='refinement-label ']";
     private static final String BRAND_ITEM = "//li[@class='refinement-item refinement-item--brand']";
 
@@ -19,8 +18,7 @@ public class BrandFilterFragment extends BasePage<BrandFilterFragment> {
     }
 
     @Step("Scroll to first brand item in the filter")
-    public BrandFilterFragment scrollToFirstBrandItem() {
-        waitElementIsVisible(By.xpath(BRAND_ITEM));
+    public BrandFilterFragment scrollToBrandItem() {
         scrollToElement(By.xpath(BRAND_ITEM));
         return this;
     }
@@ -30,6 +28,7 @@ public class BrandFilterFragment extends BasePage<BrandFilterFragment> {
         WebElement searchInput = waitElementIsVisible(By.xpath(BRANDS_SEARCH_FIELD));
         searchInput.clear();
         searchInput.sendKeys(brandName);
+        waitUpdateBrandList();
         return this;
     }
 
@@ -51,4 +50,10 @@ public class BrandFilterFragment extends BasePage<BrandFilterFragment> {
         return this;
     }
 
+    @Step("Wait until brand list is updated")
+    public BrandFilterFragment waitUpdateBrandList() {
+        By brandItemsLocator = By.xpath(BRAND_ITEM);
+        waitElementsAreUpdated(brandItemsLocator);  // метод є у BasePage
+        return this;
+    }
 }

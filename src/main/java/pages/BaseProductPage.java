@@ -1,5 +1,6 @@
 package pages;
 
+import fragments.BrandFilterFragment;
 import fragments.SortFragment;
 import fragments.SortOptions;
 import io.qameta.allure.Step;
@@ -7,10 +8,12 @@ import org.openqa.selenium.WebDriver;
 
 public abstract class BaseProductPage extends BasePage<BaseProductPage>{
     protected SortFragment sortFragment;
+    protected BrandFilterFragment brandFilterFragment;
 
     public BaseProductPage(WebDriver driver) {
         super(driver);
         this.sortFragment = new SortFragment(driver);
+        this.brandFilterFragment = new BrandFilterFragment(driver);
     }
 
     @Step("Sorts products by lowest price")
