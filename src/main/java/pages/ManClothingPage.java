@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class ManClothingPage extends ProductCatalogPage {
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
     private static final String PRODUCT_PRICES = "//div[@class='c-price__current']";
+    private static final String NEW_TAG_ELEMENTS = "//span[@class='product-card__badge product-card__badge--new']";
 
     public ManClothingPage(WebDriver driver) {
         super(driver);
@@ -32,8 +33,23 @@ public class ManClothingPage extends ProductCatalogPage {
                 .collect(Collectors.toList());
     }
 
+    @Step("Get list of texts 'Новий' product tags")
+    public List<String> getVisibleNewTag(){
+        By newTagLocator = By.xpath(NEW_TAG_ELEMENTS);
+
+        return waitElementsAreVisible(newTagLocator)
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
     @Step("Waits until product prices are updated")
-    public List<WebElement> waitAreProductPricesAreUpdated() {
+    public List<WebElement> waitUntilProductPricesAreUpdated() {
         return waitElementsAreUpdated(By.xpath(PRODUCT_PRICES));
+    }
+
+    @Step("Waits util new tag are updated")
+    public List<WebElement> waitUntilTagsAreUpdated(){
+        return waitElementsAreUpdated(By.xpath(NEW_TAG_ELEMENTS));
     }
 }
