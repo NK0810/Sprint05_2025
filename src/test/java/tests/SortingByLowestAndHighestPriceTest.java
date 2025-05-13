@@ -16,7 +16,7 @@ import static fragments.SortFragment.SortOptions.LOWEST_PRICE;
 public class SortingByLowestAndHighestPriceTest extends BaseTest {
     @Description("Verifies that products are correctly sorted by lowest and highest price on the category page.")
     @Test
-    public void checkSortPriceLowestAndHighest() {
+    public void checkSortPriceLowestAndHighestTest() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
 
         manClothingPage

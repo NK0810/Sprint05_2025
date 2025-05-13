@@ -13,7 +13,7 @@ import static pages.ProductCatalogPage.FilterOption.NEW_ARRIVALS;
 public class ProductFilterTests extends BaseTest {
     @Description("Verify that filtering by 'New arrivals' only displays products marked.")
     @Test
-    public void filterByNewArrivals() {
+    public void filterByNewArrivalsTest() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
 
         manClothingPage
