@@ -24,7 +24,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
                 .acceptCookies()
                 .sortByOption(LOWEST_PRICE);
         manClothingPage
-                .waitAreProductPricesAreUpdated();
+                .waitUntilProductPricesAreUpdated();
 
         List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisiblePriceTexts();
 
@@ -34,7 +34,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .sortByOption(HIGHEST_PRICE);
         manClothingPage
-                .waitAreProductPricesAreUpdated();
+                .waitUntilProductPricesAreUpdated();
 
         List<String> productPriceSortedByHighestPrice = manClothingPage.getVisiblePriceTexts();
 
