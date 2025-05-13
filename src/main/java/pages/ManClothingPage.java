@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class ManClothingPage extends BaseProductPage {
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
-    private static final String PRODUCT_CARDS = "//div[@class='product-card product-card--type-default ']";
-    private static final String PRODUCT_NAME = "//a[@class='product-card__name']";
+    private static final String PRODUCTS_CARDS = "//div[@class='product-card product-card--type-default ']";
+    private static final String PRODUCTS_NAME = "//a[@class='product-card__name']";
     private static final String PRODUCTS_PRICE = "//div[@class='c-price__current']";
 
     public ManClothingPage(WebDriver driver) {super(driver);}
@@ -28,7 +28,7 @@ public class ManClothingPage extends BaseProductPage {
     }
 
     public ManClothingPage waitUpdateProductCard() {
-        waitElementsAreUpdated(By.xpath(PRODUCT_CARDS));
+        waitElementsAreUpdated(By.xpath(PRODUCTS_CARDS));
         return this;
     }
 
@@ -45,8 +45,12 @@ public class ManClothingPage extends BaseProductPage {
         return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
     }
 
-    public List<String> getAllProductNames() {
-        By nameLocator = By.xpath(PRODUCT_NAME);
+    public List<WebElement> waitAreProductsNameAreUpdated() {
+        return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
+    }
+
+    public List<String> getAllProductsName() {
+        By nameLocator = By.xpath(PRODUCTS_NAME);
 
         return waitElementsAreVisible(nameLocator)
                 .stream()

@@ -8,11 +8,11 @@ import pages.ManClothingPage;
 import static constant.Constant.FilterTestData.*;
 import java.util.List;
 
-public class BrandFilterSearchTest extends BaseTest {
+public class BrandFilterTest extends BaseTest {
 
     @Test
-    @Description("Verify only brand-specific products are shown after applying brand filter")
-    public void shouldDisplayOnlyFilteredProductsByBrand() {
+    @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
+    public void filteredProductsByBrandViaSearchTest() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
 
         manClothingPage
@@ -25,12 +25,12 @@ public class BrandFilterSearchTest extends BaseTest {
                 .typeBrandNameInSearch(TEST_BRAND)
                 .scrollToBrandItem()
                 .clickSearchedBrandCheckbox();
-        manClothingPage.waitUpdateProductCard();
+        manClothingPage.waitAreProductsNameAreUpdated();
 
-        List<String> productNames = manClothingPage.getAllProductNames();
+        List<String> productsName = manClothingPage.getAllProductsName();
 
-        Assert.assertFalse(productNames.isEmpty(), "No products displayed after selecting brand filter.");
-        boolean allMatch = productNames.stream()
+        Assert.assertFalse(productsName.isEmpty(), "No products displayed after selecting brand filter.");
+        boolean allMatch = productsName.stream()
                 .allMatch(name -> name.toLowerCase().contains(TEST_BRAND.toLowerCase()));
         Assert.assertTrue(allMatch, "Not all product names contain the brand: " + TEST_BRAND);
     }
