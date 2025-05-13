@@ -6,7 +6,7 @@
 
     <test name="All Tests">
         <classes>
-            <class name="tests.SubscribeOnNewsLetterTest"/>
+            <class name="tests.AddAndRemoveFromWishlistFromHomePageTest"/>
         </classes>
     </test>
 </suite>
