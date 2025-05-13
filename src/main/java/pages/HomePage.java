@@ -39,4 +39,11 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(ADD_TO_WISHLIST_BUTTON)).click();
         return this;
     }
+
+    @Step("Scroll To Subscribe On Newsletter")
+    public HomePage scrollToSubscribeOnNewsletter() {
+        scrollToElement(By.xpath(SUBSCRIBE_ON_NEWSLETTER));
+        return this;
+
+    }
 }
