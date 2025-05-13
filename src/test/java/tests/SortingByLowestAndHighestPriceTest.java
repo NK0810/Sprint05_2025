@@ -39,10 +39,10 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         List<String> productPriceSortedByHighestPrice = manClothingPage.getVisiblePriceTexts();
 
         Assert.assertTrue(arePricesSortedHighToLow(productPriceSortedByHighestPrice)
-                , "Product don't sorted");
+                , "Product don't sorted by highest");
     }
 
-    public boolean arePricesSortedLowToHigh(List<String> rawPriceTexts) {
+    private boolean arePricesSortedLowToHigh(List<String> rawPriceTexts) {
         List<Integer> prices = rawPriceTexts.stream()
                 .map(text -> text.replaceAll("[^\\d,]", ""))
                 .map(price -> price.contains(",") ? price.split(",")[0] : price)
@@ -53,7 +53,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
                 .allMatch(i -> prices.get(i) <= prices.get(i + 1));
     }
 
-    public boolean arePricesSortedHighToLow(List<String> rawPriceTexts) {
+    private boolean arePricesSortedHighToLow(List<String> rawPriceTexts) {
         List<Integer> prices = rawPriceTexts.stream()
                 .map(text -> text.replaceAll("[^\\d,]", ""))
                 .map(price -> price.contains(",") ? price.split(",")[0] : price)

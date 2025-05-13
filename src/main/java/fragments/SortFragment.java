@@ -1,11 +1,12 @@
 package fragments;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
 public class SortFragment extends BasePage {
-    private static final String DROPDOWN_BUTTON = "//span[@class=\"button-desktop\"]";
+    private static final String DROPDOWN_BUTTON = "//span[@class='button-desktop']";
 
     public enum SortOptions {
         RECOMMENDED("ua_products"),
@@ -29,11 +30,13 @@ public class SortFragment extends BasePage {
         super(driver);
     }
 
+    @Step("Click sort dropdown button")
     public SortFragment clickDropdownButton(){
         waitElementToBeClickable(By.xpath(DROPDOWN_BUTTON)).click();
         return this;
     }
 
+    @Step("Select sort option: {option}")
     public SortFragment selectOption(SortOptions option) {
         String xpath = "//li[@data-value='" + option.getDataValue() + "']";
         waitElementToBeClickable(By.xpath(xpath)).click();

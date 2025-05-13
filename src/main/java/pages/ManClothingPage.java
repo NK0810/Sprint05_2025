@@ -22,6 +22,7 @@ public class ManClothingPage extends ProductCatalogPage {
         return this;
     }
 
+    @Step("Get visible product prices as text")
     public List<String> getVisiblePriceTexts() {
         By priceLocator = By.xpath(PRODUCT_PRICES);
 
