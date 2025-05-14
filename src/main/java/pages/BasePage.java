@@ -68,4 +68,8 @@ public class BasePage<T extends BasePage<T>> {
     public int convertPriceToInt(String listPrice) {
         return Integer.parseInt(listPrice.replaceAll(",.*", "").replaceAll("[^\\d]", ""));
     }
+
+    public String getText(By locator) {
+        return waitElementIsVisible(locator).getText();
+    }
 }
