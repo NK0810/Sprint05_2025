@@ -9,7 +9,7 @@ import utils.ConfigReader;
 
 public class LoginTest extends base.BaseTest {
 
-    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/login";
+    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account";
     private static final String TEXT_OUT = "Вийти";
 
     @Test

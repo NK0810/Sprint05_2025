@@ -5,10 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.openqa.selenium.By.xpath;
+
 public class UserAccountPage extends BasePage<UserAccountPage> {
-    private static final By MY_ACCOUNT_HEADER = By.xpath("//*[@data-ui-id='page-title-wrapper']");
-    private static final By MY_ACCOUNT_EMAIL = By.xpath("//p[@class='dashboard-info-block__email']");
-    private static final By TEXT_OUT = By.xpath("//*[@class='nav items']/li[10]/a");
+    private static final By MY_ACCOUNT_HEADER = xpath("//*[@data-ui-id='page-title-wrapper']");
+    private static final By MY_ACCOUNT_EMAIL = xpath("//p[@class='dashboard-info-block__email']");
+    private static final By TEXT_OUT = xpath("//*[@class='nav items']/li[10]/a");
 
     public UserAccountPage(WebDriver driver) {
         super(driver);
@@ -16,7 +18,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
 
     @Step("Wait until My account header is visible")
     public void waitUntilMyAccountPageIsVisible() {
-        WebElement myAccountHeader = waitElementIsVisible(MY_ACCOUNT_HEADER);
+        waitElementIsVisible(MY_ACCOUNT_HEADER);
     }
 
     @Step("Get email text")
