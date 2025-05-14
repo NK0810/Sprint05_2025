@@ -53,8 +53,8 @@ public class BasePage<T extends BasePage<T>> {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
-    public void scrollToElement(String xpath) {
-        WebElement element = waitElementIsVisible(By.xpath(xpath));
+    public void scrollToElement(By locator) {
+        WebElement element = waitElementIsVisible(locator);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }

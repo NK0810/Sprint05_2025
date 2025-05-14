@@ -2,19 +2,16 @@ package tests;
 
 import base.BaseTest;
 import jdk.jfr.Description;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
 
 import java.util.List;
-
-import static pages.ProductCatalogPage.FilterOption.*;
+import static pages.ProductCatalogPage.BrandName.*;
+import static pages.ProductCatalogPage.FilterDropdown.*;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
 
 public class BrandFilterTest extends BaseTest {
-    private static final String BRAND_NAME = "adidas";
-    private static final String BRAND_NAME_LIST = "//label[@class='refinement-label ']//span[text()='" + BRAND_NAME + "']";
 
     @Test
     @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
@@ -24,23 +21,21 @@ public class BrandFilterTest extends BaseTest {
         manClothingPage
                 .openUrl()
                 .acceptCookies()
-                .scrollToElement(BRAND.getFilter());
+                .scrollToElement(BRAND_DROPDOWN);
         manClothingPage
-                .openFilterDropdown(BRAND.getFilter())
-                .typeBrandNameInSearch(BRAND_NAME)
-                .scrollToElement(BRAND_NAME_LIST);
-        manClothingPage
-                .selectFilterOption(BRAND_NAME_LIST);
+                .openFilterDropdown(BRAND_DROPDOWN)
+                .typeBrandNameInSearch(ALPINUS)
+                .selectBrandOption(ALPINUS);
 
-        manClothingPage.waitProductsInfoAreUpdated(PRODUCT_NAME.getInfo());
+        manClothingPage.waitProductsInfoAreUpdated(PRODUCT_NAME);
 
-        List<String> productsName = manClothingPage.getVisibleProductsInfoTexts(PRODUCT_NAME.getInfo());
+        List<String> productsName = manClothingPage.getVisibleProductsInfoTexts(PRODUCT_NAME);
 
         List<String> invalidNames = productsName.stream()
-                .filter(name -> !name.toLowerCase().contains(BRAND_NAME))
+                .filter(name -> !name.toLowerCase().contains(ALPINUS.getValue().toLowerCase()))
                 .toList();
 
         Assert.assertEquals(invalidNames.size(), 0,
-                "Some products do not contain expected brand name '" + BRAND_NAME + "': " + invalidNames);
+                "Some products do not contain expected brand name '" + ALPINUS.getValue() + "': " + invalidNames);
     }
 }

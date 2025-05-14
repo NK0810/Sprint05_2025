@@ -25,9 +25,9 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
                 .acceptCookies()
                 .sortByOption(LOWEST_PRICE);
         manClothingPage
-                .waitProductsInfoAreUpdated(ACTUAL_PRICE.getInfo());
+                .waitProductsInfoAreUpdated(ACTUAL_PRICE);
 
-        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE.getInfo());
+        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
 
         List<String> invalidLowToHigh = findInvalidLowToHighPairs(productsPriceSortedByLowestPrice);
 
@@ -40,9 +40,9 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .sortByOption(HIGHEST_PRICE);
         manClothingPage
-                .waitProductsInfoAreUpdated(ACTUAL_PRICE.getInfo());
+                .waitProductsInfoAreUpdated(ACTUAL_PRICE);
 
-        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE.getInfo());
+        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
 
         List<String> invalidHighToLow = findInvalidHighToLowPairs(productPriceSortedByHighestPrice);
 

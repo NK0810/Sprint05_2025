@@ -31,7 +31,7 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Scroll to product carousel")
     public HomePage scrollToPromotionalProductCarousel() {
-        scrollToElement(LIST_OF_GOODS);
+        scrollToElement(By.xpath(LIST_OF_GOODS));
         return this;
     }
 

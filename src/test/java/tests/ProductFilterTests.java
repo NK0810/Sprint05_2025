@@ -23,11 +23,13 @@ public class ProductFilterTests extends BaseTest {
         manClothingPage
                 .openUrl()
                 .acceptCookies()
-                .selectFilterOption(NEW_ARRIVALS.getFilter());
+                .scrollToElement(NEW_ARRIVALS);
         manClothingPage
-                .waitProductsInfoAreUpdated(NEW_TAG.getInfo());
+                .selectFilterOption(NEW_ARRIVALS);
+        manClothingPage
+                .waitProductsInfoAreUpdated(NEW_TAG);
 
-        List<String> productNewTags = manClothingPage.getVisibleProductsInfoTexts(NEW_TAG.getInfo());
+        List<String> productNewTags = manClothingPage.getVisibleProductsInfoTexts(NEW_TAG);
 
         List<String> invalidTags = productNewTags.stream()
                 .filter(tag -> !tag.contains("Новий"))
@@ -44,12 +46,17 @@ public class ProductFilterTests extends BaseTest {
 
         manClothingPage
                 .openUrl()
-                .acceptCookies()
-                .selectFilterOption(SALE.getFilter());
+                .acceptCookies();
         manClothingPage
-                .waitProductsInfoAreUpdated(ACTUAL_PRICE.getInfo());
-        List<String> actualPrices = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE.getInfo());
-        List<String> regularPrices = manClothingPage.getVisibleProductsInfoTexts(REGULAR_DISCOUNT.getInfo());
+                .closeTrustbadgePopUp();
+        manClothingPage
+                .scrollToElement(SALE);
+        manClothingPage
+                .selectFilterOption(SALE);
+        manClothingPage
+                .waitProductsInfoAreUpdated(ACTUAL_PRICE);
+        List<String> actualPrices = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
+        List<String> regularPrices = manClothingPage.getVisibleProductsInfoTexts(REGULAR_DISCOUNT);
 
         boolean discountApplied = isDiscountApplied(regularPrices, actualPrices);
 

@@ -21,7 +21,7 @@ public class HeaderFragment extends BasePage {
 
     @Step("Scroll to header fragment")
     public HeaderFragment scrollToHeader() {
-        scrollToElement(HEADER);
+        scrollToElement(By.xpath(HEADER));
         return this;
     }
 }
