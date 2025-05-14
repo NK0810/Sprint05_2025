@@ -7,17 +7,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class HomePage extends BasePage<HomePage> {
+    private static final String SUBSCRIPTION_BLOCK_XPATH = "//div[@class='modal-inner-wrap']";
     private final HeaderFragment headerFragment;
-
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String SUBSCRIBE_ON_NEWSLETTER = "//*[@class='block-newsletter']";
     public static final String EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
-    public static final String CLICK_REGISTRATION = "//*[@class='button button__primary button--jumbo action subscribe']";
+    public static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
     private static final String CHECK_BOX = "//label[@class='checkbox-label']";
     private static final String REGISTRATION_POP_UP = "//button[@class='button button__primary button--jumbo action subscribe-send']";
     public static final String CONFIRMATION_MESSAGE = "//*[contains(text(), 'Перевірте свою поштову скриньку та підтвердьте, що хочете отримувати Розсилку новин SPORTANO.')]";
+    private WebElement WebElement;
+    private static final String CONFIRMATION_MESSAGE_XPATH = "//*[contains(text(), 'Перевірте свою поштову скриньку та підтвердьте, що хочете отримувати Розсилку новин SPORTANO.')]";
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -60,8 +63,8 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Click registration")
-    public HomePage clickRegistration() {
-        waitElementToBeClickable(By.xpath(CLICK_REGISTRATION)).click();
+    public HomePage RegistrationButton() {
+        waitElementToBeClickable(By.xpath(REGISTRATION_BUTTON)).click();
         return this;
     }
 
@@ -70,6 +73,13 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(CHECK_BOX)).click();
         return this;
     }
+
+    @Step("Is pop-up visible")
+    public boolean isPopUpVisible() {
+        WebElement popUpWindow = waitElementIsVisible(By.xpath(SUBSCRIPTION_BLOCK_XPATH));
+        return popUpWindow.isDisplayed();
+    }
+
 
     @Step("Click registration button in pop up")
     public HomePage clickRegistrationPopUp() {
@@ -81,5 +91,11 @@ public class HomePage extends BasePage<HomePage> {
     public String getNewsletterConfirmationMessage() {
         WebElement messageElement = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE));
         return messageElement.getText();
+    }
+
+    @Step("Is confirmatio message visible")
+    public boolean isConfirmationMessageVisible() {
+        WebElement ConfirmationMessage = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE_XPATH));
+        return ConfirmationMessage.isDisplayed();
     }
 }
