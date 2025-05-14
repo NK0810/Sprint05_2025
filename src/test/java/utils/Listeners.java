@@ -24,8 +24,8 @@ public class Listeners implements ITestListener {
         WebDriver driver = ((BaseTest) result.getInstance()).getDriver();
 
         if (driver != null) {
-            saveScreenshotLocally(driver);         // необов'язково
-            attachScreenshotToAllure(driver);      // обов’язково
+            saveScreenshotLocally(driver);
+            attachScreenshotToAllure(driver);
             attachLogs(result);
         } else {
             LOGGER.warn("Driver був null — скріншот не зроблено.");
@@ -70,5 +70,3 @@ public class Listeners implements ITestListener {
                 : "None";
     }
 }
-
-
