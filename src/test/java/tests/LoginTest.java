@@ -9,12 +9,12 @@ import utils.ConfigReader;
 
 public class LoginTest extends base.BaseTest {
 
-    private static final String USER_ACCOUNT_URL = "https://sportano.ua/customer/account/";
+    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/login";
     private static final String TEXT_OUT = "Вийти";
 
     @Test
     @Description("Login user")
-    public void testLoginSuccess() {
+    public void loginUserTest() {
         String email = ConfigReader.getProperty("UserEmail");
         String password = ConfigReader.getProperty("UserPassword");
         LoginPage loginPage = new LoginPage(driver);
