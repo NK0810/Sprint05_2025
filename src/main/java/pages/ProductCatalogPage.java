@@ -18,10 +18,6 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
             this.filterList = "//div[@class='ais-Panel']//li[@class='refinement-item refinement-item--is_" + dataValue + "']";
         }
 
-        public String getDataValue() {
-            return dataValue;
-        }
-
         public String getFilterList() {
             return filterList;
         }
@@ -42,14 +38,14 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     @Step("Select filter option: {option}")
-    public ProductCatalogPage selectfilterOption(FilterOption option) {
+    public ProductCatalogPage selectFilterOption(FilterOption option) {
         waitElementToBeClickable(By.xpath(option.getFilterList())).click();
         return this;
     }
 
     @Step("Filter products by {optionName}")
-    public ProductCatalogPage filterByOption(FilterOption optionName){
-        selectfilterOption(optionName);
+    public ProductCatalogPage filterByOption(FilterOption optionName) {
+        selectFilterOption(optionName);
         return this;
     }
 }

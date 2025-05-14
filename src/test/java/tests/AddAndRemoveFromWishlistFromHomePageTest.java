@@ -1,7 +1,6 @@
 package tests;
 
 import base.BaseTest;
-import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,7 +10,7 @@ import pages.WishlistPage;
 public class AddAndRemoveFromWishlistFromHomePageTest extends BaseTest {
     @Description("Verify that a product can be added to the wishlist and then removed from it via the home page")
     @Test
-    public void checkAdditionToWishlist() {
+    public void checkAdditionToWishlistTest() {
         HomePage homePage = new HomePage(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
 
