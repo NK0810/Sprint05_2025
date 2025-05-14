@@ -93,7 +93,7 @@ public class HomePage extends BasePage<HomePage> {
         return messageElement.getText();
     }
 
-    @Step("Is confirmatio message visible")
+    @Step("Is confirmation message visible")
     public boolean isConfirmationMessageVisible() {
         WebElement ConfirmationMessage = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE_XPATH));
         return ConfirmationMessage.isDisplayed();
