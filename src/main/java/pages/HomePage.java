@@ -5,8 +5,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import javax.print.attribute.standard.MediaSize;
-
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
 
@@ -52,7 +50,7 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get text first prodict in list product")
     public String getNameFirstProduct() {
-        return getText(By.xpath(NAME_FIRST_PRODUCT));
+        return waitElementIsVisible(By.xpath(NAME_FIRST_PRODUCT)).getText();
     }
 
     @Step("Get price in home page")
