@@ -9,18 +9,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ManClothingPage extends BaseProductPage {
-    public enum BrandFilter{
+    public enum BrandFilter {
         ADIDAS("adidas");
 
         private String dataValue;
         private final String listNameBrand;
 
-        BrandFilter(String dataValue){
-            this.dataValue=dataValue;
-            this.listNameBrand = "//label[@class='refinement-label ']//span[text()='"+dataValue+"']";
+        BrandFilter(String dataValue) {
+            this.dataValue = dataValue;
+            this.listNameBrand = "//label[@class='refinement-label ']//span[text()='" + dataValue + "']";
         }
 
-        public String getListNameBrand(){
+        public String getDataValue() {
+            return dataValue;
+        }
+
+        public String getListNameBrand() {
             return listNameBrand;
         }
 
@@ -34,7 +38,9 @@ public class ManClothingPage extends BaseProductPage {
     private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
     private static final String BRAND_ITEM = "//li[@class='refinement-item refinement-item--brand']";
 
-    public ManClothingPage(WebDriver driver) {super(driver);}
+    public ManClothingPage(WebDriver driver) {
+        super(driver);
+    }
 
     @Step("Open home page")
     public ManClothingPage openUrl() {
@@ -60,8 +66,8 @@ public class ManClothingPage extends BaseProductPage {
         return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
     }
 
-    public List<WebElement> waitAreProductsNameAreUpdated() {
-        return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
+    public List<WebElement> waitProductNamesAreUpdated() {
+        return waitElementsAreUpdated(By.xpath(PRODUCTS_NAME));
     }
 
     public List<String> getAllProductsName() {
@@ -73,7 +79,7 @@ public class ManClothingPage extends BaseProductPage {
                 .collect(Collectors.toList());
     }
 
-    public ManClothingPage selectFilterBrandOption(BrandFilter option){
+    public ManClothingPage selectFilterBrandOption(BrandFilter option) {
         waitElementToBeClickable(By.xpath(option.getListNameBrand())).click();
         return this;
     }
@@ -108,7 +114,7 @@ public class ManClothingPage extends BaseProductPage {
     @Step("Wait until brand list is updated")
     public ManClothingPage waitUpdateBrandList() {
         By brandItemsLocator = By.xpath(BRAND_ITEM);
-        waitElementsAreUpdated(brandItemsLocator);  // метод є у BasePage
+        waitElementsAreUpdated(brandItemsLocator);
         return this;
     }
 }

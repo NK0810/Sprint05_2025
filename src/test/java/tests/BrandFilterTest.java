@@ -5,12 +5,12 @@ import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
+
 import static pages.ManClothingPage.BrandFilter.ADIDAS;
 
 import java.util.List;
 
 public class BrandFilterTest extends BaseTest {
-    private static final String BRAND_ADIDAS = "adidas";
 
     @Test
     @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
@@ -23,15 +23,15 @@ public class BrandFilterTest extends BaseTest {
         manClothingPage
                 .scrollToBrandDropdown()
                 .openBrandDropdown()
-                .typeBrandNameInSearch(BRAND_ADIDAS)
+                .typeBrandNameInSearch(ADIDAS.getDataValue())
                 .scrollToBrandItem();
         manClothingPage.selectFilterBrandOption(ADIDAS);
-        manClothingPage.waitAreProductsNameAreUpdated();
+        manClothingPage.waitProductNamesAreUpdated();
         List<String> productsName = manClothingPage.getAllProductsName();
-        Assert.assertTrue(isProductsHaveBrandName(productsName) , "Product don't have brand name");
+        Assert.assertTrue(isProductsHaveBrandName(productsName), "Product don't have specific brand name");
     }
 
-    private boolean isProductsHaveBrandName(List<String> productsName){
-        return productsName.stream().allMatch(name->name.contains(BRAND_ADIDAS));
+    private boolean isProductsHaveBrandName(List<String> productsName) {
+        return productsName.stream().allMatch(name -> name.contains(ADIDAS.getDataValue()));
     }
 }
