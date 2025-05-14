@@ -16,7 +16,7 @@ import static fragments.SortFragment.SortOptions.LOWEST_PRICE;
 public class SortingByLowestAndHighestPriceTest extends BaseTest {
     @Description("Verifies that products are correctly sorted by lowest and highest price on the category page.")
     @Test
-    public void checkSortPriceLowestAndHighest() {
+    public void checkSortPriceLowestAndHighestTest() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
 
         manClothingPage
@@ -26,7 +26,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .waitUntilProductPricesAreUpdated();
 
-        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisiblePriceTexts();
+        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisibleActualPriceTexts();
 
         Assert.assertTrue(arePricesSortedLowToHigh(productsPriceSortedByLowestPrice)
                 , "Product don't sorted by lowest");
@@ -36,7 +36,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .waitUntilProductPricesAreUpdated();
 
-        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisiblePriceTexts();
+        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisibleActualPriceTexts();
 
         Assert.assertTrue(arePricesSortedHighToLow(productPriceSortedByHighestPrice)
                 , "Product don't sorted by highest");
