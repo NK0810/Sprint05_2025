@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ManClothingPage extends BaseProductPage {
+public class ManClothingPage extends ProductCatalogPage {
     public enum BrandFilter {
         ADIDAS("adidas");
 
@@ -31,9 +31,10 @@ public class ManClothingPage extends BaseProductPage {
     }
 
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
+    private static final String PRODUCT_PRICES = "//div[@class='c-price__current']";
+    private static final String NEW_TAG_ELEMENTS = "//span[@class='product-card__badge product-card__badge--new']";
     private static final String PRODUCTS_CARDS = "//div[@class='product-card product-card--type-default ']";
     private static final String PRODUCTS_NAME = "//a[@class='product-card__name']";
-    private static final String PRODUCTS_PRICE = "//div[@class='c-price__current']";
     private static final String BRANDS_DROPDOWN_LIST = "//div[@class='widget-container-brand']/div";
     private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
     private static final String BRAND_ITEM = "//li[@class='refinement-item refinement-item--brand']";
@@ -42,19 +43,20 @@ public class ManClothingPage extends BaseProductPage {
         super(driver);
     }
 
-    @Step("Open home page")
+    @Step("Open man clothing page")
     public ManClothingPage openUrl() {
         driver.get(URL);
         return this;
     }
 
+    @Step("Get visible product prices as text")
     public ManClothingPage waitUpdateProductCard() {
         waitElementsAreUpdated(By.xpath(PRODUCTS_CARDS));
         return this;
     }
 
     public List<String> getVisiblePriceTexts() {
-        By priceLocator = By.xpath(PRODUCTS_PRICE);
+        By priceLocator = By.xpath(PRODUCT_PRICES);
 
         return waitElementsAreVisible(priceLocator)
                 .stream()
@@ -62,8 +64,24 @@ public class ManClothingPage extends BaseProductPage {
                 .collect(Collectors.toList());
     }
 
-    public List<WebElement> waitAreProductPricesAreUpdated() {
-        return waitElementsAreUpdated(By.xpath(PRODUCTS_PRICE));
+    @Step("Get list of texts 'Новий' product tags")
+    public List<String> getVisibleNewTag(){
+        By newTagLocator = By.xpath(NEW_TAG_ELEMENTS);
+
+        return waitElementsAreVisible(newTagLocator)
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    @Step("Waits until product prices are updated")
+    public List<WebElement> waitUntilProductPricesAreUpdated() {
+        return waitElementsAreUpdated(By.xpath(PRODUCT_PRICES));
+    }
+
+    @Step("Waits util new tag are updated")
+    public List<WebElement> waitUntilTagsAreUpdated(){
+        return waitElementsAreUpdated(By.xpath(NEW_TAG_ELEMENTS));
     }
 
     public List<WebElement> waitProductNamesAreUpdated() {

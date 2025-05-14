@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static fragments.SortFragment.SortOptions.HIGHEST_PRICE;
+import static fragments.SortFragment.SortOptions.LOWEST_PRICE;
+
 public class SortingByLowestAndHighestPriceTest extends BaseTest {
     @Description("Verifies that products are correctly sorted by lowest and highest price on the category page.")
     @Test
@@ -19,27 +22,27 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .openUrl()
                 .acceptCookies()
-                .clickSortByLowestPriceButton();
+                .sortByOption(LOWEST_PRICE);
         manClothingPage
-                .waitAreProductPricesAreUpdated();
+                .waitUntilProductPricesAreUpdated();
 
-        List<String> products_price = manClothingPage.getVisiblePriceTexts();
+        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisiblePriceTexts();
 
-        Assert.assertTrue(arePricesSortedLowToHigh(products_price)
-                , "Product don't sorted");
+        Assert.assertTrue(arePricesSortedLowToHigh(productsPriceSortedByLowestPrice)
+                , "Product don't sorted by lowest");
 
         manClothingPage
-                .clickSortByHighestPriceButton();
+                .sortByOption(HIGHEST_PRICE);
         manClothingPage
-                .waitAreProductPricesAreUpdated();
+                .waitUntilProductPricesAreUpdated();
 
-        List<String> products_price1 = manClothingPage.getVisiblePriceTexts();
+        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisiblePriceTexts();
 
-        Assert.assertTrue(arePricesSortedHighToLow(products_price1)
-                , "Product don't sorted");
+        Assert.assertTrue(arePricesSortedHighToLow(productPriceSortedByHighestPrice)
+                , "Product don't sorted by highest");
     }
 
-    public boolean arePricesSortedLowToHigh(List<String> rawPriceTexts) {
+    private boolean arePricesSortedLowToHigh(List<String> rawPriceTexts) {
         List<Integer> prices = rawPriceTexts.stream()
                 .map(text -> text.replaceAll("[^\\d,]", ""))
                 .map(price -> price.contains(",") ? price.split(",")[0] : price)
@@ -50,7 +53,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
                 .allMatch(i -> prices.get(i) <= prices.get(i + 1));
     }
 
-    public boolean arePricesSortedHighToLow(List<String> rawPriceTexts) {
+    private boolean arePricesSortedHighToLow(List<String> rawPriceTexts) {
         List<Integer> prices = rawPriceTexts.stream()
                 .map(text -> text.replaceAll("[^\\d,]", ""))
                 .map(price -> price.contains(",") ? price.split(",")[0] : price)
