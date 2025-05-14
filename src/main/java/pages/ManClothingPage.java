@@ -37,7 +37,7 @@ public class ManClothingPage extends ProductCatalogPage {
     private static final String PRODUCTS_NAME = "//a[@class='product-card__name']";
     private static final String BRANDS_DROPDOWN_LIST = "//div[@class='widget-container-brand']/div";
     private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
-    private static final String BRAND_ITEM = "//li[@class='refinement-item refinement-item--brand']";
+    private static final String LIST_BRAND_NAMES = "//li[@class='refinement-item refinement-item--brand']";
 
     public ManClothingPage(WebDriver driver) {
         super(driver);
@@ -84,10 +84,12 @@ public class ManClothingPage extends ProductCatalogPage {
         return waitElementsAreUpdated(By.xpath(NEW_TAG_ELEMENTS));
     }
 
+    @Step("Wait until product names are updated")
     public List<WebElement> waitProductNamesAreUpdated() {
         return waitElementsAreUpdated(By.xpath(PRODUCTS_NAME));
     }
 
+    @Step("Get list of product names")
     public List<String> getAllProductsName() {
         By nameLocator = By.xpath(PRODUCTS_NAME);
 
@@ -97,14 +99,15 @@ public class ManClothingPage extends ProductCatalogPage {
                 .collect(Collectors.toList());
     }
 
+    @Step("Select brand from filter")
     public ManClothingPage selectFilterBrandOption(BrandFilter option) {
         waitElementToBeClickable(By.xpath(option.getListNameBrand())).click();
         return this;
     }
 
-    @Step("Scroll to first brand item in the filter")
+    @Step("Scroll to brand name the filter")
     public ManClothingPage scrollToBrandItem() {
-        scrollToElement(By.xpath(BRAND_ITEM));
+        scrollToElement(By.xpath(LIST_BRAND_NAMES));
         return this;
     }
 
@@ -123,7 +126,7 @@ public class ManClothingPage extends ProductCatalogPage {
         return this;
     }
 
-    @Step("Scroll to brand dropdown")
+    @Step("Scroll to brand list dropdown")
     public ManClothingPage scrollToBrandDropdown() {
         scrollToElement(By.xpath(BRANDS_DROPDOWN_LIST));
         return this;
@@ -131,7 +134,7 @@ public class ManClothingPage extends ProductCatalogPage {
 
     @Step("Wait until brand list is updated")
     public ManClothingPage waitUpdateBrandList() {
-        By brandItemsLocator = By.xpath(BRAND_ITEM);
+        By brandItemsLocator = By.xpath(LIST_BRAND_NAMES);
         waitElementsAreUpdated(brandItemsLocator);
         return this;
     }

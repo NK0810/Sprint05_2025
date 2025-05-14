@@ -25,10 +25,13 @@ public class BrandFilterTest extends BaseTest {
                 .openBrandDropdown()
                 .typeBrandNameInSearch(ADIDAS.getDataValue())
                 .scrollToBrandItem();
+
         manClothingPage.selectFilterBrandOption(ADIDAS);
         manClothingPage.waitProductNamesAreUpdated();
+
         List<String> productsName = manClothingPage.getAllProductsName();
-        Assert.assertTrue(isProductsHaveBrandName(productsName), "Product don't have specific brand name");
+
+        Assert.assertTrue(isProductsHaveBrandName(productsName), "Products don't have specified brand name");
     }
 
     private boolean isProductsHaveBrandName(List<String> productsName) {
