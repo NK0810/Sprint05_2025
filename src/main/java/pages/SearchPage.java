@@ -17,9 +17,7 @@ public class SearchPage extends BasePage<SearchPage> {
 
     @Step("Get list of product names")
     public List<String> getSearchedProductsNames() {
-        By productName = By.xpath(PRODUCT_NAMES);
-
-        return waitElementsAreVisible(productName)
+        return waitElementsAreVisible(By.xpath(PRODUCT_NAMES))
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
