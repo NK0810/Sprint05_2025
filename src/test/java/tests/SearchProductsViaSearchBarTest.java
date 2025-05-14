@@ -9,6 +9,8 @@ import pages.SearchPage;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
 
@@ -25,8 +27,13 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
+        String actualSearchQuery = searchPage.getSearchQuery();
+        String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
+        Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
+                format("Очікувалось повідомленняЬф %s, актуальний %s", expectedSearchQuery, actualSearchQuery));
+
         List<String> productNames = searchPage.getSearchedProductsNames();
         productNames.forEach(name -> Assert.assertTrue(name.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
-                String.format("Очікувалось що %s містить %s", name, SEARCH_QUERY_UKRAINIAN)));
+                format("Очікувалось що %s містить %s", name, SEARCH_QUERY_UKRAINIAN)));
     }
 }
