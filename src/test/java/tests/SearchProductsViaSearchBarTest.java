@@ -10,7 +10,7 @@ import pages.SearchPage;
 import java.util.List;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
-    private static final String SEARCH_TEXT_UKRAINIAN = "Кросівки";
+    private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
 
     @Description("Checking the search function and search result accuracy")
     @Test
@@ -22,13 +22,13 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_TEXT_UKRAINIAN)
+                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         List<String> productNames = searchPage.getSearchedProductsNames();
 
         Assert.assertTrue(
-                    productNames.stream().allMatch( tag -> tag.toLowerCase().contains(SEARCH_TEXT_UKRAINIAN.toLowerCase())), "Not all products match the search query"
+                    productNames.stream().allMatch( tag -> tag.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase())), "Not all products match the search query"
         );
     }
 }
