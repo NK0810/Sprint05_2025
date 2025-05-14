@@ -26,9 +26,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .clickSearchButton();
 
         List<String> productNames = searchPage.getSearchedProductsNames();
-
-        Assert.assertTrue(
-                    productNames.stream().allMatch( tag -> tag.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase())), "Not all products match the search query"
-        );
+        productNames.forEach(name -> Assert.assertTrue(name.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
+                String.format("Очікувалось що %s містить %s", name, SEARCH_QUERY_UKRAINIAN)));
     }
 }

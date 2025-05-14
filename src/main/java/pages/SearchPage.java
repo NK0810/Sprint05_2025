@@ -8,8 +8,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SearchPage extends BasePage<SearchPage> {
-    private static final String PRODUCT_NAMES = "//a[contains(@class,'product-card__name')]";
+public class SearchPage extends ProductCatalogPage {
+    private static final String PRODUCT_NAMES = "//*[@class ='product-card__name']";
 
     public SearchPage(WebDriver driver) {
         super(driver);

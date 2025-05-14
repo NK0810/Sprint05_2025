@@ -12,8 +12,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON =
             "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
-    private static final String SEARCH_FIELD = "//input[contains(@id, 'autocomplete-input')]";
-    private static final String SEARCH_BUTTON = "//button[contains(@class, 'autocomplete-button--text')]";
+    private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
+    private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
 
     public HomePage(WebDriver driver) {
         super(driver);
