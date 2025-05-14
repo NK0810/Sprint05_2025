@@ -26,7 +26,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .waitUntilProductPricesAreUpdated();
 
-        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisiblePriceTexts();
+        List<String> productsPriceSortedByLowestPrice = manClothingPage.getVisibleActualPriceTexts();
 
         Assert.assertTrue(arePricesSortedLowToHigh(productsPriceSortedByLowestPrice)
                 , "Product don't sorted by lowest");
@@ -36,7 +36,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
         manClothingPage
                 .waitUntilProductPricesAreUpdated();
 
-        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisiblePriceTexts();
+        List<String> productPriceSortedByHighestPrice = manClothingPage.getVisibleActualPriceTexts();
 
         Assert.assertTrue(arePricesSortedHighToLow(productPriceSortedByHighestPrice)
                 , "Product don't sorted by highest");

@@ -12,6 +12,8 @@ import static pages.ProductCatalogPage.FilterOption.NEW_ARRIVALS;
 import static pages.ProductCatalogPage.FilterOption.SALE;
 
 public class ProductFilterTests extends BaseTest {
+    ManClothingPage manClothingPage = new ManClothingPage(driver);
+
     @Description("Verify that filtering by 'New arrivals' only displays products marked.")
     @Test
     public void filterByNewArrivalsTest() {
@@ -43,22 +45,18 @@ public class ProductFilterTests extends BaseTest {
         manClothingPage
                 .waitUntilProductPricesAreUpdated();
 
-        List<String> priceProductsWithDiscount = manClothingPage.getVisiblePriceTexts();
-        List<String> priceProductsWithoutDiscount = manClothingPage.getVisiblePriceWithoutDiscountTexts();
+        List<String> priceProductsWithDiscount = manClothingPage.getVisibleActualPriceTexts();
+        List<String> priceProductsWithoutDiscount = manClothingPage.getVisibleRegularPriceTexts();
 
         Assert.assertTrue(isDiscountApplied(priceProductsWithoutDiscount, priceProductsWithDiscount) , "Discount not applied: discounted price is not lower than the regular price");
     }
 
-    private boolean isDiscountApplied(List<String> priceWithoutDiscount, List<String> priceWithDiscount) {
-        for (int i = 0; i < priceWithDiscount.size(); i++) {
-            if (toInt(priceWithDiscount.get(i)) < toInt(priceWithoutDiscount.get(i))) {
+    private boolean isDiscountApplied(List<String> actualPrice, List<String> regularPrice) {
+        for (int i = 0; i < regularPrice.size(); i++) {
+            if (manClothingPage.convertPriceToInt(regularPrice.get(i)) < manClothingPage.convertPriceToInt(actualPrice.get(i))) {
                 return true;
             }
         }
         return false;
-    }
-
-    private int toInt(String text) {
-        return Integer.parseInt(text.replaceAll(",.*", "").replaceAll("[^\\d]", ""));
     }
 }
