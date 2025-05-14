@@ -11,18 +11,18 @@ public class SubscribeOnNewsLetterTest extends BaseTest {
 
     @Description("Subscribe on newsletter")
     @Test
-    public void SubscribeOnNewsletter() {
+    public void SubscribeOnNewsletterTest() {
 
         HomePage homePage = new HomePage(driver);
 
         homePage
                 .openUrl()
                 .acceptCookies()
-                .scrollToSubscribeOnNewsletter()
-                .sendEmailInNewsletterField(TEST_EMAIL)
-                .clickRegistrationButton()
-                .clickCheckBoxLabel()
-                .clickRegistrationAfterCheckBox();
+                .scrollToSubscribeOnNewsLetterBlock()
+                .sendEmail(TEST_EMAIL)
+                .clickRegistration()
+                .clickAgreamentCheckBox()
+                .clickRegistrationPopUp();
 
         String actualMessage = homePage.getNewsletterConfirmationMessage();
 
@@ -32,6 +32,4 @@ public class SubscribeOnNewsLetterTest extends BaseTest {
                 "Expected newsletter confirmation message is not shown"
         );
     }
-
-
 }

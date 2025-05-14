@@ -14,10 +14,10 @@ public class HomePage extends BasePage<HomePage> {
     private static final String ADD_TO_WISHLIST_BUTTON =
             "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String SUBSCRIBE_ON_NEWSLETTER = "//*[@class='block-newsletter']";
-    public static final String NEWSLETTER_EMAIL_INPUT = "//input[@id='newsletter']";
+    public static final String EMAIL_INPUT = "//input[@id='newsletter']";
     public static final String CLICK_REGISTRATION = "//*[@class='button button__primary button--jumbo action subscribe']";
-    private static final String CHECK_BOX_LABEL_CLICK = "//label[@class='checkbox-label']";
-    private static final String CLICK_REGISTRATION_AFTER_CHECK_BOX = "//button[@class='button button__primary button--jumbo action subscribe-send']";
+    private static final String CHECK_BOX_CLICK = "//label[@class='checkbox-label']";
+    private static final String CLICK_REGISTRATION_POP_UP = "//button[@class='button button__primary button--jumbo action subscribe-send']";
     public static final String CONFIRMATION_MESSAGE = "//*[contains(text(), 'Перевірте свою поштову скриньку та підтвердьте, що хочете отримувати Розсилку новин SPORTANO.')]";
 
     public HomePage(WebDriver driver) {
@@ -47,35 +47,34 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Scroll To Subscribe On Newsletter")
-    public HomePage scrollToSubscribeOnNewsletter() {
+    @Step("Scroll To Subscribe On Newsletter Block")
+    public HomePage scrollToSubscribeOnNewsLetterBlock() {
         scrollToElement(By.xpath(SUBSCRIBE_ON_NEWSLETTER));
         return this;
-
     }
 
-    //Change name method and Step
-    @Step("Send EMAIL")
-    public HomePage sendEmailInNewsletterField(String email) {
-        waitElementIsVisible(By.xpath(NEWSLETTER_EMAIL_INPUT)).sendKeys(email);
+
+    @Step("Input EMAIL")
+    public HomePage sendEmail(String email) {
+        waitElementIsVisible(By.xpath(EMAIL_INPUT)).sendKeys(email);
         return this;
     }
 
-    @Step("Click registration button")
-    public HomePage clickRegistrationButton() {
+    @Step("Click registration")
+    public HomePage clickRegistration() {
         waitElementToBeClickable(By.xpath(CLICK_REGISTRATION)).click();
         return this;
     }
 
-    @Step("Click check box label")
-    public HomePage clickCheckBoxLabel() {
-        waitElementToBeClickable(By.xpath(CHECK_BOX_LABEL_CLICK)).click();
+    @Step("Click check box")
+    public HomePage clickAgreamentCheckBox() {
+        waitElementToBeClickable(By.xpath(CHECK_BOX_CLICK)).click();
         return this;
     }
 
     @Step("Click registration button in pop up")
-    public HomePage clickRegistrationAfterCheckBox() {
-        waitElementToBeClickable(By.xpath(CLICK_REGISTRATION_AFTER_CHECK_BOX)).click();
+    public HomePage clickRegistrationPopUp() {
+        waitElementToBeClickable(By.xpath(CLICK_REGISTRATION_POP_UP)).click();
         return this;
     }
 
@@ -84,5 +83,4 @@ public class HomePage extends BasePage<HomePage> {
         WebElement messageElement = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE));
         return messageElement.getText();
     }
-
 }
