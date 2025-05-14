@@ -2,15 +2,19 @@ package tests;
 
 import base.BaseTest;
 import jdk.jfr.Description;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
 
-import static pages.ManClothingPage.BrandFilter.ADIDAS;
-
 import java.util.List;
 
+import static pages.ProductCatalogPage.FilterOption.*;
+import static pages.ProductCatalogPage.ProductCardInfo.*;
+
 public class BrandFilterTest extends BaseTest {
+    private static final String BRAND_NAME = "adidas";
+    private static final String BRAND_NAME_LIST = "//label[@class='refinement-label ']//span[text()='" + BRAND_NAME + "']";
 
     @Test
     @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
@@ -19,22 +23,24 @@ public class BrandFilterTest extends BaseTest {
 
         manClothingPage
                 .openUrl()
-                .acceptCookies();
+                .acceptCookies()
+                .scrollToElement(BRAND.getFilter());
         manClothingPage
-                .scrollToBrandDropdown()
-                .openBrandDropdown()
-                .typeBrandNameInSearch(ADIDAS.getDataValue())
-                .scrollToBrandItem();
+                .openFilterDropdown(BRAND.getFilter())
+                .typeBrandNameInSearch(BRAND_NAME)
+                .scrollToElement(BRAND_NAME_LIST);
+        manClothingPage
+                .selectFilterOption(BRAND_NAME_LIST);
 
-        manClothingPage.selectFilterBrandOption(ADIDAS);
-        manClothingPage.waitProductNamesAreUpdated();
+        manClothingPage.waitProductsInfoAreUpdated(PRODUCT_NAME.getInfo());
 
-        List<String> productsName = manClothingPage.getAllProductsName();
+        List<String> productsName = manClothingPage.getVisibleProductsInfoTexts(PRODUCT_NAME.getInfo());
 
-        Assert.assertTrue(isProductsHaveBrandName(productsName), "Products don't have specified brand name");
-    }
+        List<String> invalidNames = productsName.stream()
+                .filter(name -> !name.toLowerCase().contains(BRAND_NAME))
+                .toList();
 
-    private boolean isProductsHaveBrandName(List<String> productsName) {
-        return productsName.stream().allMatch(name -> name.contains(ADIDAS.getDataValue()));
+        Assert.assertEquals(invalidNames.size(), 0,
+                "Some products do not contain expected brand name '" + BRAND_NAME + "': " + invalidNames);
     }
 }
