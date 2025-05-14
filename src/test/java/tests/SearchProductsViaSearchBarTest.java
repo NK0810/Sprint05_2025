@@ -30,7 +30,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Очікувалось повідомленняЬф %s, актуальний %s", expectedSearchQuery, actualSearchQuery));
+                format("Очікувалось повідомлення %s, актуальнe %s", expectedSearchQuery, actualSearchQuery));
 
         List<String> productNames = searchPage.getSearchedProductsNames();
         productNames.forEach(name -> Assert.assertTrue(name.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
