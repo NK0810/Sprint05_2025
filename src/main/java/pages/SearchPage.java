@@ -28,6 +28,7 @@ public class SearchPage extends ProductCatalogPage {
                 .collect(Collectors.toList());
     }
 
+    @Step("Click on first searched product")
     public SearchPage clickFirstSearchProduct(){
         waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).getFirst().click();
         return this;

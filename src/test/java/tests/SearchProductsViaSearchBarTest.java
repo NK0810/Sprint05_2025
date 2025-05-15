@@ -11,6 +11,7 @@ import pages.SearchPage;
 import java.util.List;
 
 import static java.lang.String.format;
+import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
@@ -63,13 +64,13 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         searchPage.clickFirstSearchProduct();
 
-        productPage.scrollToElement(ProductPage.ProductPageElements.PRODUCT_PARAMETERS.getBy());
-        productPage.clickOnTheButton(ProductPage.ProductPageElements.PRODUCT_PARAMETERS);
+        productPage.scrollToElement(PRODUCT_PARAMETERS.getBy());
+        productPage.clickOnTheButton(PRODUCT_PARAMETERS);
 
-        productPage.scrollToElement(ProductPage.ProductPageElements.PRODUCT_CODE.getBy());
-        String productCode = productPage.getTextFrom(ProductPage.ProductPageElements.PRODUCT_CODE);
-        productPage.scrollToElement(ProductPage.ProductPageElements.BACK_ON_HOME_PAGE.getBy());
-        productPage.clickOnTheButton(ProductPage.ProductPageElements.BACK_ON_HOME_PAGE);
+        productPage.scrollToElement(PRODUCT_CODE.getBy());
+        String productCode = productPage.getTextFrom(PRODUCT_CODE);
+        productPage.scrollToElement(BACK_ON_HOME_PAGE.getBy());
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage
                 .clickSearchField()
