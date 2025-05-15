@@ -43,12 +43,11 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Click on the first product in list product")
-    public HomePage clickFirsProduct() {
+    public void clickFirstProduct() {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
-        return this;
     }
 
-    @Step("Get text first prodict in list product")
+    @Step("Get text first product in list product")
     public String getNameFirstProduct() {
         return waitElementIsVisible(By.xpath(FIRST_NAME_PRODUCT)).getText();
     }

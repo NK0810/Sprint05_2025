@@ -31,7 +31,7 @@ public class ShoppingCardTest extends BaseTest {
         String priceProductInHomePage = homePage.getProductPrice();
 
         homePage
-                .clickFirsProduct();
+                .clickFirstProduct();
 
         Assert.assertEquals(nameProductInHomePage, productPage.getTextFrom(ProductPage.ProductPageElements.PRODUCT_NAME), "Product name in cart does not match product on homepage.");
 
@@ -53,15 +53,14 @@ public class ShoppingCardTest extends BaseTest {
         shoppingCardPage
                 .clickOnTheButton(ADD_ONE_PRODUCT_BUTTON);
 
-        Assert.assertTrue(isPriceUpdated(shoppingCardPage.getTextFromLocator(PRODUCT_PRICE), shoppingCardPage.waitForProductInfoAndGetText(PRODUCT_PRICE_UPDATE)));
+        String regularPriceProduct = shoppingCardPage.getTextFromLocator(PRODUCT_PRICE);
+        String updatePriceProduct = shoppingCardPage.waitForProductInfoAndGetText(PRODUCT_PRICE_UPDATE);
+
+        Assert.assertTrue(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2 == shoppingCardPage.convertPriceToInt(updatePriceProduct));
 
         shoppingCardPage.clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
                 .clickOnTheButton(ACCEPT_TO_DELETE_PRODUCT_FROM_SHOPPING_CARD);
 
-        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT) , "Кошик порожній");
-    }
-
-    private boolean isPriceUpdated(String oldPrice, String updatedPrice) {
-        return shoppingCardPage.convertPriceToInt(oldPrice) * 2 == shoppingCardPage.convertPriceToInt(updatedPrice);
+        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Кошик порожній");
     }
 }
