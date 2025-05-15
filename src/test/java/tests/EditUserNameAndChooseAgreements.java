@@ -11,6 +11,8 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
     private static final String TEST_PASS = "Test123!!!";
     private static final String BASE_NAME = "Anton";
     private static final String BASE_SURNAME = "Skvortsov";
+    private static final String ERROR_MESSAGE = "The save message did not appear or is incorrect.";
+    private static final String EXPECTED_RESULT = "Дані Вашого Облікового запису збережено.";
 
     private static String generateRandomLetter() {
         return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
@@ -48,8 +50,9 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
                 .clickCheckBox1()
                 .clickCheckBox2()
                 .clickSaveChange();
-        String successMessage = userAccountPage.getSuccessMessageText();
-        Assert.assertEquals(successMessage.trim(), "Дані Вашого Облікового запису збережено.", "Повідомлення про збереження не з'явилося або некоректне");
+        String successMessage = userAccountPage.getSuccessMessageText().trim();
+
+        Assert.assertEquals(successMessage,EXPECTED_RESULT,ERROR_MESSAGE);
 
         userAccountPage
                 .clickAccountSetting();
@@ -59,7 +62,6 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
 
         Assert.assertEquals(actualName, NEW_TEST_NAME, "Ім’я не оновлено правильно");
         Assert.assertEquals(actualSurname, NEW_TEST_SURNAME, "Прізвище не оновлено правильно");
-
     }
 }
 
