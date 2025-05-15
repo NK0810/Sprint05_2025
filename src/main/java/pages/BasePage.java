@@ -64,4 +64,8 @@ public class BasePage<T extends BasePage<T>> {
         wait.until(ExpectedConditions.stalenessOf(oldElements.get(0)));
         return driver.findElements(locator);
     }
+
+    public int convertPriceToInt(String listPrice) {
+        return Integer.parseInt(listPrice.replaceAll(",.*", "").replaceAll("[^\\d]", ""));
+    }
 }

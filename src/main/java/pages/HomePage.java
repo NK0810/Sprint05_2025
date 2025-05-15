@@ -25,6 +25,10 @@ public class HomePage extends BasePage<HomePage> {
     private static final String MY_ACCOUNT = "//*[@class='tabler-icon-user-thin']";
     private static final String ACCOUNT_SETTING = "//li/a[@href='https://sportano.ua/customer/account/edit/']";
     private static final String LOGIN_CLICK = "//*[@id='send2']";
+    private static final String ADD_TO_WISHLIST_BUTTON =
+            "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
+    private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -150,4 +154,22 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
+
+    @Step("Click search field")
+    public HomePage clickSearchField(){
+        waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
+        return this;
+    }
+
+    @Step("Enter search query")
+    public HomePage enterTextInSeachField(String searchQuery){
+        waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
+        return this;
+    }
+
+    @Step("Click search button")
+    public HomePage clickSearchButton(){
+        waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
+        return this;
+    }
 }

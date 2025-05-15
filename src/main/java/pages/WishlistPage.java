@@ -10,15 +10,9 @@ public class WishlistPage extends BasePage<WishlistPage> {
     private static final String DELETE_FROM_WISHLIST_BUTTON = "//i[@class='icon-trash-2--before']";
     private static final String FAVORITE_PRODUCT_CARDS = "//a[@class='product-card__image-link']";
     private static final String MASSAGE_WISHLIST_IS_EMPTY = "//div[@class='message info empty']";
-    private static final String WISH_LIST_URL = BASE_URL + "/zhinka";
 
     public WishlistPage(WebDriver driver) {
         super(driver);
-    }
-
-    public WishlistPage openWishListPage() {
-        driver.get(WISH_LIST_URL);
-        return this;
     }
 
     @Step("Delete product from wishlist")

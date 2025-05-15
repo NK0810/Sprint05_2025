@@ -26,10 +26,6 @@ public class SortFragment extends BasePage {
         public By getLocator() {
             return locator;
         }
-
-        public String getDataValue() {
-            return dataValue;
-        }
     }
 
     public SortFragment(WebDriver driver) {
