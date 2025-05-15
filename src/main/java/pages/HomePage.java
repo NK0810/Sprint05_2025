@@ -12,7 +12,6 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SUBSCRIPTION_BLOCK = "//div[@class='modal-inner-wrap']";
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
-    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String SUBSCRIBE_ON_NEWSLETTER = "//*[@class='block-newsletter']";
     private static final String EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
     private static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
@@ -25,7 +24,6 @@ public class HomePage extends BasePage<HomePage> {
     private static final String MY_ACCOUNT = "//*[@class='tabler-icon-user-thin']";
     private static final String ACCOUNT_SETTING = "//li/a[@href='https://sportano.ua/customer/account/edit/']";
     private static final String LOGIN_CLICK = "//*[@id='send2']";
-    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String ADD_TO_WISHLIST_BUTTON =
             "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String FIRST_PRODUCT = "(//a[@class='product-card__image-link'])[1]";
