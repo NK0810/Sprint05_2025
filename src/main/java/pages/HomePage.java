@@ -191,4 +191,5 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
+
 }

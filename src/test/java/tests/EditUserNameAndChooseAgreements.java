@@ -1,21 +1,28 @@
 package tests;
 import base.BaseTest;
-import fragments.CookiesFragment;
-import fragments.HeaderFragment;
 import io.qameta.allure.Description;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
+import pages.UserAccountPage;
 import pages.WishlistPage;
 public class EditUserNameAndChooseAgreements extends BaseTest {
-    private static final String TEST_EMAIL =  "tsdrk094@gmail.com";
-private static final String TEST_PASS = "Test123!!!";
+    private static final String TEST_EMAIL = "tsdrk094@gmail.com";
+    private static final String TEST_PASS = "Test123!!!";
+    private static final String BASE_NAME = "Anton";
+    private static final String BASE_SURNAME = "Skvortsov";
+
+    private static String generateRandomLetter() {
+        return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
+    }
+
+    private static final String NEW_TEST_NAME = BASE_NAME + generateRandomLetter();
+    private static final String NEW_TEST_SURNAME = BASE_SURNAME + generateRandomLetter();
+
     @Description("Edit user name and choose agreements")
     @Test
-    public void checkAdditionToWishlist() {
+    public void ChangeNameAndSurnameInProfile() {
         HomePage homePage = new HomePage(driver);
-        WishlistPage wishlistPage = new WishlistPage(driver);
 
         homePage
                 .openUrl()
@@ -26,9 +33,33 @@ private static final String TEST_PASS = "Test123!!!";
                 .sendTestEmail(TEST_EMAIL)
                 .clickTestPassField()
                 .sendTestPass(TEST_PASS)
-                .clickLoginButton()
+                .clickLoginButton();
+
+
+        UserAccountPage userAccountPage = new UserAccountPage(driver);
+
+        userAccountPage
+
+                .clickAccountSetting()
+                .clickAndClearFirstNameField()
+                .sendNewTestName(NEW_TEST_NAME)
+                .clickAndClearSurnameField()
+                .sendNewTestSurname(NEW_TEST_SURNAME)
+                .clickCheckBox1()
+                .clickCheckBox2()
+                .clickSaveChange();
+        String successMessage = userAccountPage.getSuccessMessageText();
+        Assert.assertEquals(successMessage.trim(), "Дані Вашого Облікового запису збережено.", "Повідомлення про збереження не з'явилося або некоректне");
+
+        userAccountPage
                 .clickAccountSetting();
+
+        String actualName = userAccountPage.getFirstNameFieldText();
+        String actualSurname = userAccountPage.getSurnameFieldText();
+
+        Assert.assertEquals(actualName, NEW_TEST_NAME, "Ім’я не оновлено правильно");
+        Assert.assertEquals(actualSurname, NEW_TEST_SURNAME, "Прізвище не оновлено правильно");
+
     }
 }
-
 
