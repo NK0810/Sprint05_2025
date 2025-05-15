@@ -56,7 +56,7 @@ public class ShoppingCardTest extends BaseTest {
         String regularPriceProduct = shoppingCardPage.getTextFromLocator(PRODUCT_PRICE);
         String updatePriceProduct = shoppingCardPage.waitForProductInfoAndGetText(PRODUCT_PRICE_UPDATE);
 
-        Assert.assertTrue(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2 == shoppingCardPage.convertPriceToInt(updatePriceProduct));
+        Assert.assertEquals(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2 , shoppingCardPage.convertPriceToInt(updatePriceProduct));
 
         shoppingCardPage
                 .clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
