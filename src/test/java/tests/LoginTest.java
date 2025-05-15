@@ -57,10 +57,10 @@ public class LoginTest extends base.BaseTest {
                 .enterPassword(password)
                 .clickLogInButton();
 
-        softAssert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "Користувач не повинен перейти з login page.");
-        softAssert.assertTrue(loginPage.isEmailErrorDisplayed(), "Повідомлення про помилку email не відображається.");
+        softAssert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "User should not leave the login page.");
+        softAssert.assertTrue(loginPage.isEmailErrorDisplayed(), "Email error message is not displayed.");
         softAssert.assertEquals(loginPage.getEmailErrorText(), EMAIL_ERROR_MESSAGE_TEXT,
-                "Текст повідомлення про помилку неправильний.");
+                "Email error message text is incorrect.");
 
         softAssert.assertAll();
     }
