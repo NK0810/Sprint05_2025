@@ -7,9 +7,10 @@ import org.testng.annotations.Test;
 import pages.ManClothingPage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static pages.ProductCatalogPage.FilterOption.NEW_ARRIVALS;
-import static pages.ProductCatalogPage.FilterOption.SALE;
+import static pages.ProductCatalogPage.FilterOption.*;
+import static pages.ProductCatalogPage.ProductCardInfo.*;
 
 public class ProductFilterTests extends BaseTest {
     ManClothingPage manClothingPage = new ManClothingPage(driver);
@@ -22,15 +23,20 @@ public class ProductFilterTests extends BaseTest {
         manClothingPage
                 .openUrl()
                 .acceptCookies()
-                .filterByOption(NEW_ARRIVALS);
+                .scrollToElement(NEW_ARRIVALS);
         manClothingPage
-                .waitUntilTagsAreUpdated();
+                .selectFilterOption(NEW_ARRIVALS);
+        manClothingPage
+                .waitProductsInfoAreUpdated(NEW_TAG);
 
-        List<String> productNewTagsFilterByNewArrivals = manClothingPage.getVisibleNewTag();
+        List<String> productNewTags = manClothingPage.getVisibleProductsInfoTexts(NEW_TAG);
 
-        Assert.assertTrue(
-                productNewTagsFilterByNewArrivals.stream().allMatch(tag -> tag.contains("Новий")), "Not all product tags contain 'Новий'"
-        );
+        List<String> noNewTagProducts = productNewTags.stream()
+                .filter(tag -> !tag.contains("Новий"))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(noNewTagProducts.size(), 0,
+                "Some products do not have the 'Новий' tag: " + noNewTagProducts);
     }
 
     @Description("Verify that the discount filter correctly displays only products with active discounts.")
@@ -40,15 +46,20 @@ public class ProductFilterTests extends BaseTest {
 
         manClothingPage
                 .openUrl()
-                .acceptCookies()
-                .filterByOption(SALE);
+                .acceptCookies();
         manClothingPage
-                .waitUntilProductPricesAreUpdated();
+                .scrollToElement(SALE);
+        manClothingPage
+                .selectFilterOption(SALE)
+                .waitProductsInfoAreUpdated(ACTUAL_PRICE);
 
-        List<String> priceProductsWithDiscount = manClothingPage.getVisibleActualPriceTexts();
-        List<String> priceProductsWithoutDiscount = manClothingPage.getVisibleRegularPriceTexts();
+        List<String> actualPrices = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
+        List<String> regularPrices = manClothingPage.getVisibleProductsInfoTexts(REGULAR_DISCOUNT);
 
-        Assert.assertTrue(isDiscountApplied(priceProductsWithoutDiscount, priceProductsWithDiscount) , "Discount not applied: discounted price is not lower than the regular price");
+        boolean discountApplied = isDiscountApplied(regularPrices, actualPrices);
+
+        Assert.assertEquals(discountApplied, true,
+                "Discount not applied: discounted price is not lower than the regular price");
     }
 
     private boolean isDiscountApplied(List<String> actualPrice, List<String> regularPrice) {

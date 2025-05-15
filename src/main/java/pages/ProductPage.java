@@ -1,0 +1,41 @@
+package pages;
+
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class ProductPage extends BasePage<ProductPage> {
+    public enum ProductPageElements {
+        PRODUCT_NAME("//span[@class='base']"),
+        PRODUCT_NAME_IN_CARD_PREVIEW("//a[@data-bind='attr: {href: product_url}, html: product_name']"),
+        PRODUCT_SIZE_IN_POP_UP_REVIEW_SHOPPING_CARD("//span[@data-bind='text: option.value']"),
+        ADD_TO_SHOPPING_CART_BUTTON("//button[@class='button button__addtocart button--jumbo tocart action product__add-to-cart red']"),
+        SELECT_SIZE_BUTTON("(//li[@class='visual-ko-select__option '])[2]"),
+        CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']");
+
+        private final String locator;
+
+        ProductPageElements(String locator) {
+            this.locator = locator;
+        }
+
+        public By getBy() {
+            return By.xpath(locator);
+        }
+    }
+
+    public ProductPage(WebDriver driver) {
+        super(driver);
+    }
+
+    @Step("Get text: {locator}")
+    public String getTextFrom(ProductPageElements locator) {
+        return waitElementIsVisible(locator.getBy()).getText();
+    }
+
+    @Step("Click on the button: {locator}")
+    public ProductPage clickOnTheButton(ProductPageElements locator){
+        waitElementToBeClickable(locator.getBy()).click();
+        return this;
+    }
+}
