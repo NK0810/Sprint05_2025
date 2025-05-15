@@ -4,6 +4,7 @@ import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
+import pages.LoginPage;
 import pages.UserAccountPage;
 import pages.WishlistPage;
 public class EditUserNameAndChooseAgreements extends BaseTest {
@@ -30,13 +31,15 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickMyAccount()
-                .clickLogin()
-                .clickEmailInputField()
-                .sendTestEmail(TEST_EMAIL)
-                .clickTestPassField()
-                .sendTestPass(TEST_PASS)
-                .clickLoginButton();
+                .clickLogin();
 
+        LoginPage loginPage = new LoginPage(driver);
+
+        loginPage
+                .openLoginPage()
+                .enterEmail(TEST_EMAIL)
+                .enterPassword(TEST_PASS)
+                .clickLogInButton();
 
         UserAccountPage userAccountPage = new UserAccountPage(driver);
 
@@ -50,6 +53,7 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
                 .clickCheckBox1()
                 .clickCheckBox2()
                 .clickSaveChange();
+
         String successMessage = userAccountPage.getSuccessMessageText().trim();
 
         Assert.assertEquals(successMessage,EXPECTED_RESULT,ERROR_MESSAGE);

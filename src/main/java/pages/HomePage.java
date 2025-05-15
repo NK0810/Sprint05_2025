@@ -14,6 +14,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LOGIN_BUTTON = "//*[@class='button button__primary button--regular button__primary--red']";
     private static final String TEST_EMAIL_FIELD = "//input[@name='login[username]']";
     private static final String TEST_PASS_FIELD = "//input[@name='login[password]']";
+    private static final String ADD_TO_WISHLIST_BUTTON =
+            "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String MY_ACCOUNT = "//*[@class='tabler-icon-user-thin']";
     private static final String ACCOUNT_SETTING = "//*[@class='nav item'][4]/a";
     private static final String LOGIN_CLICK = "//*[@id='send2']";
@@ -41,6 +43,12 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Scroll to product carousel")
     public HomePage scrollToPromotionalProductCarousel() {
         scrollToElement(By.xpath(LIST_OF_GOODS));
+        return this;
+    }
+
+    @Step("Click add to wishlist button")
+    public HomePage clickAddToWishlistButton() {
+        waitElementToBeClickable(By.xpath(ADD_TO_WISHLIST_BUTTON)).click();
         return this;
     }
 
@@ -125,4 +133,5 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
+
 }
