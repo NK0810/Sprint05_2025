@@ -10,26 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
-    private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
-
     public interface LocatorProvider {
         By getLocator();
-    }
-
-    public enum BrandName {
-        ADIDAS("adidas"),
-        ALPINUS("Alpinus"),
-        CCM("CCM");
-
-        private final String value;
-
-        BrandName(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
     }
 
     public enum FilterDropdown implements LocatorProvider {
@@ -102,25 +84,9 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
-    @Step("Select brand filter option: {brandName}")
-    public ProductCatalogPage selectBrandOption(BrandName brandName) {
-        By brandOptionLocator = By.xpath("//label[@class='refinement-label ']//span[text()='" + brandName.getValue() + "']");
-        scrollToElement(brandOptionLocator);
-        waitElementToBeClickable(brandOptionLocator).click();
-        return this;
-    }
-
     @Step("Open filter dropdown")
     public ProductCatalogPage openFilterDropdown(FilterDropdown filterDropdown) {
         waitElementToBeClickable(filterDropdown.getLocator()).click();
-        return this;
-    }
-
-    @Step("Type brand name '{brandName}' into search field")
-    public ProductCatalogPage typeBrandNameInSearch(BrandName brandName) {
-        WebElement searchInput = waitElementIsVisible(By.xpath(BRANDS_SEARCH_FIELD));
-        searchInput.clear();
-        searchInput.sendKeys(brandName.getValue());
         return this;
     }
 

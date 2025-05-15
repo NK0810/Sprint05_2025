@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import pages.ManClothingPage;
 
 import java.util.List;
-import static pages.ProductCatalogPage.BrandName.*;
+import static pages.ManClothingPage.BrandName.*;
 import static pages.ProductCatalogPage.FilterDropdown.*;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
 
@@ -23,8 +23,10 @@ public class BrandFilterTest extends BaseTest {
                 .acceptCookies()
                 .scrollToElement(BRAND_DROPDOWN);
         manClothingPage
-                .openFilterDropdown(BRAND_DROPDOWN)
-                .typeBrandNameInSearch(ALPINUS)
+                .openFilterDropdown(BRAND_DROPDOWN);
+        manClothingPage
+                .typeBrandNameInSearch(ALPINUS);
+        manClothingPage
                 .selectBrandOption(ALPINUS);
 
         manClothingPage.waitProductsInfoAreUpdated(PRODUCT_NAME);

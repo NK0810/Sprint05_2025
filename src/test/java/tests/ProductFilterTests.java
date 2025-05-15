@@ -31,12 +31,12 @@ public class ProductFilterTests extends BaseTest {
 
         List<String> productNewTags = manClothingPage.getVisibleProductsInfoTexts(NEW_TAG);
 
-        List<String> invalidTags = productNewTags.stream()
+        List<String> noNewTagProducts = productNewTags.stream()
                 .filter(tag -> !tag.contains("Новий"))
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(invalidTags.size(), 0,
-                "Some products do not have the 'Новий' tag: " + invalidTags);
+        Assert.assertEquals(noNewTagProducts.size(), 0,
+                "Some products do not have the 'Новий' tag: " + noNewTagProducts);
     }
 
     @Description("Verify that the discount filter correctly displays only products with active discounts.")
@@ -52,9 +52,9 @@ public class ProductFilterTests extends BaseTest {
         manClothingPage
                 .scrollToElement(SALE);
         manClothingPage
-                .selectFilterOption(SALE);
-        manClothingPage
+                .selectFilterOption(SALE)
                 .waitProductsInfoAreUpdated(ACTUAL_PRICE);
+
         List<String> actualPrices = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
         List<String> regularPrices = manClothingPage.getVisibleProductsInfoTexts(REGULAR_DISCOUNT);
 
