@@ -31,9 +31,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
 
         List<String> invalidLowToHigh = findInvalidLowToHighPairs(productsPriceSortedByLowestPrice);
 
-        Assert.assertEquals(
-                invalidLowToHigh.size(),
-                0,
+        Assert.assertEquals(invalidLowToHigh.size(), 0,
                 "Prices not sorted from low to high. Invalid pairs: " + invalidLowToHigh
         );
 
@@ -46,9 +44,7 @@ public class SortingByLowestAndHighestPriceTest extends BaseTest {
 
         List<String> invalidHighToLow = findInvalidHighToLowPairs(productPriceSortedByHighestPrice);
 
-        Assert.assertEquals(
-                invalidHighToLow.size(),
-                0,
+        Assert.assertEquals(invalidHighToLow.size(), 0,
                 "Prices not sorted from high to low. Invalid pairs: " + invalidHighToLow
         );
     }
