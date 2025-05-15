@@ -9,16 +9,8 @@ import org.openqa.selenium.WebElement;
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
     private WebElement WebElement;
-    private static final String SUBSCRIPTION_BLOCK = "//div[@class='modal-inner-wrap']";
-    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
-    private static final String SUBSCRIBE_ON_NEWSLETTER = "//*[@class='block-newsletter']";
-    private static final String EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
-    private static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
-    private static final String CHECK_BOX = "//label[@class='checkbox-label']";
-    private static final String REGISTRATION_POP_UP = "//button[@class='button button__primary button--jumbo action subscribe-send']";
-    private static final String CONFIRMATION_MESSAGE = "//*[@data-bind='html: message.text']";
     private static final String LOGIN_BUTTON = "//*[@class='button button__primary button--regular button__primary--red']";
     private static final String TEST_EMAIL_FIELD = "//input[@name='login[username]']";
     private static final String TEST_PASS_FIELD = "//input[@name='login[password]']";
@@ -50,61 +42,6 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage scrollToPromotionalProductCarousel() {
         scrollToElement(By.xpath(LIST_OF_GOODS));
         return this;
-    }
-
-    @Step("Click add to wishlist button")
-    public HomePage clickAddToWishlistButton() {
-        waitElementToBeClickable(By.xpath(ADD_TO_WISHLIST_BUTTON)).click();
-        return this;
-    }
-
-    @Step("Scroll To Subscribe On Newsletter Block")
-    public HomePage scrollToSubscribeOnNewsLetterBlock() {
-        scrollToElement(By.xpath(SUBSCRIBE_ON_NEWSLETTER));
-        return this;
-    }
-
-    @Step("Input EMAIL")
-    public HomePage sendEmail(String email) {
-        waitElementIsVisible(By.xpath(EMAIL_INPUT_FIELD)).sendKeys(email);
-        return this;
-    }
-
-    @Step("Click registration")
-    public HomePage RegistrationButton() {
-        waitElementToBeClickable(By.xpath(REGISTRATION_BUTTON)).click();
-        return this;
-    }
-
-    @Step("Click check box")
-    public HomePage clickAgreamentCheckBox() {
-        waitElementToBeClickable(By.xpath(CHECK_BOX)).click();
-        return this;
-    }
-
-    @Step("Is pop-up visible")
-    public boolean isPopUpVisible() {
-        WebElement popUpWindow = waitElementIsVisible(By.xpath(SUBSCRIPTION_BLOCK));
-        return popUpWindow.isDisplayed();
-    }
-
-
-    @Step("Click registration button in pop up")
-    public HomePage clickRegistrationPopUp() {
-        waitElementToBeClickable(By.xpath(REGISTRATION_POP_UP)).click();
-        return this;
-    }
-
-    @Step("Get confirmation message after subscribing")
-    public String getNewsletterConfirmationMessage() {
-        WebElement messageElement = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE));
-        return messageElement.getText();
-    }
-
-    @Step("Is confirmation message visible")
-    public boolean isConfirmationMessageVisible() {
-        WebElement ConfirmationMessage = waitElementIsVisible(By.xpath(CONFIRMATION_MESSAGE));
-        return ConfirmationMessage.isDisplayed();
     }
 
     @Step("Click My Account")
