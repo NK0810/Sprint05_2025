@@ -12,7 +12,7 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
     private static final String BASE_NAME = "Anton";
     private static final String BASE_SURNAME = "Skvortsov";
     private static final String ERROR_MESSAGE = "The save message did not appear or is incorrect.";
-    private static final String EXPECTED_RESULT = "Дані Вашого Облікового запису збережено.";
+    private static final String EXPECTED_RESULT = "Your Account data has been saved.";
 
     private static String generateRandomLetter() {
         return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
@@ -60,8 +60,8 @@ public class EditUserNameAndChooseAgreements extends BaseTest {
         String actualName = userAccountPage.getFirstNameFieldText();
         String actualSurname = userAccountPage.getSurnameFieldText();
 
-        Assert.assertEquals(actualName, NEW_TEST_NAME, "Ім’я не оновлено правильно");
-        Assert.assertEquals(actualSurname, NEW_TEST_SURNAME, "Прізвище не оновлено правильно");
+        Assert.assertEquals(actualName, NEW_TEST_NAME, "Name not updated correctly.");
+        Assert.assertEquals(actualSurname, NEW_TEST_SURNAME, "Last name not updated correctly.");
     }
 }
 

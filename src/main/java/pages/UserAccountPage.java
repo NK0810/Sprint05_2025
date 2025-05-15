@@ -11,7 +11,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     private static final By MY_ACCOUNT_HEADER = xpath("//*[@data-ui-id='page-title-wrapper']");
     private static final By MY_ACCOUNT_EMAIL = xpath("//p[@class='dashboard-info-block__email']");
     private static final By TEXT_OUT = xpath("//*[@class='nav items']/li[10]/a");
-    private static final String ACCOUNT_SETTING = "//li/a[@href='https://sportano.ua/customer/account/edit/']";
+    private static final String ACCOUNT_SETTING = "//*[@class='nav item'][4]/a";
     private static final String FIRST_NAME_FIELD = "//input[@name='firstname']";
     private static final String SURNAME_FIELD = "//input[@name='lastname']";
     private static final String CHECK_BOX1 = "//label[@for='gdpr-agreement-f56754fe-fa50-409a-9ec2-8706631db48c']";

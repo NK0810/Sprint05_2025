@@ -15,7 +15,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String TEST_EMAIL_FIELD = "//input[@name='login[username]']";
     private static final String TEST_PASS_FIELD = "//input[@name='login[password]']";
     private static final String MY_ACCOUNT = "//*[@class='tabler-icon-user-thin']";
-    private static final String ACCOUNT_SETTING = "//li/a[@href='https://sportano.ua/customer/account/edit/']";
+    private static final String ACCOUNT_SETTING = "//*[@class='nav item'][4]/a";
     private static final String LOGIN_CLICK = "//*[@id='send2']";
     private static final String FIRST_PRODUCT = "(//a[@class='product-card__image-link'])[1]";
     private static final String FIRST_NAME_PRODUCT = "(//a[@class='product-card__name'])[1]";
