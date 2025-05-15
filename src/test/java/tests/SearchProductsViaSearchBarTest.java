@@ -32,11 +32,11 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Очікувалось повідомлення %s, актуальнe %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
 
         List<String> productNames = searchPage.getSearchedProductsNames();
         productNames.forEach(name -> Assert.assertTrue(name.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
-                format("Очікувалось що %s містить %s", name, SEARCH_QUERY_UKRAINIAN)));
+                format("Expected that %s contains %s", name, SEARCH_QUERY_UKRAINIAN)));
     }
 
     @Description("Checking the search function and search result accuracy by product code")
@@ -56,11 +56,11 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Очікувалось повідомлення %s, актуальнe %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
 
         String productName = searchPage.getSearchedProductsNames().getFirst();
         Assert.assertTrue(productName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
-                format("Очікувалось що %s містить %s", productName, SEARCH_QUERY_UKRAINIAN));
+                format("Expected that %s contains %s", productName, SEARCH_QUERY_UKRAINIAN));
 
         searchPage.clickFirstSearchProduct();
 
@@ -80,10 +80,10 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         actualSearchQuery = searchPage.getSearchQuery();
         expectedSearchQuery = format("Результати пошуку для: '%s'", productCode);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Очікувалось повідомлення %s, актуальнe %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
 
         String productName2 = searchPage.getSearchedProductsNames().getFirst();
         Assert.assertEquals(productName,productName2,
-                format("Очікувалось що продукт %s матиме назву %s", productName2, productName2));
+                format("Expected that product %s will have name %s", productName2, productName2));
     }
 }
