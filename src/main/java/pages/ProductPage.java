@@ -11,7 +11,10 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_SIZE_IN_POP_UP_REVIEW_SHOPPING_CARD("//span[@data-bind='text: option.value']"),
         ADD_TO_SHOPPING_CART_BUTTON("//button[@class='button button__addtocart button--jumbo tocart action product__add-to-cart red']"),
         SELECT_SIZE_BUTTON("(//li[@class='visual-ko-select__option '])[2]"),
-        CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']");
+        CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']"),
+        PRODUCT_PARAMETERS("//*[@id='tab-label-additional_attributes-title']"),
+        PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
+        BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*");
 
         private final String locator;
 
