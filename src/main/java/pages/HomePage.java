@@ -25,8 +25,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String MY_ACCOUNT = "//*[@class='tabler-icon-user-thin']";
     private static final String ACCOUNT_SETTING = "//li/a[@href='https://sportano.ua/customer/account/edit/']";
     private static final String LOGIN_CLICK = "//*[@id='send2']";
-    private static final String ADD_TO_WISHLIST_BUTTON =
-            "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
 
