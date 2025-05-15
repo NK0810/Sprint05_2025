@@ -39,14 +39,14 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
-    @Step("Check if email error is displayed")
-    public boolean isEmailErrorDisplayed() {
-        return !driver.findElements(EMAIL_ERROR_MESSAGE).isEmpty() &&
-                driver.findElement(EMAIL_ERROR_MESSAGE).isDisplayed();
-    }
-
     @Step("Get email error text")
     public String getEmailErrorText() {
         return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getText();
     }
+
+    @Step("Get email error message color")
+    public String getEmailErrorColor() {
+        return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getCssValue("color");
+    }
+
 }

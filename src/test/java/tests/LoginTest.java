@@ -58,7 +58,8 @@ public class LoginTest extends base.BaseTest {
                 .clickLogInButton();
 
         softAssert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "User should not leave the login page.");
-        softAssert.assertTrue(loginPage.isEmailErrorDisplayed(), "Email error message is not displayed.");
+        String color = loginPage.getEmailErrorColor();
+        softAssert.assertTrue(color.contains("255, 0, 0"), "Expected red color, but got: " + color);
         softAssert.assertEquals(loginPage.getEmailErrorText(), EMAIL_ERROR_MESSAGE_TEXT,
                 "Email error message text is incorrect.");
 
