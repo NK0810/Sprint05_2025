@@ -48,8 +48,6 @@ public class ProductFilterTests extends BaseTest {
                 .openUrl()
                 .acceptCookies();
         manClothingPage
-                .closeTrustbadgePopUp();
-        manClothingPage
                 .scrollToElement(SALE);
         manClothingPage
                 .selectFilterOption(SALE)

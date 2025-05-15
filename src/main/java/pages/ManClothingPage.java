@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class ManClothingPage extends ProductCatalogPage {
@@ -35,14 +36,6 @@ public class ManClothingPage extends ProductCatalogPage {
     public ManClothingPage openUrl() {
         driver.get(URL);
         return this;
-    }
-
-    @Step("Close Trustbadge pop-up")
-    public void closeTrustbadgePopUp() {
-        WebElement button = wait.until(driver ->
-                driver.findElement(By.xpath(CLOSE_TRUSTBADGE_BUTTON))
-        );
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
     }
 
     @Step("Type brand name '{brandName}' into search field")
