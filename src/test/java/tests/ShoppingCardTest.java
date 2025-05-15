@@ -58,7 +58,8 @@ public class ShoppingCardTest extends BaseTest {
 
         Assert.assertTrue(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2 == shoppingCardPage.convertPriceToInt(updatePriceProduct));
 
-        shoppingCardPage.clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
+        shoppingCardPage
+                .clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
                 .clickOnTheButton(ACCEPT_TO_DELETE_PRODUCT_FROM_SHOPPING_CARD);
 
         Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Кошик порожній");
