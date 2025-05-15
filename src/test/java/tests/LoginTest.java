@@ -10,7 +10,11 @@ import utils.ConfigReader;
 public class LoginTest extends base.BaseTest {
 
     private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account";
+    private static final String LOGIN_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/login";
     private static final String TEXT_OUT = "Вийти";
+    private static final String EMAIL_ERROR_MESSAGE_TEXT = "Введіть дійсну e-mail адресу (наприклад: johndoe@domain.com.).";
+
+    private final String invalidEmail = ConfigReader.getProperty("UserEmail").replace("@", "");
 
     @Test
     @Description("Login user")
@@ -34,6 +38,29 @@ public class LoginTest extends base.BaseTest {
         softAssert.assertEquals(driver.getCurrentUrl(), USER_ACCOUNT_URL, "URL після логіну не відповідає очікуваному.");
         softAssert.assertEquals(userAccountPage.getUserEmail(), email, "Email не співпадає.");
         softAssert.assertEquals(userAccountPage.getTextOut(), TEXT_OUT, "Текст кнопки 'Вийти' не співпадає.");
+
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Description("Login with invalid email format")
+    public void loginViaInvalidEmail() {
+        String password = ConfigReader.getProperty("UserPassword");
+        LoginPage loginPage = new LoginPage(driver);
+
+        SoftAssert softAssert = new SoftAssert();
+
+        loginPage
+                .openLoginPage()
+                .acceptCookies()
+                .enterEmail(invalidEmail)
+                .enterPassword(password)
+                .clickLogInButton();
+
+        softAssert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "Користувач не повинен перейти з login page.");
+        softAssert.assertTrue(loginPage.isEmailErrorDisplayed(), "Повідомлення про помилку email не відображається.");
+        softAssert.assertEquals(loginPage.getEmailErrorText(), EMAIL_ERROR_MESSAGE_TEXT,
+                "Текст повідомлення про помилку неправильний.");
 
         softAssert.assertAll();
     }
