@@ -18,6 +18,10 @@ public class HomePage extends BasePage<HomePage> {
     private static final String CHECK_BOX = "//label[@class='checkbox-label']";
     private static final String REGISTRATION_POP_UP = "//button[@class='button button__primary button--jumbo action subscribe-send']";
     private static final String CONFIRMATION_MESSAGE = "//*[@data-bind='html: message.text']";
+    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String FIRST_PRODUCT = "(//a[@class='product-card__image-link'])[1]";
+    private static final String FIRST_NAME_PRODUCT = "(//a[@class='product-card__name'])[1]";
+    private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
 
 
     public HomePage(WebDriver driver) {
