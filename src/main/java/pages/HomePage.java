@@ -12,7 +12,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String FIRST_PRODUCT = "(//a[@class='product-card__image-link'])[1]";
-    private static final String NAME_FIRST_PRODUCT = "(//a[@class='product-card__name'])[1]";
+    private static final String FIRST_NAME_PRODUCT = "(//a[@class='product-card__name'])[1]";
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
 
     public HomePage(WebDriver driver) {
@@ -50,7 +50,7 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get text first prodict in list product")
     public String getNameFirstProduct() {
-        return waitElementIsVisible(By.xpath(NAME_FIRST_PRODUCT)).getText();
+        return waitElementIsVisible(By.xpath(FIRST_NAME_PRODUCT)).getText();
     }
 
     @Step("Get price in home page")
