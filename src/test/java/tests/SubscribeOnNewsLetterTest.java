@@ -26,13 +26,13 @@ public class SubscribeOnNewsLetterTest extends BaseTest {
                 .isPopUpVisible();
 
         Assert.assertTrue(homePage.isPopUpVisible(),
-                        "'Розсилка новин' вікно не відображається");
+                        "'Newsletter' window is not displayed");
         homePage
                         .clickAgreamentCheckBox()
                         .clickRegistrationPopUp();
 
         Assert.assertTrue(homePage.isConfirmationMessageVisible(),
-                "Повідомлення підтвердження не відображається");
+                "Confirmation message not displayed");
 
 
      }
