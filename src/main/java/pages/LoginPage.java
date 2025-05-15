@@ -8,6 +8,7 @@ public class LoginPage extends BasePage<LoginPage> {
     private static final By EMAIL_FIELD = By.xpath("//*[@id='email']");
     private static final By PASSWORD_FIELD = By.xpath("//*[@id='pass']");
     private static final By LOGIN_BUTTON = By.xpath("//*[@id='send2']");
+    private static final By EMAIL_ERROR_MESSAGE = By.xpath("//div[@class='email']//div[@id]");
     private static final String LOGIN_URL = BASE_URL + "/customer/account/login";
 
     public LoginPage(WebDriver driver) {
@@ -37,4 +38,15 @@ public class LoginPage extends BasePage<LoginPage> {
         waitElementToBeClickable(LOGIN_BUTTON).click();
         return this;
     }
+
+    @Step("Get email error text")
+    public String getEmailErrorText() {
+        return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getText();
+    }
+
+    @Step("Get email error message color")
+    public String getEmailErrorColor() {
+        return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getCssValue("color");
+    }
+
 }
