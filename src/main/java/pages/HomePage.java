@@ -12,7 +12,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SUBSCRIPTION_BLOCK = "//div[@class='modal-inner-wrap']";
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
-    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String //*[@class='button button__primary button--regular button__primary--red'] = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String SUBSCRIBE_ON_NEWSLETTER = "//*[@class='block-newsletter']";
     private static final String EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
     private static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
@@ -188,5 +188,4 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
-
 }
