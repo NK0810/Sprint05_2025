@@ -124,8 +124,6 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         Assert.assertEquals(firstProductName, lastSearchedProductName,
                 format("Expected that product %s will have name %s", lastSearchedProductName, firstProductName));
     }
-}
-
     @Test
     @Description("Open last viewed product via search")
     public void openLastViewedProductTest() {
@@ -154,7 +152,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         homePage.clickSearchField();
 
-        String lastViewedProductHeader = homePage.getLastViewedProductHeader();
+        String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
         String lastViewedName = homePage.getLastViewedProductName();
         String lastViewedCurrentPrice = normalizePrice(homePage.getLastViewedProductCurrentPrice());
         String lastViewedRegularPrice = normalizePrice(homePage.getLastViewedProductActualPrice());

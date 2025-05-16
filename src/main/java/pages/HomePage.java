@@ -23,7 +23,6 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
-    private static final String LAST_VIEWEW_PRODUCT_HEADER = "//div[@class='autocomplete-results__products']//span";
     private static final String LAST_VIEWEW_PRODUCT_CURRENT_PRICE = "//div[@class='result-price-final discount']";
     private static final String LAST_VIEWEW_PRODUCT_REGULAR_PRICE = "//div[@class='result-price-old']";
     private static final String LAST_VIEWEW_PRODUCT_NAME = "//div[@class='result-column']/a";
@@ -58,11 +57,6 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Click on the first product in list product")
     public void clickFirstProduct() {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
-    }
-
-    @Step("Get text last viewed product name")
-    public String getLastViewedProductHeader() {
-        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_HEADER)).getText();
     }
 
     @Step("Get text last viewed product name")
