@@ -16,7 +16,7 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
         REGULAR_PRICE_FIRST_PRODUCT("//span[@class='c-price__omnibus']/span"),
-        CURRENT_PRICE_FIRST_PRODUCT("((//span[@class='price'])[1]");
+        CURRENT_PRICE_FIRST_PRODUCT("(//span[@class='price'])[2]");
 
         private final String locator;
 

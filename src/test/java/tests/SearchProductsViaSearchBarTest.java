@@ -16,6 +16,8 @@ import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
+    private static final String LAST_VIEWED_PRODUCT = "Останні переглянуті продукти";
+
     @Description("Checking the search function and search result accuracy")
     @Test
     public void CheckSearchWithCorrectQueryUkr(){
@@ -104,23 +106,32 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
-        searchPage.clickFirstSearchProduct();
+        searchPage
+                .scrollToFirstProduct()
+                .clickFirstProduct();
 
         String productName = productPage.getTextFrom(PRODUCT_NAME);
-        String productRegularPrice = productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT);
-        String productCurrentPrice = productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT);
-
-        productPage.clickOnTheButton(ProductPage.ProductPageElements.BACK_ON_HOME_PAGE);
+        String productCurrentPrice = normalizePrice(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
+        String productRegularPrice = normalizePrice(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage.clickSearchField();
 
-        String lastViewedName = homePage.getLastViewewProductName();
-        String lastViewedCurrentPrice = homePage.getLastViewewProductCurrentPrice();
-        String lastViewedRegularPrice = homePage.getLastViewewProductActualPrice();
+        String lastViewedProductHeader = homePage.getLastViewedProductHeader();
+        String lastViewedName = homePage.getLastViewedProductName();
+        String lastViewedCurrentPrice = normalizePrice(homePage.getLastViewedProductCurrentPrice());
+        String lastViewedRegularPrice = normalizePrice(homePage.getLastViewedProductActualPrice());
 
+        softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
         softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
         softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
         softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
         softAssert.assertAll();
+    }
+
+    private static String normalizePrice(String price) {
+        return price.replace("\u00A0", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 }

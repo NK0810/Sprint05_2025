@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class SearchPage extends ProductCatalogPage {
     private static final String PRODUCT_NAMES = "//*[@class ='product-card__name']";
     private static final String SEARCH_QUERY = "//*[@class='breadcrumbs__current-item']";
+    private static final String FIRST_PRODUCT_NAME = "(//*[@class ='product-card__name'])[1]";
 
     public SearchPage(WebDriver driver) {
         super(driver);
@@ -31,6 +32,18 @@ public class SearchPage extends ProductCatalogPage {
     @Step("Click on first searched product")
     public SearchPage clickFirstSearchProduct(){
         waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).getFirst().click();
+        return this;
+    }
+
+    @Step
+    public SearchPage scrollToFirstProduct(){
+        scrollToElement(By.xpath(FIRST_PRODUCT_NAME));
+        return this;
+    }
+
+    @Step("Click on first searched product")
+    public SearchPage clickFirstProduct(){
+        waitElementsAreVisible(By.xpath(FIRST_PRODUCT_NAME)).getFirst().click();
         return this;
     }
 }
