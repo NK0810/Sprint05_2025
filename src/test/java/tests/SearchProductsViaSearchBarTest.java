@@ -86,4 +86,39 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         Assert.assertEquals(productName,productName2,
                 format("Expected that product %s will have name %s", productName2, productName2));
     }
+
+    @Description("Checking the last search save function and storage accuracy")
+    @Test
+    public void CheckLastSearchQuerySaving(){
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        homePage
+                .openUrl()
+                .acceptCookies()
+                .clickSearchField()
+                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        String actualSearchQuery = searchPage.getSearchQuery();
+        String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
+        Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
+                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
+
+        String productName = searchPage.getSearchedProductsNames().getFirst();
+        Assert.assertTrue(productName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
+                format("Expected that %s contains %s", productName, SEARCH_QUERY_UKRAINIAN));
+
+        searchPage.clickFirstSearchProduct();
+
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        homePage
+                .clickSearchField();
+
+        String lastSearchedProductName = homePage.getLastSearchedProductName();
+        Assert.assertEquals(productName,lastSearchedProductName,
+                format("Expected that product %s will have name %s", lastSearchedProductName, productName));
+    }
 }

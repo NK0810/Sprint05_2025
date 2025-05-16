@@ -4,6 +4,7 @@ import fragments.HeaderFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
@@ -17,6 +18,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
+    private static final String LAST_VIEVED_PRODUCT = "//*[@class='autocomplete-results__products']//*[@class='result-column']/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -76,5 +78,14 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage clickSearchButton(){
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
+    }
+
+    @Step("Get name of last searched product")
+    public String getLastSearchedProductName(){
+        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCT))
+                .stream()
+                .map(WebElement::getText)
+                .toList()
+                .getLast();
     }
 }
