@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
@@ -15,7 +16,6 @@ import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
-
     @Description("Checking the search function and search result accuracy")
     @Test
     public void CheckSearchWithCorrectQueryUkr(){
@@ -85,5 +85,42 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String productName2 = searchPage.getSearchedProductsNames().getFirst();
         Assert.assertEquals(productName,productName2,
                 format("Expected that product %s will have name %s", productName2, productName2));
+    }
+
+    @Test
+    @Description("Open last viewed product via search")
+    public void openLastViewedProductTest() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        SoftAssert softAssert = new SoftAssert();
+
+        homePage
+                .openUrl()
+                .acceptCookies()
+                .clickSearchField();
+
+        homePage.enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        searchPage.clickFirstSearchProduct();
+
+        String productName = productPage.getTextFrom(PRODUCT_NAME);
+        String productRegularPrice = productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT);
+        String productCurrentPrice = productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT);
+
+        productPage.clickOnTheButton(ProductPage.ProductPageElements.BACK_ON_HOME_PAGE);
+
+        homePage.clickSearchField();
+
+        String lastViewedName = homePage.getLastViewewProductName();
+        String lastViewedCurrentPrice = homePage.getLastViewewProductCurrentPrice();
+        String lastViewedRegularPrice = homePage.getLastViewewProductActualPrice();
+
+        softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
+        softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
+        softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
+        softAssert.assertAll();
     }
 }

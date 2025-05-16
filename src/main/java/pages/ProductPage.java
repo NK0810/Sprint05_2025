@@ -14,7 +14,9 @@ public class ProductPage extends BasePage<ProductPage> {
         CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']"),
         PRODUCT_PARAMETERS("//*[@id='tab-label-additional_attributes-title']"),
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
-        BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*");
+        BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
+        REGULAR_PRICE_FIRST_PRODUCT("//span[@class='c-price__omnibus']/span"),
+        CURRENT_PRICE_FIRST_PRODUCT("((//span[@class='price'])[1]");
 
         private final String locator;
 

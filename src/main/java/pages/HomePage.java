@@ -17,6 +17,9 @@ public class HomePage extends BasePage<HomePage> {
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
+    private static final String LAST_VIEWEW_PRODUCT_CURRENT_PRICE = "//div[@class='result-price-old'";
+    private static final String LAST_VIEWEW_PRODUCT_ACTUAL_PRICE = "//div[@class='result-price-final discount']";
+    private static final String LAST_VIEWEW_PRODUCT_NAME = "//div[@class='result-column']/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -48,6 +51,21 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Click on the first product in list product")
     public void clickFirstProduct() {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
+    }
+
+    @Step("Get text last viewed product name")
+    public String getLastViewewProductName() {
+        return waitElementIsVisible(By.xpath(LAST_VIEWEW_PRODUCT_NAME)).getText();
+    }
+
+    @Step("Get text last viewed product current price")
+    public String getLastViewewProductCurrentPrice() {
+        return waitElementIsVisible(By.xpath(LAST_VIEWEW_PRODUCT_CURRENT_PRICE)).getText();
+    }
+
+    @Step("Get text last viewed product regular price")
+    public String getLastViewewProductActualPrice() {
+        return waitElementIsVisible(By.xpath(LAST_VIEWEW_PRODUCT_ACTUAL_PRICE)).getText();
     }
 
     @Step("Get text first product in list product")
