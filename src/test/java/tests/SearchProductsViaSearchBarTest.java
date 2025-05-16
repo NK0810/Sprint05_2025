@@ -18,7 +18,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
     @Description("Checking the search function and search result accuracy")
     @Test
-    public void CheckSearchWithCorrectQueryUkr(){
+    public void CheckSearchWithCorrectQueryUkr() {
         HomePage homePage = new HomePage(driver);
         SearchPage searchPage = new SearchPage(driver);
 
@@ -32,7 +32,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message: %s, actual: %s", expectedSearchQuery, actualSearchQuery));
 
         List<String> productNames = searchPage.getSearchedProductsNames();
         productNames.forEach(name -> Assert.assertTrue(name.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
@@ -41,7 +41,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
     @Description("Checking the search function and search result accuracy by product code")
     @Test
-    public void CheckSearchByProductCode(){
+    public void CheckSearchByProductCode() {
         HomePage homePage = new HomePage(driver);
         SearchPage searchPage = new SearchPage(driver);
         ProductPage productPage = new ProductPage(driver);
@@ -56,11 +56,11 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message: %s, actual: %s", expectedSearchQuery, actualSearchQuery));
 
-        String productName = searchPage.getSearchedProductsNames().getFirst();
-        Assert.assertTrue(productName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
-                format("Expected that %s contains %s", productName, SEARCH_QUERY_UKRAINIAN));
+        String firstProductName = searchPage.getSearchedProductsNames().getFirst();
+        Assert.assertTrue(firstProductName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
+                format("Expected that %s contains %s", firstProductName, SEARCH_QUERY_UKRAINIAN));
 
         searchPage.clickFirstSearchProduct();
 
@@ -80,22 +80,21 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         actualSearchQuery = searchPage.getSearchQuery();
         expectedSearchQuery = format("Результати пошуку для: '%s'", productCode);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message: %s, actual: %s", expectedSearchQuery, actualSearchQuery));
 
         String productName2 = searchPage.getSearchedProductsNames().getFirst();
-        Assert.assertEquals(productName,productName2,
+        Assert.assertEquals(firstProductName, productName2,
                 format("Expected that product %s will have name %s", productName2, productName2));
     }
 
     @Description("Checking the last search save function and storage accuracy")
     @Test
-    public void CheckLastSearchQuerySaving(){
+    public void CheckLastSearchQuerySaving() {
         HomePage homePage = new HomePage(driver);
         SearchPage searchPage = new SearchPage(driver);
         ProductPage productPage = new ProductPage(driver);
 
-        homePage
-                .openUrl()
+        homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
                 .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
@@ -104,26 +103,23 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String actualSearchQuery = searchPage.getSearchQuery();
         String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
         Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
-                format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
+                format("Expected message: %s, actual: %s", expectedSearchQuery, actualSearchQuery));
 
-        String productName = searchPage.getSearchedProductsNames().getFirst();
-        Assert.assertTrue(productName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
-                format("Expected that %s contains %s", productName, SEARCH_QUERY_UKRAINIAN));
+        String firstProductName = searchPage.getSearchedProductsNames().getFirst();
+        Assert.assertTrue(firstProductName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
+                format("Expected that %s contains %s", firstProductName, SEARCH_QUERY_UKRAINIAN));
 
         searchPage.clickFirstSearchProduct();
-
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+        homePage.clickSearchField();
 
-        homePage
-                .clickSearchField();
+        String expectedTitle = "Останні переглянуті продукти";
+        String actualTitle = homePage.getLastVievedProductsTitle();
+        Assert.assertEquals(actualTitle, expectedTitle,
+                format("Expected that Title %s will have name %s", actualTitle, expectedTitle));
 
-        String expectedHeader = "Останні переглянуті продукти";
-        String actualHeader = homePage.getLastVievedProductsHeader();
-        Assert.assertEquals(actualHeader, expectedHeader,
-                format("Expected that module header %s will have name %s",actualHeader,expectedHeader));
-
-        String lastSearchedProductName = homePage.getLastSearchedProductName();
-        Assert.assertEquals(productName,lastSearchedProductName,
-                format("Expected that product %s will have name %s", lastSearchedProductName, productName));
+        String lastSearchedProductName = homePage.getAllLastSearchedProductsNames().getLast();
+        Assert.assertEquals(firstProductName, lastSearchedProductName,
+                format("Expected that product %s will have name %s", lastSearchedProductName, firstProductName));
     }
 }

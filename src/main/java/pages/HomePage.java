@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
 
@@ -18,8 +21,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
-    private static final String LAST_VIEVED_PRODUCTS = "//*[@class='result-column']/a";
-    private static final String LAST_VIEVED_PRODUCTS_HEADER = "//*[@class='autocomplete-results__products']//span";
+    private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
+    private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -81,16 +84,16 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Get name of last searched product")
-    public String getLastSearchedProductName(){
-        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS))
+    @Step("Get list of names of last searched product")
+    public List<String> getAllLastSearchedProductsNames(){
+        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES))
                 .stream()
                 .map(WebElement::getText)
-                .toList()
-                .getLast();
+                .collect(Collectors.toList());
     }
 
-    public String getLastVievedProductsHeader(){
-        return waitElementIsVisible(By.xpath(LAST_VIEVED_PRODUCTS_HEADER)).getText();
+    @Step("Get title of last searched products")
+    public String getLastVievedProductsTitle(){
+        return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
     }
 }
