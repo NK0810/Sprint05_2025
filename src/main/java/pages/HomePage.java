@@ -18,7 +18,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
-    private static final String LAST_VIEVED_PRODUCT = "//*[@class='autocomplete-results__products']//*[@class='result-column']/a";
+    private static final String LAST_VIEVED_PRODUCT = "//*[@class='result-column']/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
