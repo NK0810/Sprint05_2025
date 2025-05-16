@@ -117,6 +117,11 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage
                 .clickSearchField();
 
+        String expectedHeader = "Останні переглянуті продукти";
+        String actualHeader = homePage.getLastVievedProductsHeader();
+        Assert.assertEquals(actualHeader, expectedHeader,
+                format("Expected that module header %s will have name %s",actualHeader,expectedHeader));
+
         String lastSearchedProductName = homePage.getLastSearchedProductName();
         Assert.assertEquals(productName,lastSearchedProductName,
                 format("Expected that product %s will have name %s", lastSearchedProductName, productName));

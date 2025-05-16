@@ -18,7 +18,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
     private static final String SEARCH_FIELD = "//*[@id='autocomplete-input']";
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
-    private static final String LAST_VIEVED_PRODUCT = "//*[@class='result-column']/a";
+    private static final String LAST_VIEVED_PRODUCTS = "//*[@class='result-column']/a";
+    private static final String LAST_VIEVED_PRODUCTS_HEADER = "//*[@class='autocomplete-results__products']//span";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -82,10 +83,14 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get name of last searched product")
     public String getLastSearchedProductName(){
-        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCT))
+        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS))
                 .stream()
                 .map(WebElement::getText)
                 .toList()
                 .getLast();
+    }
+
+    public String getLastVievedProductsHeader(){
+        return waitElementIsVisible(By.xpath(LAST_VIEVED_PRODUCTS_HEADER)).getText();
     }
 }
