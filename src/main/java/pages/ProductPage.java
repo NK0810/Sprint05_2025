@@ -39,7 +39,7 @@ public class ProductPage extends BasePage<ProductPage> {
     }
 
     @Step("Click on the button: {locator}")
-    public ProductPage clickOnTheButton(ProductPageElements locator){
+    public ProductPage clickOnTheButton(ProductPageElements locator) {
         waitElementToBeClickable(locator.getBy()).click();
         return this;
     }

@@ -20,7 +20,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
     @Description("Checking the search function and search result accuracy")
     @Test
-    public void CheckSearchWithCorrectQueryUkr(){
+    public void CheckSearchWithCorrectQueryUkr() {
         HomePage homePage = new HomePage(driver);
         SearchPage searchPage = new SearchPage(driver);
 
@@ -43,7 +43,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
     @Description("Checking the search function and search result accuracy by product code")
     @Test
-    public void CheckSearchByProductCode(){
+    public void CheckSearchByProductCode() {
         HomePage homePage = new HomePage(driver);
         SearchPage searchPage = new SearchPage(driver);
         ProductPage productPage = new ProductPage(driver);
@@ -85,7 +85,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 format("Expected message %s, actual %s", expectedSearchQuery, actualSearchQuery));
 
         String productName2 = searchPage.getSearchedProductsNames().getFirst();
-        Assert.assertEquals(productName,productName2,
+        Assert.assertEquals(productName, productName2,
                 format("Expected that product %s will have name %s", productName2, productName2));
     }
 

@@ -80,24 +80,24 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get price in home page")
-    public String getProductPrice(){
+    public String getProductPrice() {
         return waitElementIsVisible(By.xpath(PRICE_FIRST_PRODUCT)).getText();
     }
 
     @Step("Click search field")
-    public HomePage clickSearchField(){
+    public HomePage clickSearchField() {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
         return this;
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery){
+    public HomePage enterTextInSeachField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
 
     @Step("Click search button")
-    public HomePage clickSearchButton(){
+    public HomePage clickSearchButton() {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
