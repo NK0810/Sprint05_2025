@@ -23,6 +23,9 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
+    private static final String LAST_VIEWEW_PRODUCT_CURRENT_PRICE = "//div[@class='result-price-final discount']";
+    private static final String LAST_VIEWEW_PRODUCT_REGULAR_PRICE = "//div[@class='result-price-old']";
+    private static final String LAST_VIEWEW_PRODUCT_NAME = "//div[@class='result-column']/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -56,30 +59,45 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
     }
 
+    @Step("Get text last viewed product name")
+    public String getLastViewedProductName() {
+        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_NAME)).getText();
+    }
+
+    @Step("Get text last viewed product current price")
+    public String getLastViewedProductCurrentPrice() {
+        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_CURRENT_PRICE)).getText();
+    }
+
+    @Step("Get text last viewed product regular price")
+    public String getLastViewedProductActualPrice() {
+        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_REGULAR_PRICE)).getText();
+    }
+
     @Step("Get text first product in list product")
     public String getNameFirstProduct() {
         return waitElementIsVisible(By.xpath(FIRST_NAME_PRODUCT)).getText();
     }
 
     @Step("Get price in home page")
-    public String getProductPrice(){
+    public String getProductPrice() {
         return waitElementIsVisible(By.xpath(PRICE_FIRST_PRODUCT)).getText();
     }
 
     @Step("Click search field")
-    public HomePage clickSearchField(){
+    public HomePage clickSearchField() {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
         return this;
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery){
+    public HomePage enterTextInSeachField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
 
     @Step("Click search button")
-    public HomePage clickSearchButton(){
+    public HomePage clickSearchButton() {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }

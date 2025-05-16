@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
@@ -15,6 +16,7 @@ import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
+    private static final String LAST_VIEWED_PRODUCT = "Останні переглянуті продукти";
 
     @Description("Checking the search function and search result accuracy")
     @Test
@@ -121,5 +123,50 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String lastSearchedProductName = homePage.getAllLastSearchedProductsNames().getLast();
         Assert.assertEquals(firstProductName, lastSearchedProductName,
                 format("Expected that product %s will have name %s", lastSearchedProductName, firstProductName));
+    }
+    @Test
+    @Description("Open last viewed product via search")
+    public void openLastViewedProductTest() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        SoftAssert softAssert = new SoftAssert();
+
+        homePage
+                .openUrl()
+                .acceptCookies()
+                .clickSearchField();
+
+        homePage.enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        searchPage
+                .scrollToFirstProduct()
+                .clickFirstProduct();
+
+        String productName = productPage.getTextFrom(PRODUCT_NAME);
+        String productCurrentPrice = normalizePrice(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
+        String productRegularPrice = normalizePrice(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        homePage.clickSearchField();
+
+        String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
+        String lastViewedName = homePage.getLastViewedProductName();
+        String lastViewedCurrentPrice = normalizePrice(homePage.getLastViewedProductCurrentPrice());
+        String lastViewedRegularPrice = normalizePrice(homePage.getLastViewedProductActualPrice());
+
+        softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
+        softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
+        softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
+        softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
+        softAssert.assertAll();
+    }
+
+    private static String normalizePrice(String price) {
+        return price.replace("\u00A0", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 }
