@@ -23,18 +23,21 @@ public class LoginPage extends BasePage<LoginPage> {
 
     @Step("Enter email: {email}")
     public LoginPage enterEmail(String email) {
+        sleep(500);
         waitElementIsVisible(EMAIL_FIELD).sendKeys(email);
         return this;
     }
 
     @Step("Enter password")
     public LoginPage enterPassword(String password) {
+        sleep(500);
         waitElementIsVisible(PASSWORD_FIELD).sendKeys(password);
         return this;
     }
 
     @Step("Click login button")
     public LoginPage clickLogInButton() {
+        sleep(500); // даємо час CAPTCHA активуватись, напр. 2 секунди
         waitElementToBeClickable(LOGIN_BUTTON).click();
         return this;
     }
@@ -49,4 +52,12 @@ public class LoginPage extends BasePage<LoginPage> {
         return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getCssValue("color");
     }
 
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -7,12 +7,25 @@ import org.openqa.selenium.WebDriver;
 import static org.openqa.selenium.By.xpath;
 
 public class UserAccountPage extends BasePage<UserAccountPage> {
+    private static final By WISHLIST_SECTION = xpath("//li[contains(a,'Список бажань')]");
     private static final By MY_ACCOUNT_HEADER = xpath("//*[@data-ui-id='page-title-wrapper']");
     private static final By MY_ACCOUNT_EMAIL = xpath("//p[@class='dashboard-info-block__email']");
     private static final By TEXT_OUT = xpath("//*[@class='nav items']/li[10]/a");
 
     public UserAccountPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Step("Scroll to  whishlist section button")
+    public UserAccountPage scrolLToWishListButton() {
+        scrollToElement(WISHLIST_SECTION);
+        return this;
+    }
+
+    @Step("Select Wishlist section")
+    public UserAccountPage selectWishlist() {
+        waitElementIsVisible(WISHLIST_SECTION).click();
+        return this;
     }
 
     @Step("Wait until My account header is visible")
