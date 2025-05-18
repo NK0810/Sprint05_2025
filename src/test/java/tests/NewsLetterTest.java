@@ -6,12 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 
-public class NewsLetter extends BaseTest {
+public class NewsLetterTestgit  extends BaseTest {
     private static final String TEST_EMAIL = "test@email.com";
 
     @Description("Subscribe on newsletter")
     @Test
-    public void SubscribeOnNewsletterTest() {
+    public void NewsletterTest() {
 
         HomePage homePage = new HomePage(driver);
 
