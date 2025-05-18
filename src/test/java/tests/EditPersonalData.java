@@ -9,23 +9,17 @@ import pages.LoginPage;
 import pages.UserAccountPage;
 
 public class EditPersonalData extends BaseTest {
-    private static final String TEST_EMAIL = "tsdrk094@gmail.com";
-    private static final String TEST_PASS = "Test123!!!";
     private static final String BASE_NAME = "Anton";
     private static final String BASE_SURNAME = "Skvortsov";
     private static final String ERROR_MESSAGE = "The save message did not appear or is incorrect.";
     private static final String EXPECTED_RESULT = "Дані Вашого Облікового запису збережено.";
-
-    private static String generateRandomLetter() {
+    private static final String NEW_NAME = BASE_NAME + generateRandomLetter();
+    private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();  private static String generateRandomLetter() {
         return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
     }
-
-    private static final String NEW_NAME = BASE_NAME + generateRandomLetter();
-    private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();
-
     @Description("Edit user name and choose agreements")
     @Test
-    public void EditPersonalData() throws InterruptedException {
+    public void EditPersonalDataTest() throws InterruptedException {
 
         HomePage homePage = new HomePage(driver);
 
@@ -78,6 +72,5 @@ public class EditPersonalData extends BaseTest {
         Assert.assertEquals(actualSurname, NEW_SURNAME, "Last name not updated correctly.");
 
     }
-
 }
 
