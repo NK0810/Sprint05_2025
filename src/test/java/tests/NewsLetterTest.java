@@ -23,7 +23,7 @@ public class NewsLetterTestgit  extends BaseTest {
                 .clickRegistrationButton()
                 .isPopUpVisible();
 
-        Assert.assertTrue(homePage.isPopUpVisible(),
+        Assert.assertTrue(homePage.isPopUpVisible().isConfirmationMessageVisible(),
                 "'Newsletter' window is not displayed");
         homePage
                 .clickCheckBox()
