@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 
-public class NewsLetterTestgit  extends BaseTest {
+public class NewsLetterTest extends BaseTest {
     private static final String TEST_EMAIL = "test@email.com";
 
     @Description("Subscribe on newsletter")
