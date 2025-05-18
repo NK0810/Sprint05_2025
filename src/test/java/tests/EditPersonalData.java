@@ -14,9 +14,7 @@ public class EditPersonalData extends BaseTest {
     private static final String ERROR_MESSAGE = "The save message did not appear or is incorrect.";
     private static final String EXPECTED_RESULT = "Дані Вашого Облікового запису збережено.";
     private static final String NEW_NAME = BASE_NAME + generateRandomLetter();
-    private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();  private static String generateRandomLetter() {
-        return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
-    }
+
     @Description("Edit user name and choose agreements")
     @Test
     public void EditPersonalDataTest() throws InterruptedException {
@@ -70,7 +68,10 @@ public class EditPersonalData extends BaseTest {
 
         Assert.assertEquals(actualName, NEW_NAME, "Name not updated correctly.");
         Assert.assertEquals(actualSurname, NEW_SURNAME, "Last name not updated correctly.");
-
+    }
+    private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();
+    private static String generateRandomLetter() {
+        return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
     }
 }
 

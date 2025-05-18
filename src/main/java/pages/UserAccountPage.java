@@ -3,7 +3,6 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import static org.openqa.selenium.By.xpath;
 
 public class UserAccountPage extends BasePage<UserAccountPage> {
@@ -18,8 +17,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     private static final String NOTIFICATION_CHECK_BOX_MAIL_INPUT = "//input[@id='gdpr-agreement-f56754fe-fa50-409a-9ec2-8706631db48c']";
     private static final String NOTIFICATION_CHECK_BOX_PHONE_INPUT = "//input[@id='gdpr-agreement-acab0796-e6e9-41d1-bbd3-9af8c46e277f']";
     private static final String SAVE_CHANGE_BUTTON = "//button[@class='action save account-edit-info__button button button--regular button__primary']";
-    private static final By SUCCESS_MESSAGE = xpath("//div[@class='message-text' and contains(text(), 'Дані Вашого Облікового запису збережено')]");
-
+    private static final String SUCCESS_MESSAGE ="//div[@class='message-text' and contains(text(), 'Дані Вашого Облікового запису збережено')]";
     public UserAccountPage(WebDriver driver) {
         super(driver);
     }
@@ -110,7 +108,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
 
     @Step("Get success message text after saving changes")
     public String getSuccessMessageText() {
-        return waitElementIsVisible(SUCCESS_MESSAGE).getText();
+        return waitElementIsVisible(By.xpath(SUCCESS_MESSAGE)).getText();
 
     }
 
@@ -120,9 +118,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     }
 
     @Step("Check if checkbox 2 is selected")
-    public boolean isCheckBoxPhoneSelected() throws InterruptedException {
-        Thread.sleep(1000);
+    public boolean isCheckBoxPhoneSelected(){
         return waitPresenceOfElement(By.xpath(NOTIFICATION_CHECK_BOX_PHONE_INPUT)).isSelected();
     }
-
 }
