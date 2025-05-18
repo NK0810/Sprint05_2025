@@ -109,7 +109,6 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     @Step("Get success message text after saving changes")
     public String getSuccessMessageText() {
         return waitElementIsVisible(By.xpath(SUCCESS_MESSAGE)).getText();
-
     }
 
     @Step("Check if checkbox 1 is selected")
