@@ -105,7 +105,6 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         return waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).getAttribute("value");
     }
 
-
     @Step("Get success message text after saving changes")
     public String getSuccessMessageText() {
         return waitElementIsVisible(By.xpath(SUCCESS_MESSAGE)).getText();
