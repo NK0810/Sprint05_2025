@@ -6,14 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
-
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
     private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
@@ -28,10 +26,10 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEND_EMAIL = "//input[@id='newsletter']";
     private static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
     private static final String CLICK_POPUP_REGISTRATION = "//button[@class='button button__primary button--jumbo action subscribe-send']";
-    private static final String CHECK_BOX = "//*[@class='checkbox-label']";
+    private static final String NEWS_LETTER_CHECK_BOX = "//*[@class='checkbox-label']";
     private WebElement WebElement;
-    private static final String POP_UP = "//header[@class='modal-header']";
-    private static final String CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
+    private static final String REGISTRATION_POP_UP = "//header[@class='modal-header']";
+    private static final String REGISTRATION_CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -113,7 +111,7 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Click checkbox")
     public HomePage clickCheckBox() {
-        waitElementToBeClickable(By.xpath(CHECK_BOX)).click();
+        waitElementToBeClickable(By.xpath(NEWS_LETTER_CHECK_BOX)).click();
         return this;
     }
 
@@ -124,14 +122,14 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Is pop-up visible")
-    public boolean isPopUpVisible() {
-        WebElement popUpWindow = waitElementIsVisible(By.xpath(POP_UP));
-        return popUpWindow.isDisplayed();
+    public HomePage isPopUpVisible() {
+        waitElementIsVisible(By.xpath(REGISTRATION_POP_UP)).isDisplayed();
+        return this;
     }
 
     public boolean isConfirmationMessageVisible() {
         try {
-            return driver.findElement(By.xpath(CONFIRMATION_MESSAGE)).isDisplayed();
+            return driver.findElement(By.xpath(REGISTRATION_CONFIRMATION_MESSAGE)).isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
