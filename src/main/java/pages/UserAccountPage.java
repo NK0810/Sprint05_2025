@@ -80,8 +80,9 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     }
 
     @Step("Click save change")
-    public void clickSaveChange() {
+    public UserAccountPage clickSaveChange() {
         waitElementToBeClickable(By.xpath(SAVE_CHANGE_BUTTON)).click();
+        return this;
     }
 
     @Step("Get current first name")
