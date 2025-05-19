@@ -52,11 +52,11 @@ import utils.ConfigReader;
 
         String actualName = userAccountPage.getFirstNameFieldText().trim();
         String actualSurname = userAccountPage.getSurnameFieldText().trim();
-        Assert.assertEquals(actualName, NEW_NAME, "Ім'я не оновлено правильно.");
-        Assert.assertEquals(actualSurname, NEW_SURNAME, "Прізвище не оновлено правильно.");
+        Assert.assertEquals(actualName, NEW_NAME, "The name has been updated correctly.");
+        Assert.assertEquals(actualSurname, NEW_SURNAME, "The name was updated incorrectly.");
 
-        Assert.assertTrue(userAccountPage.isCheckBoxMailSelected(), "Чекбокс Email не збережено.");
-        Assert.assertTrue(userAccountPage.isCheckBoxPhoneSelected(), "Чекбокс Phone не збережено.");
+        Assert.assertTrue(userAccountPage.isCheckBoxMailSelected(), "The Email checkbox was not saved.");
+        Assert.assertTrue(userAccountPage.isCheckBoxPhoneSelected(), "The Phone checkbox was not saved.");
     }
     private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();
     private static String generateRandomLetter() {
