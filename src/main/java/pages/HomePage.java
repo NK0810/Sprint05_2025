@@ -1,11 +1,9 @@
 package pages;
 
+import common.CommonActions;
 import fragments.HeaderFragment;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,9 +120,12 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Is pop-up visible")
-    public HomePage isPopUpVisible() {
-        waitElementIsVisible(By.xpath(REGISTRATION_POP_UP)).isDisplayed();
-        return this;
+    public boolean isPopUpVisible() {
+        try {
+            return waitElementIsVisible(By.xpath(REGISTRATION_POP_UP)).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public boolean isConfirmationMessageVisible() {
@@ -137,10 +138,7 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get list of names of last searched product")
     public List<String> getAllLastSearchedProductsNames(){
-        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        return CommonActions.getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
     }
 
     @Step("Get title of last searched products")
