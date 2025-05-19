@@ -5,7 +5,6 @@ import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
-import pages.ProductCatalogPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
