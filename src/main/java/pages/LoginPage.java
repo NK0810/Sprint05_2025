@@ -8,6 +8,7 @@ public class LoginPage extends BasePage<LoginPage> {
     private static final By EMAIL_FIELD = By.xpath("//*[@id='email']");
     private static final By PASSWORD_FIELD = By.xpath("//*[@id='pass']");
     private static final By LOGIN_BUTTON = By.xpath("//*[@id='send2']");
+    private static final By PASSWORD_RECOVERY = By.xpath("//a[@class='action login-container__link link link--underline']");
     private static final By EMAIL_ERROR_MESSAGE = By.xpath("//div[@class='email']//div[@id]");
     private static final String LOGIN_URL = BASE_URL + "/customer/account/login";
 
@@ -21,7 +22,7 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
-    @Step("Enter email: {email}")
+    @Step("Enter email")
     public LoginPage enterEmail(String email) {
         waitElementIsVisible(EMAIL_FIELD).sendKeys(email);
         return this;
@@ -36,6 +37,12 @@ public class LoginPage extends BasePage<LoginPage> {
     @Step("Click login button")
     public LoginPage clickLogInButton() {
         waitElementToBeClickable(LOGIN_BUTTON).click();
+        return this;
+    }
+
+    @Step("Click forgot your password button")
+    public LoginPage clickForgotYourPassword() {
+        waitElementToBeClickable(PASSWORD_RECOVERY).click();
         return this;
     }
 

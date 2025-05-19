@@ -16,7 +16,7 @@ public class SearchPage extends ProductCatalogPage {
         super(driver);
     }
 
-    public String getSearchQuery(){
+    public String getSearchQuery() {
         return waitElementIsVisible(By.xpath(SEARCH_QUERY)).getText();
     }
 
@@ -29,7 +29,7 @@ public class SearchPage extends ProductCatalogPage {
     }
 
     @Step("Click on first searched product")
-    public SearchPage clickFirstSearchProduct(){
+    public SearchPage clickFirstSearchProduct() {
         waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).getFirst().click();
         return this;
     }
