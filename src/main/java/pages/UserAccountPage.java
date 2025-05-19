@@ -3,6 +3,8 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import static org.openqa.selenium.By.xpath;
 
 public class UserAccountPage extends BasePage<UserAccountPage> {
@@ -46,29 +48,16 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         return this;
     }
 
-    @Step("Click and clear first name field")
-    public UserAccountPage clickAndClearFirstNameField() {
-        waitElementIsVisible(By.xpath(FIRST_NAME_FIELD)).clear();
-        waitElementIsVisible(By.xpath(FIRST_NAME_FIELD)).click();
-        return this;
-    }
-
     @Step("Input New Test Name")
     public UserAccountPage sendNewTestName(String name) {
+        waitElementIsVisible(By.xpath(FIRST_NAME_FIELD)).clear();
         waitElementIsVisible(By.xpath(FIRST_NAME_FIELD)).sendKeys(name);
         return this;
     }
 
-    @Step("Click and clear surname field")
-    public UserAccountPage clickAndClearSurnameField() {
+    public UserAccountPage sendNewTestSurname(String surname) {
         waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).clear();
-        waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).click();
-        return this;
-    }
-
-    @Step("Input New Test Surname")
-    public UserAccountPage sendNewTestSurname(String name) {
-        waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).sendKeys(name);
+        waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).sendKeys(surname);
         return this;
     }
 
@@ -91,9 +80,8 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     }
 
     @Step("Click save change")
-    public UserAccountPage clickSaveChange() {
+    public void clickSaveChange() {
         waitElementToBeClickable(By.xpath(SAVE_CHANGE_BUTTON)).click();
-        return this;
     }
 
     @Step("Get current first name")

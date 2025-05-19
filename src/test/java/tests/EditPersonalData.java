@@ -37,9 +37,7 @@ import utils.ConfigReader;
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         userAccountPage
                 .clickAccountSetting()
-                .clickAndClearFirstNameField()
                 .sendNewTestName(NEW_NAME)
-                .clickAndClearSurnameField()
                 .sendNewTestSurname(NEW_SURNAME)
                 .scrollToSaveChangeButton()
                 .clickCheckBoxMail()
