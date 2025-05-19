@@ -2,39 +2,25 @@ package pages;
 
 import fragments.SortFragment;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
-    private static final String BRANDS_SEARCH_FIELD = "//div[@class='widget-container-brand']//input[@placeholder]";
+    private static final String EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
+    private static final String CLEAR_SORTING_BUTTON = "//span[@class='icon icon-x--after']";
 
     public interface LocatorProvider {
         By getLocator();
     }
 
-    public enum FilterDropdown implements LocatorProvider {
-        BRAND_DROPDOWN("//div[@class='widget-container-brand']//div[@class='ais-Panel-header']"),
-        PRICE_DROPDOWN("//div[@class='widget-container-price_UAH_default']");
-
-        private final By dropdown;
-
-        FilterDropdown(String xpath) {
-            this.dropdown = By.xpath(xpath);
-        }
-
-        @Override
-        public By getLocator() {
-            return dropdown;
-        }
-    }
-
     public enum FilterOption implements LocatorProvider {
         NEW_ARRIVALS("(//li[@class='refinement-item refinement-item--is_new'])[1]/label"),
-        SALE("(//li[@class='refinement-item refinement-item--is_discount'])[1]/label");
+        SALE("(//li[@class='refinement-item refinement-item--is_discount'])[1]/label"),
+        BRAND_DROPDOWN("//div[@class='widget-container-brand']//div[@class='ais-Panel-header']"),
+        PRICE_DROPDOWN("//div[@class='widget-container-price_UAH_default']"),
+        LAST_PIECES("//div[@class='widget-container-ostatnie_sztuki']");
 
         private final By filter;
 
@@ -66,6 +52,37 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         }
     }
 
+    public enum PriceFilter implements LocatorProvider{
+        MAX_PRICE_INPUT_FIELD("//input[@class='range-slider-input range-slider-input--max input-text']");
+
+        private final By locator;
+
+        PriceFilter(String xpath) {
+            this.locator = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return locator;
+        }
+    }
+
+    public enum BrandFilter implements LocatorProvider{
+        LIST_NAME_BRAND("//li[@class='refinement-item refinement-item--brand']"),
+        BRANDS_SEARCH_FIELD("//div[@class='widget-container-brand']//input[@placeholder]");
+
+        private final By locator;
+
+        BrandFilter(String xpath) {
+            this.locator = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return locator;
+        }
+    }
+
     protected SortFragment sortFragment;
 
     public ProductCatalogPage(WebDriver driver) {
@@ -75,20 +92,15 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
 
     @Step("Sorts products by {optionName}")
     public ProductCatalogPage sortByOption(SortFragment.SortOptions optionName) {
-        sortFragment.clickDropdownButton()
+        sortFragment
+                .clickDropdownButton()
                 .selectOption(optionName);
         return this;
     }
 
-    @Step("Select filter option {filterOption}")
+    @Step("Select filter {filterOption}")
     public ProductCatalogPage selectFilterOption(FilterOption filterOption) {
         waitElementToBeClickable(filterOption.getLocator()).click();
-        return this;
-    }
-
-    @Step("Open filter dropdown {filterDropdown}")
-    public ProductCatalogPage openFilterDropdown(FilterDropdown filterDropdown) {
-        waitElementToBeClickable(filterDropdown.getLocator()).click();
         return this;
     }
 
@@ -106,17 +118,19 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     @Step("Type brand name '{brandName}' into search field")
-    public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName) {
-        WebElement searchInput = waitElementIsVisible(By.xpath(BRANDS_SEARCH_FIELD));
+    public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName , BrandFilter brandFilter) {
+        WebElement searchInput = waitElementIsVisible(brandFilter.getLocator());
         searchInput.clear();
         searchInput.sendKeys(brandName.getValue());
         return this;
     }
 
     @Step("Select brand filter option: {brandName}")
-    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName) {
+    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName , BrandFilter brandFilter) {
         By brandOptionLocator = By.xpath("//label[@class='refinement-label ']//span[text()='" + brandName.getValue() + "']");
+
         scrollToElement(brandOptionLocator);
+        waitElementsAreUpdated(brandFilter.getLocator());
         waitElementToBeClickable(brandOptionLocator).click();
         return this;
     }
@@ -127,4 +141,32 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
+    @Step("Type price '{price}' into field {field}")
+    public ProductCatalogPage typePriceInInput(PriceFilter field, String price) {
+        WebElement priceInput = waitElementIsVisible(field.getLocator());
+
+        String selectAll = System.getProperty("os.name").toLowerCase().contains("mac")
+                ? Keys.chord(Keys.COMMAND, "a")
+                : Keys.chord(Keys.CONTROL, "a");
+
+        priceInput.sendKeys(selectAll);
+        priceInput.sendKeys(Keys.DELETE);
+        priceInput.sendKeys(price);
+        priceInput.sendKeys(Keys.ENTER);
+
+        return this;
+    }
+
+    @Step("Close Excellent pop up button")
+    public ProductCatalogPage clickCloseTrustedShopPopup() {
+        WebElement popupCloseBtn = waitElementIsVisible(By.xpath(EXCELLENT_POP_UP));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", popupCloseBtn);
+        return this;
+    }
+
+    @Step("Click clear filter button")
+    public ProductCatalogPage clickClearFilterButton(){
+        waitElementToBeClickable(By.xpath(CLEAR_SORTING_BUTTON)).click();
+        return this;
+    }
 }
