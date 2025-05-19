@@ -23,6 +23,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
+    private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
+    private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -95,5 +97,18 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Get title of last searched products")
     public String getLastVievedProductsTitle(){
         return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
+    }
+
+    @Step("Get title of last searched brands")
+    public String getLastVievedBrandsTitle(){
+        return waitElementIsVisible(By.xpath(LAST_VIEWED_BRANDS_TITLE)).getText();
+    }
+
+    @Step("Get list of names of last searched brand")
+    public List<String> getAllLastSearchedProductsBrands(){
+        return waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }
