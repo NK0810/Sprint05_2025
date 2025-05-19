@@ -28,6 +28,6 @@ public class PasswordRecoveryTest extends base.BaseTest {
         passwordRecoveryPage
                 .enterEmail(email)
                 .clickResetPassword();
-        Assert.assertEquals(PasswordRecoveryPage.getNotificationSendingMassage(), NOTIFICATION_SEND_MASSAGE_TEXT, "Message text is incorrect.");
+        Assert.assertEquals(passwordRecoveryPage.getNotificationSendingMassage(), NOTIFICATION_SEND_MASSAGE_TEXT, "Message text is incorrect.");
     }
 }

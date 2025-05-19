@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class PasswordRecoveryPage extends BasePage<PasswordRecoveryPage> {
     private static final By PASSWORD_RECOVERY_FIELD = By.xpath("//input[@class='input-text required-entry']");
-    private static final By RESET_PASSWORD = By.xpath("//button[@class='action login-container__button button button__addtocart button--jumbo']");
+    private static final By RESET_PASSWORD_BUTTON = By.xpath("//button[@class='action login-container__button button button__addtocart button--jumbo']");
     private static final By NOTIFICATION_SEND_MASSAGE = By.xpath("//div[@class='message-text']");
 
     public PasswordRecoveryPage(WebDriver driver) {
@@ -21,11 +21,11 @@ public class PasswordRecoveryPage extends BasePage<PasswordRecoveryPage> {
 
     @Step("Click reset password button")
     public void clickResetPassword() {
-        waitElementToBeClickable(RESET_PASSWORD).click();
+        waitElementToBeClickable(RESET_PASSWORD_BUTTON).click();
     }
 
     @Step("Notification of sending a message")
-    public static String getNotificationSendingMassage() {
+    public String getNotificationSendingMassage() {
         return waitElementIsVisible(NOTIFICATION_SEND_MASSAGE).getText();
     }
 }

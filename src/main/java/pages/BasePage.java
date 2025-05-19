@@ -18,8 +18,8 @@ import static constant.Constant.TimeOutVariable.EXPLICIT_WAIT;
 public class BasePage<T extends BasePage<T>> {
     protected static final String BASE_URL = ConfigReader.getProperty("production.baseUrl");
     private final CookiesFragment cookiesFragment;
-    protected static WebDriver driver;
-    protected static WebDriverWait wait;
+    protected WebDriver driver;
+    protected final WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -37,7 +37,7 @@ public class BasePage<T extends BasePage<T>> {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public static WebElement waitElementToBeClickable(By locator) {
+    public WebElement waitElementToBeClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
