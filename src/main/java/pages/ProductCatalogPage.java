@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
-    private static final String EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
-    private static final String CLOSE_CLEAR_FILTER_BUTTON = "//span[@class='icon icon-x--after']";
+    private static final String CLOSE_EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
+    private static final String CLEAR_FILTER_BUTTON = "//span[@class='icon icon-x--after']";
 
     public interface LocatorProvider {
         By getLocator();
@@ -159,14 +159,14 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
 
     @Step("Close Excellent pop up button")
     public ProductCatalogPage clickCloseTrustedShopPopup() {
-        WebElement popupCloseBtn = waitElementIsVisible(By.xpath(EXCELLENT_POP_UP));
+        WebElement popupCloseBtn = waitElementIsVisible(By.xpath(CLOSE_EXCELLENT_POP_UP));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", popupCloseBtn);
         return this;
     }
 
     @Step("Click clear filter button")
     public ProductCatalogPage clickClearFilterButton(){
-        waitElementToBeClickable(By.xpath(CLOSE_CLEAR_FILTER_BUTTON)).click();
+        waitElementToBeClickable(By.xpath(CLEAR_FILTER_BUTTON)).click();
         return this;
     }
 }
