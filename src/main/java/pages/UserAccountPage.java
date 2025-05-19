@@ -18,6 +18,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     private static final String NOTIFICATION_CHECK_BOX_PHONE_INPUT = "//input[@id='gdpr-agreement-acab0796-e6e9-41d1-bbd3-9af8c46e277f']";
     private static final String SAVE_CHANGE_BUTTON = "//button[@class='action save account-edit-info__button button button--regular button__primary']";
     private static final String SUCCESS_MESSAGE ="//div[@class='message-text' and contains(text(), 'Дані Вашого Облікового запису збережено')]";
+
     public UserAccountPage(WebDriver driver) {
         super(driver);
     }

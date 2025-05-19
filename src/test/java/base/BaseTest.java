@@ -19,8 +19,6 @@ public class BaseTest {
     public WebDriver driver;
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     protected static final Properties properties = new Properties();
-    protected static String TEST_EMAIL;
-    protected static String TEST_PASS;
     public WebDriver getDriver() {
         return driver;
     }
@@ -57,17 +55,6 @@ public class BaseTest {
     public void setUp() {
         driver = CommonActions.createDriver();
         LOGGER.info("Driver created");
-    }
-    static{
-        Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/test/resources/common.properties")) {
-            props.load(fis);
-            TEST_EMAIL = props.getProperty("test.email");
-            TEST_PASS = props.getProperty("test.password");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load properties");
-        }
     }
 
     @AfterMethod(alwaysRun = true)
