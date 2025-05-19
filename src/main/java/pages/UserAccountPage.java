@@ -54,7 +54,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         waitElementIsVisible(By.xpath(FIRST_NAME_FIELD)).sendKeys(name);
         return this;
     }
-
+    @Step("Input New Sur Name")
     public UserAccountPage sendNewTestSurname(String surname) {
         waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).clear();
         waitElementIsVisible(By.xpath(SUR_NAME_FIELD)).sendKeys(surname);
