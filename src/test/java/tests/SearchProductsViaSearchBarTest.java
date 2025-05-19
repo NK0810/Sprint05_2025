@@ -146,27 +146,21 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .clickFirstProduct();
 
         String productName = productPage.getTextFrom(PRODUCT_NAME);
-        String productCurrentPrice = normalizePrice(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
-        String productRegularPrice = normalizePrice(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
+        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage.clickSearchField();
 
         String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
         String lastViewedName = homePage.getLastViewedProductName();
-        String lastViewedCurrentPrice = normalizePrice(homePage.getLastViewedProductCurrentPrice());
-        String lastViewedRegularPrice = normalizePrice(homePage.getLastViewedProductActualPrice());
+        int lastViewedCurrentPrice = homePage.convertPriceToInt(homePage.getLastViewedProductCurrentPrice());
+        int lastViewedRegularPrice = homePage.convertPriceToInt(homePage.getLastViewedProductActualPrice());
 
         softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
         softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
         softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
         softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
         softAssert.assertAll();
-    }
-
-    private static String normalizePrice(String price) {
-        return price.replace("\u00A0", " ")
-                .replaceAll("\\s+", " ")
-                .trim();
     }
 }
