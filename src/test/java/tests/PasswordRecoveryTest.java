@@ -1,6 +1,5 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import io.qameta.allure.Description;
 import org.testng.Assert;
@@ -10,7 +9,7 @@ import utils.ConfigReader;
 
 public class PasswordRecoveryTest extends base.BaseTest {
 
-    private static final String FORGOTPASSWORD_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/forgotpassword/";
+    private static final String FORGOT_PASSWORD_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/forgotpassword/";
     private static final String NOTIFICATION_SEND_MASSAGE_TEXT = "Якщо вказана e-mail адреса є в базі даних наших клієнтів, ми надішлемо Вам повідомлення.";
 
     @Test
@@ -23,7 +22,7 @@ public class PasswordRecoveryTest extends base.BaseTest {
                 .openLoginPage()
                 .acceptCookies()
                 .clickForgotYourPassword();
-        Assert.assertEquals(driver.getCurrentUrl(), FORGOTPASSWORD_URL, "User should not leave the login page.");
+        Assert.assertEquals(driver.getCurrentUrl(), FORGOT_PASSWORD_URL, "User should not leave the login page.");
 
         PasswordRecoveryPage passwordRecoveryPage = new PasswordRecoveryPage(driver);
         passwordRecoveryPage
