@@ -136,7 +136,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
