@@ -115,12 +115,12 @@ public class ProductFilterTests extends BaseTest {
 
         manClothingPage
                 .openUrl()
-                .acceptCookies();
+                .acceptCookies()
+                .clickCloseTrustedShopPopup();
 
         List<String> nonFilteredPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
 
         manClothingPage
-                .clickCloseTrustedShopPopup()
                 .scrollToElement(LAST_PIECES)
                 .selectFilterOption(PRICE_DROPDOWN)
                 .typePriceInInput(MAX_PRICE_INPUT_FIELD, MAX_PRICE_INPUT)

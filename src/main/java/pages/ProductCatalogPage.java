@@ -14,13 +14,15 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         By getLocator();
     }
 
-    public enum FilterClearButton implements LocatorProvider{
-        CLEAR_PRICE_FILTER_BUTTON("//span[text()='Ціна:']/following-sibling::span[@class='applied-filters__value']");
+    public enum FilterClearButton implements LocatorProvider {
+        CLEAR_PRICE_FILTER_BUTTON("Ціна:");
 
+        private String dataValue;
         private final By locator;
 
-        FilterClearButton(String xpath) {
-            this.locator = By.xpath(xpath);
+        FilterClearButton(String dataValue) {
+            this.dataValue = dataValue;
+            this.locator = By.xpath("//span[text()='" + dataValue + "']/following-sibling::span[@class='applied-filters__value']");
         }
 
         @Override
@@ -159,6 +161,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     @Step("Type price '{price}' into field {field}")
     public ProductCatalogPage typePriceInInput(PriceFilter field, String price) {
         WebElement priceInput = waitElementIsVisible(field.getLocator());
+        waitElementIsVisible(field.getLocator());
 
         String selectAll = System.getProperty("os.name").toLowerCase().contains("mac")
                 ? Keys.chord(Keys.COMMAND, "a")
