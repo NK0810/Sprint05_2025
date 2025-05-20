@@ -41,8 +41,7 @@ public class HeaderFragment extends BasePage {
         waitElementToBeClickable(element.getLocator()).click();
         return this;
     }
-
-
+    
     @Step("Scroll to header fragment")
     public HeaderFragment scrollToHeader() {
         scrollToElement(By.xpath(HEADER));
