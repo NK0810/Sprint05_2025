@@ -14,6 +14,7 @@ public class ProductPage extends BasePage<ProductPage> {
         CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']"),
         PRODUCT_PARAMETERS("//*[@id='tab-label-additional_attributes-title']"),
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
+        PRODUCT_BRAND("//*[text()='Бренд']/following-sibling::*"),
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*");
 
         private final String locator;
@@ -39,6 +40,12 @@ public class ProductPage extends BasePage<ProductPage> {
     @Step("Click on the button: {locator}")
     public ProductPage clickOnTheButton(ProductPageElements locator){
         waitElementToBeClickable(locator.getBy()).click();
+        return this;
+    }
+
+    @Step("Scroll to element {locator}")
+    public ProductPage scrollToElement(ProductPageElements locator){
+        scrollToElement(locator.getBy());
         return this;
     }
 }

@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static common.Config.BROWSER_CHROME;
@@ -30,10 +29,6 @@ public class CommonActions {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT, TimeUnit.MILLISECONDS);
         return driver;
-    }
-
-    public static List<String> getTextsFromList(List<WebElement> elements) {
-        return elements.stream().map(WebElement::getText).toList();
     }
 
     public static void scrollToElementJs(WebElement element, WebElement driver) {

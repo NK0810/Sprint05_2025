@@ -5,13 +5,19 @@ import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
+
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
-    private static final String ADD_TO_WISHLIST_BUTTON = "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
+    private static final String ADD_TO_WISHLIST_BUTTON =
+            "(//button[@class='product-wishlist action-to-wishlist product-card__image-wishlist'])[1]";
     private static final String FIRST_PRODUCT = "(//a[@class='product-card__image-link'])[1]";
     private static final String FIRST_NAME_PRODUCT = "(//a[@class='product-card__name'])[1]";
     private static final String PRICE_FIRST_PRODUCT = "(//div[@class='c-price__current'])[1]";
@@ -26,11 +32,14 @@ public class HomePage extends BasePage<HomePage> {
     private static final String NEWS_LETTER_CHECK_BOX = "//*[@class='checkbox-label']";
     private static final String REGISTRATION_POP_UP_TITLE = "//header[@class='modal-header']";
     private static final String REGISTRATION_CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
+    private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
+    private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
 
     public HomePage(WebDriver driver) {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
     }
+
     public HeaderFragment getHeaderFragment() {
         return headerFragment;
     }
@@ -64,12 +73,12 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get price in home page")
-    public String getProductPrice() {
+    public String getProductPrice(){
         return waitElementIsVisible(By.xpath(PRICE_FIRST_PRODUCT)).getText();
     }
 
     @Step("Click search field")
-    public HomePage clickSearchField() {
+    public HomePage clickSearchField(){
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
         return this;
     }
@@ -128,12 +137,24 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get list of names of last searched product")
     public List<String> getAllLastSearchedProductsNames() {
+        return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
+    public List<String> getAllLastSearchedProductsNames() {
         return CommonActions.getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
     }
 
     @Step("Get title of last searched products")
     public String getLastVievedProductsTitle() {
         return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
+    }
+
+    @Step("Get title of last searched brands")
+    public String getLastVievedBrandsTitle() {
+        return waitElementIsVisible(By.xpath(LAST_VIEWED_BRANDS_TITLE)).getText();
+    }
+
+    @Step("Get list of names of last searched brand")
+    public List<String> getAllLastSearchedProductsBrands() {
+        return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES)));
     }
 
     @Step
