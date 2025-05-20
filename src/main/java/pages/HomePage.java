@@ -28,14 +28,11 @@ public class HomePage extends BasePage<HomePage> {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
     }
-    public interface LocatorProvider {
-        By getLocator();
-    }
 
-    public enum HomePageElements implements LocatorProvider{
-        LAST_VIEWED_PRODUCT_CURRENT_PRICE  ("//div[@class='result-price-final discount']"),
-        LAST_VIEWED_PRODUCT_REGULAR_PRICE ("//div[@class='result-price-old']"),
-        LAST_VIEWED_PRODUCT_NAME ("//div[@class='result-column']/a");
+    public enum HomePageElements {
+        LAST_VIEWED_PRODUCT_CURRENT_PRICE("//div[@class='result-price-final discount']"),
+        LAST_VIEWED_PRODUCT_REGULAR_PRICE("//div[@class='result-price-old']"),
+        LAST_VIEWED_PRODUCT_NAME("//div[@class='result-column']/a");
 
         private final By element;
 
@@ -43,7 +40,6 @@ public class HomePage extends BasePage<HomePage> {
             this.element = By.xpath(xpath);
         }
 
-        @Override
         public By getLocator() {
             return element;
         }

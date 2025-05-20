@@ -46,7 +46,7 @@ public class ProductPage extends BasePage<ProductPage> {
     }
 
     @Step("Scroll to element {locator}")
-    public ProductPage scrollToElement(ProductPageElements locator){
+    public ProductPage scrollToElement(ProductPageElements locator) {
         scrollToElement(locator.getBy());
         return this;
     }

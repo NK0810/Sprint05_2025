@@ -169,6 +169,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         Assert.assertEquals(productBrand, lastSearchedProductBrand,
                 format("Expected that brand %s will have name %s", lastSearchedProductBrand, productBrand));
     }
+
     @Test
     @Description("Open last viewed product via search")
     public void openLastViewedProductTest() {
