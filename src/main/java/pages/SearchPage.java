@@ -35,7 +35,7 @@ public class SearchPage extends ProductCatalogPage {
         return this;
     }
 
-    @Step
+    @Step("Scroll to first product")
     public SearchPage scrollToFirstProduct() {
         scrollToElement(By.xpath(FIRST_PRODUCT_NAME));
         return this;

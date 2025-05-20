@@ -12,6 +12,7 @@ import pages.SearchPage;
 import java.util.List;
 
 import static java.lang.String.format;
+import static pages.HomePage.HomePageElements.*;
 import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
@@ -28,7 +29,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -52,7 +53,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -76,7 +77,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         homePage
                 .clickSearchField()
-                .enterTextInSeachField(productCode)
+                .enterTextInSearchField(productCode)
                 .clickSearchButton();
 
         actualSearchQuery = searchPage.getSearchQuery();
@@ -99,7 +100,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -138,7 +139,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .acceptCookies()
                 .clickSearchField();
 
-        homePage.enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+        homePage.enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         searchPage
@@ -148,14 +149,15 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String productName = productPage.getTextFrom(PRODUCT_NAME);
         int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
         int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage.clickSearchField();
 
         String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
-        String lastViewedName = homePage.getLastViewedProductName();
-        int lastViewedCurrentPrice = homePage.convertPriceToInt(homePage.getLastViewedProductCurrentPrice());
-        int lastViewedRegularPrice = homePage.convertPriceToInt(homePage.getLastViewedProductActualPrice());
+        String lastViewedName = homePage.getElementInfo(LAST_VIEWED_PRODUCT_NAME);
+        int lastViewedCurrentPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
+        int lastViewedRegularPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
 
         softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
         softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");

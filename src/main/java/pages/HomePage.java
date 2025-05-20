@@ -23,13 +23,30 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
-    private static final String LAST_VIEWEW_PRODUCT_CURRENT_PRICE = "//div[@class='result-price-final discount']";
-    private static final String LAST_VIEWEW_PRODUCT_REGULAR_PRICE = "//div[@class='result-price-old']";
-    private static final String LAST_VIEWEW_PRODUCT_NAME = "//div[@class='result-column']/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
+    }
+    public interface LocatorProvider {
+        By getLocator();
+    }
+
+    public enum HomePageElements implements LocatorProvider{
+        LAST_VIEWED_PRODUCT_CURRENT_PRICE  ("//div[@class='result-price-final discount']"),
+        LAST_VIEWED_PRODUCT_REGULAR_PRICE ("//div[@class='result-price-old']"),
+        LAST_VIEWED_PRODUCT_NAME ("//div[@class='result-column']/a");
+
+        private final By element;
+
+        HomePageElements(String xpath) {
+            this.element = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return element;
+        }
     }
 
     public HeaderFragment getHeaderFragment() {
@@ -59,19 +76,9 @@ public class HomePage extends BasePage<HomePage> {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
     }
 
-    @Step("Get text last viewed product name")
-    public String getLastViewedProductName() {
-        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_NAME)).getText();
-    }
-
-    @Step("Get text last viewed product current price")
-    public String getLastViewedProductCurrentPrice() {
-        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_CURRENT_PRICE)).getText();
-    }
-
-    @Step("Get text last viewed product regular price")
-    public String getLastViewedProductActualPrice() {
-        return waitPresenceOfElement(By.xpath(LAST_VIEWEW_PRODUCT_REGULAR_PRICE)).getText();
+    @Step("Get text from element: {elements}")
+    public String getElementInfo(HomePageElements elements) {
+        return waitElementIsVisible(elements.getLocator()).getText();
     }
 
     @Step("Get text first product in list product")
@@ -91,7 +98,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery) {
+    public HomePage enterTextInSearchField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
