@@ -16,8 +16,8 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
     }
 
     public enum UserAccountElements {
-        EXIT_SECTION ("//li[contains(a,'Вийти ')]"),
-        WISHLIST_SECTION ("//li[contains(a,'Список бажань')]");
+        EXIT_SECTION ("//a[text()='Вийти ']"),
+        WISHLIST_SECTION ("//a[text()='Список бажань']");
 
         private final By element;
 

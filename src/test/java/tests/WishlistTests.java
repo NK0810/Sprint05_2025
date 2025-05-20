@@ -16,7 +16,7 @@ import static fragments.HeaderFragment.HeaderElements.*;
 import static pages.UserAccountPage.UserAccountElements.*;
 import static pages.WishlistPage.WishlistElements.*;
 
-public class WishlistTest extends BaseTest {
+public class WishlistTests extends BaseTest {
 
     private static final String BASE_REMOVED_PRODUCT_MASSAGE = " видалено зі списку бажань.";
     private static final String EMPTY_WISHLIST_PRODUCT_MASSAGE = "У Вашому Списку бажань немає товарів";

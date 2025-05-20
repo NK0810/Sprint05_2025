@@ -6,7 +6,7 @@
 
     <test name="All Tests">
         <classes>
-            <class name="tests.WishlistTest"/>
+            <class name="tests.WishlistTests"/>
             <class name="tests.SearchProductsViaSearchBarTest"/>
         </classes>
     </test>
