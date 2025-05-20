@@ -9,9 +9,10 @@ import pages.ManClothingPage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pages.ManClothingPage.BrandName.ALPINUS;
+import static pages.ManClothingPage.BrandName.*;
 import static pages.ProductCatalogPage.BrandFilter.BRANDS_SEARCH_FIELD;
 import static pages.ProductCatalogPage.BrandFilter.LIST_NAME_BRAND;
+import static pages.ProductCatalogPage.FilterClearButton.CLEAR_PRICE_FILTER_BUTTON;
 import static pages.ProductCatalogPage.FilterOption.*;
 import static pages.ProductCatalogPage.PriceFilter.MAX_PRICE_INPUT_FIELD;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
@@ -130,7 +131,7 @@ public class ProductFilterTests extends BaseTest {
         Assert.assertTrue(isAllPricesLessThan(filteredPrice), "Expected at least one price < 1000, but actual prices were: %s" + filteredPrice);
 
         manClothingPage
-                .clickClearFilterButton()
+                .clickClearFilterButton(CLEAR_PRICE_FILTER_BUTTON)
                 .waitProductsInfoAreUpdated(ACTUAL_PRICE);
 
         Assert.assertEquals(nonFilteredPrice, manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE));

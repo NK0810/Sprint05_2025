@@ -15,6 +15,22 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         By getLocator();
     }
 
+    public enum FilterClearButton implements LocatorProvider{
+        CLEAR_PRICE_FILTER_BUTTON("//span[text()='Ціна:']/following-sibling::span[@class='applied-filters__value']");
+
+        private final By locator;
+
+        FilterClearButton(String xpath) {
+            this.locator = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return locator;
+        }
+    }
+
+
     public enum FilterOption implements LocatorProvider {
         NEW_ARRIVALS("(//li[@class='refinement-item refinement-item--is_new'])[1]/label"),
         SALE("(//li[@class='refinement-item refinement-item--is_discount'])[1]/label"),
@@ -52,7 +68,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         }
     }
 
-    public enum PriceFilter implements LocatorProvider{
+    public enum PriceFilter implements LocatorProvider {
         MAX_PRICE_INPUT_FIELD("//input[@class='range-slider-input range-slider-input--max input-text']");
 
         private final By locator;
@@ -67,7 +83,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         }
     }
 
-    public enum BrandFilter implements LocatorProvider{
+    public enum BrandFilter implements LocatorProvider {
         LIST_NAME_BRAND("//li[@class='refinement-item refinement-item--brand']"),
         BRANDS_SEARCH_FIELD("//div[@class='widget-container-brand']//input[@placeholder]");
 
@@ -118,7 +134,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     @Step("Type brand name '{brandName}' into search field")
-    public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName , BrandFilter brandFilter) {
+    public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName, BrandFilter brandFilter) {
         WebElement searchInput = waitElementIsVisible(brandFilter.getLocator());
         searchInput.clear();
         searchInput.sendKeys(brandName.getValue());
@@ -126,7 +142,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     @Step("Select brand filter option: {brandName}")
-    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName , BrandFilter brandFilter) {
+    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName, BrandFilter brandFilter) {
         By brandOptionLocator = By.xpath("//label[@class='refinement-label ']//span[text()='" + brandName.getValue() + "']");
 
         scrollToElement(brandOptionLocator);
@@ -164,9 +180,9 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
-    @Step("Click clear filter button")
-    public ProductCatalogPage clickClearFilterButton(){
-        waitElementToBeClickable(By.xpath(CLEAR_FILTER_BUTTON)).click();
+    @Step("Click clear filter button {locatorProvider}")
+    public ProductCatalogPage clickClearFilterButton(FilterClearButton locatorProvider) {
+        waitElementToBeClickable(locatorProvider.getLocator()).click();
         return this;
     }
 }
