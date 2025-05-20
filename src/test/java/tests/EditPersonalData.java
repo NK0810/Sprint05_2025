@@ -28,18 +28,19 @@ import utils.ConfigReader;
         LoginPage loginPage = new LoginPage(driver);
 
         loginPage.openLoginPage()
-                 .enterEmail(ConfigReader.getProperty("test.email"))
-                 .enterPassword(ConfigReader.getProperty("test.password"))
-                 .clickLogInButton();
+                .enterEmail(ConfigReader.getProperty("test.email"))
+                .enterPassword(ConfigReader.getProperty("test.password"))
+                .clickLogInButton();
+
 
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         userAccountPage.clickMyAccountSetting()
-                       .enterNewUserName(NEW_NAME)
-                       .enterNewUserSurname(NEW_SURNAME)
-                       .scrollToSaveChangeButton()
-                       .clickCheckBoxMail()
-                       .clickCheckBoxPhone()
-                       .clickSaveChange();
+                .enterNewUserName(NEW_NAME)
+                .enterNewUserSurname(NEW_SURNAME)
+                .scrollToSaveChangeButton()
+                .clickCheckBoxMail()
+                .clickCheckBoxPhone()
+                .clickSaveChange();
 
         String successMessage = userAccountPage.getSuccessMessageText().trim();
         Assert.assertEquals(successMessage, EXPECTED_RESULT, ERROR_MESSAGE);
@@ -55,17 +56,10 @@ import utils.ConfigReader;
         Assert.assertTrue(userAccountPage.isCheckBoxPhoneSelected(), "The Phone checkbox was not saved.");
     }
     private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();
+
     private static String generateRandomLetter() {
         return String.valueOf((char) ('A' + (int) (Math.random() * 26)));
+     }
     }
-        @Test
-        @Description("Login user")
-        public void loginUserTest() {
-            String Email = ConfigReader.getProperty("test.email");
-            String Password = ConfigReader.getProperty("test.password");
-            LoginPage loginPage = new LoginPage(driver);
-            UserAccountPage userAccountPage = new UserAccountPage(driver);
-        }
-}
 
 
