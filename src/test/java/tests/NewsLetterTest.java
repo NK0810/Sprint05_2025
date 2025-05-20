@@ -5,9 +5,9 @@ import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
+import utils.ConfigReader;
 
 public class NewsLetterTest extends BaseTest {
-    private static final String TEST_EMAIL = "test@email.com";
 
     @Description("Subscribe on newsletter")
     @Test
@@ -15,20 +15,18 @@ public class NewsLetterTest extends BaseTest {
 
         HomePage homePage = new HomePage(driver);
 
-        homePage
-                .openUrl()
+        homePage.openUrl()
                 .acceptCookies()
                 .scrollToSubscribeOnNewsLetterBlock()
-                .sendEmail(TEST_EMAIL)
+                .enterEmail(ConfigReader.getProperty("email.test"))
                 .clickRegistrationButton()
                 .isPopUpVisible();
 
         Assert.assertTrue(homePage.isPopUpVisible(),"'Newsletter' window is not displayed");
-        homePage
-                .clickCheckBox()
-                .clickRegistrationPopUp();
+        homePage.clickCheckBoxOnPopUp()
+                .clickRegistratiOnPopUp();
 
-        Assert.assertTrue(homePage.isConfirmationMessageVisible(),
+        Assert.assertTrue(homePage.isConfirmationRegistrationMessageVisible(),
                         "Confirmation message not displayed");
 
     }

@@ -2,11 +2,10 @@ package pages;
 
 import common.CommonActions;
 import fragments.HeaderFragment;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
@@ -20,20 +19,18 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
-    private static final String NEWS_LETTER_FIELD = "//*[@class='block-newsletter']";
-    private static final String SEND_EMAIL = "//input[@id='newsletter']";
-    private static final String REGISTRATION_BUTTON = "//*[@class='button button__primary button--jumbo action subscribe']";
-    private static final String CLICK_POPUP_REGISTRATION = "//button[@class='button button__primary button--jumbo action subscribe-send']";
+    private static final String NEWS_LETTER_BLOCK = "//*[@class='block-newsletter']";
+    private static final String SEND_EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
+    private static final String REGISTRATION_BUTTON = "//div[@class='block-newsletter__field']/div/button";
+    private static final String CLICK_POPUP_REGISTRATION = "//div[@class='modal-newsletter__control']/button";
     private static final String NEWS_LETTER_CHECK_BOX = "//*[@class='checkbox-label']";
-    private WebElement WebElement;
-    private static final String REGISTRATION_POP_UP = "//header[@class='modal-header']";
+    private static final String REGISTRATION_POP_UP_TITLE = "//header[@class='modal-header']";
     private static final String REGISTRATION_CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
 
     public HomePage(WebDriver driver) {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
     }
-
     public HeaderFragment getHeaderFragment() {
         return headerFragment;
     }
@@ -89,60 +86,60 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Scroll to save change button")
+    @Step("Scroll on subscribe on newsletter block")
     public HomePage scrollToSubscribeOnNewsLetterBlock() {
-        scrollToElement(By.xpath(NEWS_LETTER_FIELD));
+        scrollToElement(By.xpath(NEWS_LETTER_BLOCK));
         return this;
     }
 
-    @Step("Enter Email")
+    @Step("Enter Email to input field")
     public HomePage sendEmail(String email) {
-        waitElementToBeClickable(By.xpath(SEND_EMAIL)).sendKeys(email);
+        waitElementToBeClickable(By.xpath(SEND_EMAIL_INPUT_FIELD)).sendKeys(email);
         return this;
     }
 
-    @Step("Click subscribe button")
+    @Step("Click to registration button ")
     public HomePage clickRegistrationButton() {
         waitElementToBeClickable(By.xpath(REGISTRATION_BUTTON)).click();
         return this;
     }
 
-    @Step("Click checkbox")
-    public HomePage clickCheckBox() {
+    @Step("Click checkbox on pop up")
+    public HomePage clickCheckBoxOnPopUp() {
         waitElementToBeClickable(By.xpath(NEWS_LETTER_CHECK_BOX)).click();
         return this;
     }
 
-    @Step("Click subscribe on popup ")
-    public HomePage clickRegistrationPopUp() {
+    @Step("Click registration on popup ")
+    public HomePage clickRegistratiOnPopUp() {
         waitElementToBeClickable(By.xpath(CLICK_POPUP_REGISTRATION)).click();
         return this;
     }
 
-    @Step("Is pop-up visible")
+    @Step("Is registration pop-up visible")
     public boolean isPopUpVisible() {
-        try {
-            return waitElementIsVisible(By.xpath(REGISTRATION_POP_UP)).isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
+        return waitElementIsVisible(By.xpath(REGISTRATION_POP_UP_TITLE)).isDisplayed();
     }
 
-    public boolean isConfirmationMessageVisible() {
-        try {
-            return driver.findElement(By.xpath(REGISTRATION_CONFIRMATION_MESSAGE)).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+    @Step("Is confirmation registration message visible")
+    public boolean isConfirmationRegistrationMessageVisible() {
+        return waitElementIsVisible(By.xpath(REGISTRATION_CONFIRMATION_MESSAGE)).isDisplayed();
     }
 
     @Step("Get list of names of last searched product")
-    public List<String> getAllLastSearchedProductsNames(){
+    public List<String> getAllLastSearchedProductsNames() {
         return CommonActions.getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
     }
 
     @Step("Get title of last searched products")
-    public String getLastVievedProductsTitle(){
+    public String getLastVievedProductsTitle() {
         return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
+    }
+
+    @Step
+    @Description("User Email Input To Subscribe Field")
+    public HomePage enterEmail(String email) {
+        waitElementIsVisible(By.xpath(SEND_EMAIL_INPUT_FIELD)).sendKeys(email);
+        return this;
     }
 }
