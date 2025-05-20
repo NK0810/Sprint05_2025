@@ -22,33 +22,29 @@ import utils.ConfigReader;
 
         HomePage homePage = new HomePage(driver);
 
-        homePage
-                .openUrl()
+        homePage.openUrl()
                 .acceptCookies();
 
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage
-                .openLoginPage()
-                .enterEmail(ConfigReader.getProperty("test.email"))
-                .enterPassword(ConfigReader.getProperty("test.password"))
-                .clickLogInButton();
+        loginPage.openLoginPage()
+                 .enterEmail(ConfigReader.getProperty("test.email"))
+                 .enterPassword(ConfigReader.getProperty("test.password"))
+                 .clickLogInButton();
 
         UserAccountPage userAccountPage = new UserAccountPage(driver);
-        userAccountPage
-                .clickAccountSetting()
-                .sendNewTestName(NEW_NAME)
-                .sendNewTestSurname(NEW_SURNAME)
-                .scrollToSaveChangeButton()
-                .clickCheckBoxMail()
-                .clickCheckBoxPhone()
-                .clickSaveChange();
+        userAccountPage.clickMyAccountSetting()
+                       .enterNewUserName(NEW_NAME)
+                       .enterNewUserSurname(NEW_SURNAME)
+                       .scrollToSaveChangeButton()
+                       .clickCheckBoxMail()
+                       .clickCheckBoxPhone()
+                       .clickSaveChange();
 
         String successMessage = userAccountPage.getSuccessMessageText().trim();
         Assert.assertEquals(successMessage, EXPECTED_RESULT, ERROR_MESSAGE);
 
-        userAccountPage
-                .clickAccountSetting();
+        userAccountPage.clickMyAccountSetting();
 
         String actualName = userAccountPage.getFirstNameFieldText().trim();
         String actualSurname = userAccountPage.getSurnameFieldText().trim();
