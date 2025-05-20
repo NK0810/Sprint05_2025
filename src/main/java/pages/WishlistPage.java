@@ -15,11 +15,7 @@ public class WishlistPage extends BasePage<WishlistPage> {
         super(driver);
     }
 
-    public interface LocatorProvider {
-        By getLocator();
-    }
-
-    public enum WishlistElements implements LocatorProvider {
+    public enum WishlistElements {
         MASSAGE_WISHLIST_IS_EMPTY_PROFILE ("//div[@class='message info empty with-button']/span"),
         MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST ("//div[@data-ui-id]/div"),
         MASSAGE_WISHLIST_IS_EMPTY ("//div[@class='message info empty']"),
@@ -34,7 +30,6 @@ public class WishlistPage extends BasePage<WishlistPage> {
             this.element = By.xpath(xpath);
         }
 
-        @Override
         public By getLocator() {
             return element;
         }

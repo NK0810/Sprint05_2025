@@ -37,7 +37,7 @@ public class LoginPage extends BasePage<LoginPage> {
 
     @Step("Click login button")
     public LoginPage clickLogInButton() {
-        sleep(500); // даємо час CAPTCHA активуватись, напр. 2 секунди
+        sleep(500);
         waitElementToBeClickable(LOGIN_BUTTON).click();
         return this;
     }

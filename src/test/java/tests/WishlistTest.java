@@ -16,10 +16,12 @@ import static fragments.HeaderFragment.HeaderElements.*;
 import static pages.UserAccountPage.UserAccountElements.*;
 import static pages.WishlistPage.WishlistElements.*;
 
-public class AddAndRemoveFromWishlistTest extends BaseTest {
+public class WishlistTest extends BaseTest {
 
     private static final String BASE_REMOVED_PRODUCT_MASSAGE = " видалено зі списку бажань.";
     private static final String EMPTY_WISHLIST_PRODUCT_MASSAGE = "У Вашому Списку бажань немає товарів";
+    private static final String EMAIL = ConfigReader.getProperty("UserEmail");
+    private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
 
     @Test
     @Description("Verify that a product can be added to the wishlist and then removed from it via the home page")
@@ -58,8 +60,8 @@ public class AddAndRemoveFromWishlistTest extends BaseTest {
         loginPage
                 .openLoginPage()
                 .acceptCookies()
-                .enterEmail(ConfigReader.getProperty("UserEmail"))
-                .enterPassword(ConfigReader.getProperty("UserPassword"))
+                .enterEmail(EMAIL)
+                .enterPassword(PASSWORD)
                 .clickLogInButton();
 
         userAccountPage.waitUntilMyAccountPageIsVisible();

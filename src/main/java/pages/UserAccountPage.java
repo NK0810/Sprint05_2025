@@ -16,11 +16,7 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         super(driver);
     }
 
-    public interface LocatorProvider {
-        By getLocator();
-    }
-
-    public enum UserAccountElements implements ProductCatalogPage.LocatorProvider {
+    public enum UserAccountElements {
         EXIT_SECTION ("//li[contains(a,'Вийти ')]"),
         WISHLIST_SECTION ("//li[contains(a,'Список бажань')]");
 
@@ -30,7 +26,6 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
             this.element = By.xpath(xpath);
         }
 
-        @Override
         public By getLocator() {
             return element;
         }

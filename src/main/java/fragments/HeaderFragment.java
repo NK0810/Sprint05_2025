@@ -14,11 +14,7 @@ public class HeaderFragment extends BasePage {
         super(driver);
     }
 
-    public interface LocatorProvider {
-        By getLocator();
-    }
-
-    public enum HeaderElements implements ProductCatalogPage.LocatorProvider {
+    public enum HeaderElements {
         USER_ICON_BUTTON ("//i[@class='tabler-icon-user-thin']"),
         MY_PROFILE_BUTTON ("//a[@title='Мій Обліковий запис']"),
         HEADER_LOGO ("//a[@class='header__logo']");
@@ -29,7 +25,6 @@ public class HeaderFragment extends BasePage {
             this.element = By.xpath(xpath);
         }
 
-        @Override
         public By getLocator() {
             return element;
         }
