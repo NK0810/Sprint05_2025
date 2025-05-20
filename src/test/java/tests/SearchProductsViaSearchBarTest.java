@@ -147,12 +147,14 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
 
         searchPage.clickFirstSearchProduct();
-        productPage.scrollToElement(PRODUCT_PARAMETERS);
-        productPage.clickOnTheButton(PRODUCT_PARAMETERS);
-        productPage.scrollToElement(PRODUCT_BRAND);
+        productPage.scrollToElement(PRODUCT_PARAMETERS)
+                .clickOnTheButton(PRODUCT_PARAMETERS)
+                .scrollToElement(PRODUCT_BRAND);
+
         String productBrand = productPage.getTextFrom(PRODUCT_BRAND);
-        productPage.scrollToElement(BACK_ON_HOME_PAGE);
-        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        productPage.scrollToElement(BACK_ON_HOME_PAGE)
+                .clickOnTheButton(BACK_ON_HOME_PAGE);
         homePage.clickSearchField();
 
         String expectedTitle = "Останні переглянуті бренди";
