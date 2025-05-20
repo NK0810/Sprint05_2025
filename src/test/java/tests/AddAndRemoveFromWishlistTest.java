@@ -2,17 +2,27 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
 import utils.ConfigReader;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import static fragments.HeaderFragment.HeaderElements.*;
+import static pages.UserAccountPage.UserAccountElements.*;
+import static pages.WishlistPage.WishlistElements.*;
 
 public class AddAndRemoveFromWishlistTest extends BaseTest {
+
     private static final String BASE_REMOVED_PRODUCT_MASSAGE = " видалено зі списку бажань.";
     private static final String EMPTY_WISHLIST_PRODUCT_MASSAGE = "У Вашому Списку бажань немає товарів";
 
-    @Description("Verify that a product can be added to the wishlist and then removed from it via the home page")
     @Test
+    @Description("Verify that a product can be added to the wishlist and then removed from it via the home page")
     public void checkAdditionToWishlistTest() {
         HomePage homePage = new HomePage(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
@@ -26,15 +36,14 @@ public class AddAndRemoveFromWishlistTest extends BaseTest {
                 .scrollToHeader()
                 .clickWishlistButton();
 
-        Assert.assertTrue(wishlistPage.isProductPresentInWishlist(),
+        Assert.assertTrue(isProductPresentInWishlist(FAVORITE_PRODUCT_CARDS),
                 "The product did not appear in the wishlist after being added");
 
-        wishlistPage
-                .clickDeleteFromWishlistButton();
+        wishlistPage.clickDeleteFromWishlistButton();
 
-        Assert.assertTrue(wishlistPage.isWishlistEmptyMessageDisplayed(),
+        Assert.assertTrue(isWishlistEmptyMessageDisplayed(MASSAGE_WISHLIST_IS_EMPTY),
                 "Expected empty wishlist message to be displayed, but it was not found");
-        Assert.assertFalse(wishlistPage.isProductPresentInWishlist(),
+        Assert.assertFalse(isProductPresentInWishlist(FAVORITE_PRODUCT_CARDS),
                 "The product is appear in the wishlist after being deleted");
     }
 
@@ -53,42 +62,83 @@ public class AddAndRemoveFromWishlistTest extends BaseTest {
                 .enterPassword(ConfigReader.getProperty("UserPassword"))
                 .clickLogInButton();
 
-        userAccountPage
-                .waitUntilMyAccountPageIsVisible();
+        userAccountPage.waitUntilMyAccountPageIsVisible();
 
         homePage
                 .getHeaderFragment()
-                .clickOnHeaderLogo();
+                .clickHeaderElement(HEADER_LOGO);
         homePage
                 .scrollToPromotionalProductCarousel()
                 .clickAddToWishlistButton()
                 .getHeaderFragment()
                 .scrollToHeader()
-                .clickUserIcon()
-                .clickMyProfileButton();
+                .clickHeaderElement(USER_ICON_BUTTON)
+                .clickHeaderElement(MY_PROFILE_BUTTON);
 
         userAccountPage
-                .scrolLToExitButton()
-                .selectWishlist();
+                .scrollToElement(EXIT_SECTION)
+                .clickUserAccountElement(WISHLIST_SECTION);
 
-        String productName = wishlistPage.getProductName();
+        String productName = wishlistPage.getWishlistElementInfo(WISHLIST_PRODUCT_NAME);
 
-        wishlistPage
-                .clickDeleteFromWishlistButton();
+        wishlistPage.clickDeleteFromWishlistButton();
 
         String expectedMessage = productName + BASE_REMOVED_PRODUCT_MASSAGE;
-        String actualMessage = wishlistPage.getRemoveMassageText();
-        String actualEmptyMassage = wishlistPage.getEmptyListMassageText();
+        String actualMessage = wishlistPage.getWishlistElementInfo(MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST);
+        String actualEmptyMassage = wishlistPage.getWishlistElementInfo(MASSAGE_WISHLIST_IS_EMPTY_PROFILE);
 
         Assert.assertEquals(actualMessage, expectedMessage,
                 "Incorrect removal message!");
-        Assert.assertTrue(wishlistPage.isProductRemovedMassageAppears(),
-                "Expected massage doesn't displayed: " + expectedMessage);
-        Assert.assertTrue(wishlistPage.isWishlistEmptyMessageProfileDisplayed(),
+        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST),
+                "Expected message doesn't display: " + expectedMessage);
+        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MASSAGE_WISHLIST_IS_EMPTY_PROFILE),
                 "Expected wishlist to be empty!");
         Assert.assertEquals(actualEmptyMassage, EMPTY_WISHLIST_PRODUCT_MASSAGE,
-                "Incorrect removal message!");
-        Assert.assertTrue(wishlistPage.isWishlistFormEmpty(),
+                "Incorrect empty wishlist message!");
+        Assert.assertTrue(isWishlistEmpty(WISHLIST_FORM, WISHLIST_PRODUCTS),
                 "Wishlist form is not empty — product items are still present.");
+    }
+
+    @Step("Check if product is present in wishlist")
+    public boolean isProductPresentInWishlist(WishlistPage.WishlistElements elements) {
+        try {
+            WishlistPage wishlistPage = new WishlistPage(driver);
+            WebElement product = wishlistPage.waitElementIsVisible(elements.getLocator());
+            return product.isDisplayed();
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
+    }
+
+
+    @Step("Check if wishlist element '{elements}' is visible in user account")
+    public boolean isWishlistElementInUserAccountDisplayed(WishlistPage.WishlistElements elements) {
+        try {
+            WebElement element = driver.findElement(elements.getLocator());
+            return element.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    @Step("Check if empty wishlist message is displayed")
+    public boolean isWishlistEmptyMessageDisplayed(WishlistPage.WishlistElements elements) {
+        try {
+            WebElement emptyMessage = driver.findElement(elements.getLocator());
+            return emptyMessage.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    @Step("Check that wishlist form contains no product items")
+    public boolean isWishlistEmpty(WishlistPage.WishlistElements body, WishlistPage.WishlistElements elements) {
+        try {
+            WebElement form = driver.findElement(body.getLocator());
+            List<WebElement> productItems = form.findElements(elements.getLocator());
+            return productItems.isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

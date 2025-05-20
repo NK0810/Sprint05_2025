@@ -8,8 +8,6 @@ import static org.openqa.selenium.By.xpath;
 
 public class UserAccountPage extends BasePage<UserAccountPage> {
 
-    private static final By EXIT = xpath("//li[contains(a,'Вийти ')]");
-    private static final By WISHLIST_SECTION = xpath("//li[contains(a,'Список бажань')]");
     private static final By MY_ACCOUNT_HEADER = xpath("//*[@data-ui-id='page-title-wrapper']");
     private static final By MY_ACCOUNT_EMAIL = xpath("//p[@class='dashboard-info-block__email']");
     private static final By TEXT_OUT = xpath("//*[@class='nav items']/li[10]/a");
@@ -18,15 +16,35 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         super(driver);
     }
 
+    public interface LocatorProvider {
+        By getLocator();
+    }
+
+    public enum UserAccountElements implements ProductCatalogPage.LocatorProvider {
+        EXIT_SECTION ("//li[contains(a,'Вийти ')]"),
+        WISHLIST_SECTION ("//li[contains(a,'Список бажань')]");
+
+        private final By element;
+
+        UserAccountElements(String xpath) {
+            this.element = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return element;
+        }
+    }
+
     @Step("Scroll to  whishlist section button")
-    public UserAccountPage scrolLToExitButton() {
-        scrollToElement(EXIT);
+    public UserAccountPage scrollToElement(UserAccountElements elements) {
+        scrollToElement(elements.getLocator());
         return this;
     }
 
     @Step("Select Wishlist section")
-    public UserAccountPage selectWishlist() {
-        waitElementIsVisible(WISHLIST_SECTION).click();
+    public UserAccountPage clickUserAccountElement(UserAccountElements elements) {
+        waitElementToBeClickable(elements.getLocator()).click();
         return this;
     }
 
