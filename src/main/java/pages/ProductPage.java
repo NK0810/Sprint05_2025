@@ -42,4 +42,10 @@ public class ProductPage extends BasePage<ProductPage> {
         waitElementToBeClickable(locator.getBy()).click();
         return this;
     }
+
+    @Step("Scroll to element {locator}")
+    public ProductPage scrollToElement(ProductPageElements locator){
+        scrollToElement(locator.getBy());
+        return this;
+    }
 }

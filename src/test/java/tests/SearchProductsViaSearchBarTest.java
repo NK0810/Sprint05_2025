@@ -147,11 +147,11 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
 
         searchPage.clickFirstSearchProduct();
-        productPage.scrollToElement(PRODUCT_PARAMETERS.getBy());
+        productPage.scrollToElement(PRODUCT_PARAMETERS);
         productPage.clickOnTheButton(PRODUCT_PARAMETERS);
-        productPage.scrollToElement(PRODUCT_BRAND.getBy());
+        productPage.scrollToElement(PRODUCT_BRAND);
         String productBrand = productPage.getTextFrom(PRODUCT_BRAND);
-        productPage.scrollToElement(BACK_ON_HOME_PAGE.getBy());
+        productPage.scrollToElement(BACK_ON_HOME_PAGE);
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
         homePage.clickSearchField();
 
