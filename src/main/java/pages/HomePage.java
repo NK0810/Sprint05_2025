@@ -101,12 +101,6 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Enter Email to input field")
-    public HomePage sendEmail(String email) {
-        waitElementToBeClickable(By.xpath(SEND_EMAIL_INPUT_FIELD)).sendKeys(email);
-        return this;
-    }
-
     @Step("Click to registration button ")
     public HomePage clickRegistrationButton() {
         waitElementToBeClickable(By.xpath(REGISTRATION_BUTTON)).click();
@@ -138,8 +132,6 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Get list of names of last searched product")
     public List<String> getAllLastSearchedProductsNames() {
         return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
-    public List<String> getAllLastSearchedProductsNames() {
-        return CommonActions.getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
     }
 
     @Step("Get title of last searched products")
@@ -164,3 +156,4 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 }
+
