@@ -4,10 +4,8 @@ import fragments.HeaderFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
@@ -23,6 +21,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
+    private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
+    private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -110,15 +110,22 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get list of names of last searched product")
-    public List<String> getAllLastSearchedProductsNames(){
-        return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+    public List<String> getAllLastSearchedProductsNames() {
+        return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES)));
     }
 
     @Step("Get title of last searched products")
-    public String getLastVievedProductsTitle(){
+    public String getLastVievedProductsTitle() {
         return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
+    }
+
+    @Step("Get title of last searched brands")
+    public String getLastVievedBrandsTitle() {
+        return waitElementIsVisible(By.xpath(LAST_VIEWED_BRANDS_TITLE)).getText();
+    }
+
+    @Step("Get list of names of last searched brand")
+    public List<String> getAllLastSearchedProductsBrands() {
+        return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES)));
     }
 }
