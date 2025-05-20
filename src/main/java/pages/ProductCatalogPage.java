@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     private static final String CLOSE_EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
-    private static final String CLEAR_FILTER_BUTTON = "//span[@class='icon icon-x--after']";
 
     public interface LocatorProvider {
         By getLocator();
