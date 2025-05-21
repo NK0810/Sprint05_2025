@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Properties;
 
+@Listeners({utils.Listeners.class, io.qameta.allure.testng.AllureTestNg.class})
 public class BaseTest {
     public WebDriver driver;
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
