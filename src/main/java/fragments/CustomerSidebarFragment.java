@@ -13,7 +13,8 @@ public class CustomerSidebarFragment extends BasePage<CustomerSidebarFragment> {
 
     public enum CustomerSidebarElements {
         EXIT_SECTION("//a[text()='Вийти ']"),
-        WISHLIST_SECTION("//a[text()='Список бажань']");
+        WISHLIST_SECTION("//a[text()='Список бажань']"),
+        ADDRESS_SECTION("//a[text()='Мої адреси']");
 
         private final By element;
 
