@@ -54,15 +54,18 @@ public class UserAddressesPage extends EditAddressPage {
         return customerSidebarFragment;
     }
 
-    public UserAddressesPage clickOnUserAddressPageElement(UserAddressesPageElements elements){
+    @Step("Click on user address page element: {elements}")
+    public UserAddressesPage clickOnUserAddressPageElement(UserAddressesPageElements elements) {
         waitElementToBeClickable(elements.getLocator()).click();
         return this;
     }
 
+    @Step("Get full text from user address element: {elements}")
     public String getUserAddressElementsText(UserAddressesPageElements elements) {
         return waitElementIsVisible(elements.getLocator()).getText();
     }
 
+    @Step("Get user address as list of parts from element: {elements}")
     public List<String> getUserAddressInfoText(UserAddressesPageElements elements) {
         String addressBlockText = waitElementIsVisible(elements.getLocator()).getText();
         return Arrays.stream(addressBlockText.split("\\R")) // розбити по рядках

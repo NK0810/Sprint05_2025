@@ -41,11 +41,13 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
         super(driver);
     }
 
-    public EditAddressPage clickOnEditAddressElement(EditAddressPageElements elements){
+    @Step("Click on edit address element: {elements}")
+    public EditAddressPage clickOnEditAddressElement(EditAddressPageElements elements) {
         waitElementToBeClickable(elements.getLocator()).click();
         return this;
     }
 
+    @Step("Enter value '{value}' into address field: {element}")
     public EditAddressPage enterAddressInfo(EditAddressPageElements element, String value) {
         WebElement field = waitElementIsVisible(element.getLocator());
         field.clear();
@@ -53,8 +55,9 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
         return this;
     }
 
+    @Step("Get text from edit address element: {element}")
     public String getEditElementInfo(EditAddressPageElements element) {
-        return  waitElementIsVisible(element.getLocator()).getText();
+        return waitElementIsVisible(element.getLocator()).getText();
     }
 
     @Step("Scroll to EditAddress element: {elements}")

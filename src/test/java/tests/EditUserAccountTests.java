@@ -4,7 +4,6 @@ import base.BaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.EditAddressPage;
 import pages.LoginPage;
 import pages.UserAccountPage;
 import pages.UserAddressesPage;
@@ -25,7 +24,6 @@ public class EditUserAccountTests extends BaseTest {
     private static final List<String> DEFAULT_DELIVERY_ADDRESS_DATA = List.of(
             "Шмек", "Мельник", "Травнева", "8", "10987", "Харків", "0967693586"
     );
-
 
     @Test
     @Description("Edit default delivery address required fields only")
