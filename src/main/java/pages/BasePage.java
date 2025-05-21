@@ -70,7 +70,7 @@ public class BasePage<T extends BasePage<T>> {
         return Integer.parseInt(listPrice.replaceAll(",.*", "").replaceAll("[^\\d]", ""));
     }
 
-    public static List<String> getTextsFromList(List<WebElement> elements) {
+    public List<String> getTextsFromList(List<WebElement> elements) {
         return elements.stream().map(WebElement::getText).toList();
     }
 
@@ -79,5 +79,18 @@ public class BasePage<T extends BasePage<T>> {
                 "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));", element);
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", element);
+    }
+
+    public String getClassValueFromElement(By locator){
+        return waitElementIsVisible(locator).getAttribute("class");
+    }
+
+    public void goBack() {
+        driver.navigate().back();
+    }
+
+    public void scrollToElement(WebElement element) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
     }
 }
