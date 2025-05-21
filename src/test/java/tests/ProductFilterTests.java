@@ -92,15 +92,11 @@ public class ProductFilterTests extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickCloseTrustedShopPopup()
-                .scrollToElement(BRAND_DROPDOWN);
-        manClothingPage
-                .selectFilterOption(BRAND_DROPDOWN);
-        manClothingPage
-                .typeBrandNameInSearch(ALPINUS, BRANDS_SEARCH_FIELD);
-        manClothingPage
-                .selectBrandOption(ALPINUS);
-
-        manClothingPage.waitProductsInfoAreUpdated(PRODUCTS_NAME);
+                .scrollToElement(BRAND_DROPDOWN)
+                .selectFilterOption(BRAND_DROPDOWN)
+                .typeBrandNameInSearch(ALPINUS, BRANDS_SEARCH_FIELD)
+                .selectBrandOption(ALPINUS)
+                .waitProductsInfoAreUpdated(PRODUCTS_NAME);
 
         List<String> productsName = manClothingPage.getVisibleProductsInfoTexts(PRODUCTS_NAME);
 
