@@ -2,15 +2,16 @@ package tests;
 
 import base.BaseTest;
 import jdk.jfr.Description;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.ManClothingPage;
+import pages.ProductPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pages.ManClothingPage.BrandName.ADIDAS;
-import static pages.ManClothingPage.BrandName.ALPINUS;
+import static pages.ManClothingPage.BrandName.*;
 import static pages.ProductCatalogPage.BrandFilter.BRANDS_SEARCH_FIELD;
 import static pages.ProductCatalogPage.FilterClearButton.CLEAR_BRAND_FILTER_BUTTON;
 import static pages.ProductCatalogPage.FilterClearButton.CLEAR_PRICE_FILTER_BUTTON;
@@ -18,6 +19,7 @@ import static pages.ProductCatalogPage.FilterOption.*;
 import static pages.ProductCatalogPage.PriceFilter.MAX_PRICE_INPUT_FIELD;
 import static pages.ProductCatalogPage.PriceFilter.MIN_PRICE_INPUT_FIELD;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
+import static pages.ProductPage.ProductPageElements.SELECT_SIZE_DROP_DOWN_BUTTON;
 
 public class ProductFilterTests extends BaseTest {
     ManClothingPage manClothingPage = new ManClothingPage(driver);
@@ -26,6 +28,8 @@ public class ProductFilterTests extends BaseTest {
     private static final String MIN_PRICE_INPUT = "1200";
     private static final int MAX_ALLOWED_PRICE = 1000;
     private static final int MIN_ALLOWED_PRICE = 1200;
+    private static final String SIZE = "S";
+    public static final String SELECTED_CLASS = "refinement-label--checked";
 
     @Description("Verify that filtering by 'New arrivals' only displays products marked.")
     @Test
@@ -190,5 +194,43 @@ public class ProductFilterTests extends BaseTest {
                 .collect(Collectors.toList());
 
         return intPrices.stream().allMatch(element -> element > price);
+    }
+
+    @Description("Verify that the selected size filter is correctly applied and that all visible products have the selected size available (not disabled or out of stock).")
+    @Test
+    public void checkSizeFilterTest() {
+        ManClothingPage manClothingPage = new ManClothingPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        manClothingPage
+                .openUrl()
+                .acceptCookies()
+                .clickCloseTrustedShopPopup()
+                .scrollToElement(LAST_PIECES);
+        manClothingPage
+                .clickOnSizeDropdownButton()
+                .selectSizeFilterOption(SIZE);
+
+        String selectedSizeLabelClass = manClothingPage.getSelectedSizeLabelClass();
+
+        Assert.assertTrue(selectedSizeLabelClass.contains(SELECTED_CLASS),
+                "Expected selected size label to contain class: " + SELECTED_CLASS + " but got: " + selectedSizeLabelClass);
+
+        List<WebElement> productsCard = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD);
+
+        for (int i = 0; i < productsCard.size(); i++) {
+            WebElement currentProduct = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD).get(i);
+
+            manClothingPage.scrollToElement(currentProduct);
+            currentProduct.click();
+            productPage.clickOnTheButton(SELECT_SIZE_DROP_DOWN_BUTTON);
+
+            String sizeOptionClass = productPage.getSizeOptionClass(SIZE);
+
+            Assert.assertFalse(sizeOptionClass.contains("visual-ko-select__option--disabled stock-notification-trigger"),
+                    "Expected size option to be available, but class contains disallowed value: " + sizeOptionClass);
+
+            productPage.goBack();
+        }
     }
 }

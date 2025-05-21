@@ -15,7 +15,8 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_PARAMETERS("//*[@id='tab-label-additional_attributes-title']"),
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
         PRODUCT_BRAND("//*[text()='Бренд']/following-sibling::*"),
-        BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*");
+        BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
+        SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']");
 
         private final String locator;
 
@@ -23,7 +24,7 @@ public class ProductPage extends BasePage<ProductPage> {
             this.locator = locator;
         }
 
-        public By getBy() {
+        public By getLocator() {
             return By.xpath(locator);
         }
     }
@@ -34,18 +35,24 @@ public class ProductPage extends BasePage<ProductPage> {
 
     @Step("Get text: {locator}")
     public String getTextFrom(ProductPageElements locator) {
-        return waitElementIsVisible(locator.getBy()).getText();
+        return waitElementIsVisible(locator.getLocator()).getText();
     }
 
     @Step("Click on the button: {locator}")
-    public ProductPage clickOnTheButton(ProductPageElements locator){
-        waitElementToBeClickable(locator.getBy()).click();
+    public ProductPage clickOnTheButton(ProductPageElements locator) {
+        waitElementIsVisible(locator.getLocator());
+        waitElementToBeClickable(locator.getLocator()).click();
         return this;
     }
 
     @Step("Scroll to element {locator}")
-    public ProductPage scrollToElement(ProductPageElements locator){
-        scrollToElement(locator.getBy());
+    public ProductPage scrollToElement(ProductPageElements locator) {
+        scrollToElement(locator.getLocator());
         return this;
+    }
+
+    @Step("Get class attribute for size option '{size}'")
+    public String getSizeOptionClass(String size) {
+        return getClassValueFromElement(By.xpath("//li[@data-title='" + size + "']"));
     }
 }
