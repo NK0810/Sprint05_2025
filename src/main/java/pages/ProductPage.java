@@ -16,7 +16,7 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
         PRODUCT_BRAND("//*[text()='Бренд']/following-sibling::*"),
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
-        SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='swatch-attribute rozmiar ']");
+        SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']");
 
         private final String locator;
 
@@ -53,7 +53,6 @@ public class ProductPage extends BasePage<ProductPage> {
 
     @Step("Get class attribute for size option '{size}'")
     public String getSizeOptionClass(String size) {
-        By buttonSize = By.xpath("//li[@data-title='" + size + "']");
-        return getElementClass(buttonSize);
+        return getClassValueFromElement(By.xpath("//li[@data-title='" + size + "']"));
     }
 }

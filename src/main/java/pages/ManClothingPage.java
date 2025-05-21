@@ -34,8 +34,9 @@ public class ManClothingPage extends ProductCatalogPage {
         driver.get(URL);
         return this;
     }
+
     @Step("Click on the size dropdown button")
-    public ManClothingPage clickOnSizeDropdown() {
+    public ManClothingPage clickOnSizeDropdownButton() {
         waitElementIsVisible(By.xpath(SIZE_DROP_DOWN_BUTTON));
         waitElementToBeClickable(By.xpath(SIZE_DROP_DOWN_BUTTON)).click();
         return this;
@@ -51,6 +52,6 @@ public class ManClothingPage extends ProductCatalogPage {
 
     @Step("Get class attribute from the selected size label")
     public String getSelectedSizeLabelClass() {
-        return getElementClass(By.xpath(SELECT_SIZE_LABEL));
+        return getClassValueFromElement(By.xpath(SELECT_SIZE_LABEL));
     }
 }

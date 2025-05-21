@@ -198,7 +198,7 @@ public class ProductFilterTests extends BaseTest {
 
     @Description("Verify that the selected size filter is correctly applied and that all visible products have the selected size available (not disabled or out of stock).")
     @Test
-    public void checkClearSizeFilterTest() {
+    public void checkSizeFilterTest() {
         ManClothingPage manClothingPage = new ManClothingPage(driver);
         ProductPage productPage = new ProductPage(driver);
 
@@ -208,7 +208,7 @@ public class ProductFilterTests extends BaseTest {
                 .clickCloseTrustedShopPopup()
                 .scrollToElement(LAST_PIECES);
         manClothingPage
-                .clickOnSizeDropdown()
+                .clickOnSizeDropdownButton()
                 .selectSizeFilterOption(SIZE);
 
         String selectedSizeLabelClass = manClothingPage.getSelectedSizeLabelClass();
@@ -219,8 +219,7 @@ public class ProductFilterTests extends BaseTest {
         List<WebElement> productsCard = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD);
 
         for (int i = 0; i < productsCard.size(); i++) {
-            List<WebElement> updatedProductsCard = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD);
-            WebElement currentProduct = updatedProductsCard.get(i);
+            WebElement currentProduct = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD).get(i);
 
             manClothingPage.scrollToElement(currentProduct);
             currentProduct.click();

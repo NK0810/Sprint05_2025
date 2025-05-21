@@ -187,7 +187,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
-    @Step("Wait for all visible product cards located by: {locator}")
+    @Step("Wait for all visible product cards elements located by: {locator}")
     public List<WebElement> waitForVisibleProductCards(ProductCardInfo locator) {
         return waitElementsAreVisible(locator.getLocator());
     }

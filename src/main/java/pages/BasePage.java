@@ -81,7 +81,7 @@ public class BasePage<T extends BasePage<T>> {
                 "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", element);
     }
 
-    public String getElementClass(By locator){
+    public String getClassValueFromElement(By locator){
         return waitElementIsVisible(locator).getAttribute("class");
     }
 
