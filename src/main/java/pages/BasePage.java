@@ -33,7 +33,7 @@ public class BasePage<T extends BasePage<T>> {
         return (T) this;
     }
 
-    public static WebElement waitElementIsVisible(By locator) {
+    public WebElement waitElementIsVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
