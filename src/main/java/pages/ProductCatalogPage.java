@@ -136,7 +136,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return waitElementsAreUpdated(productCardInfo.getLocator());
     }
 
-    @Step("Type brand name '{brandName}' into search field")
+    @Step("Type brand name {brandName} into search field")
     public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName, BrandFilter brandFilter) {
         WebElement searchInput = waitElementIsVisible(brandFilter.getLocator());
         searchInput.clear();
@@ -160,17 +160,14 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
-    @Step("Type price '{price}' into field {field}")
+    @Step("Type price {price} into field {field}")
     public ProductCatalogPage typePriceInInput(PriceFilter field, String price) {
         WebElement priceInput = waitElementIsVisible(field.getLocator());
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].value = '';", priceInput);
         ((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1];", priceInput, price);
 
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));", priceInput);
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", priceInput);
+        dispatchInputAndChangeEvents(priceInput);
 
         priceInput.sendKeys(Keys.ENTER);
         return this;

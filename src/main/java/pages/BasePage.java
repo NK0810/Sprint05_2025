@@ -2,6 +2,7 @@ package pages;
 
 import fragments.CookiesFragment;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -71,5 +72,12 @@ public class BasePage<T extends BasePage<T>> {
 
     public static List<String> getTextsFromList(List<WebElement> elements) {
         return elements.stream().map(WebElement::getText).toList();
+    }
+
+    public void dispatchInputAndChangeEvents(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));", element);
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", element);
     }
 }

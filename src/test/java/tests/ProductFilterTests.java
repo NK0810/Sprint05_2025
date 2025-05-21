@@ -35,10 +35,8 @@ public class ProductFilterTests extends BaseTest {
         manClothingPage
                 .openUrl()
                 .acceptCookies()
-                .scrollToElement(NEW_ARRIVALS);
-        manClothingPage
-                .selectFilterOption(NEW_ARRIVALS);
-        manClothingPage
+                .scrollToElement(NEW_ARRIVALS)
+                .selectFilterOption(NEW_ARRIVALS)
                 .waitProductsInfoAreUpdated(NEW_TAG);
 
         List<String> productNewTags = manClothingPage.getVisibleProductsInfoTexts(NEW_TAG);
@@ -58,10 +56,8 @@ public class ProductFilterTests extends BaseTest {
 
         manClothingPage
                 .openUrl()
-                .acceptCookies();
-        manClothingPage
-                .scrollToElement(SALE);
-        manClothingPage
+                .acceptCookies()
+                .scrollToElement(SALE)
                 .selectFilterOption(SALE)
                 .waitProductsInfoAreUpdated(ACTUAL_PRICE);
 
@@ -128,7 +124,7 @@ public class ProductFilterTests extends BaseTest {
 
         List<String> filteredPrice = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
 
-        Assert.assertTrue(isAllPricesLessThan(filteredPrice, MAX_ALLOWED_PRICE), "Expected at least one price < 1000, but actual prices were: %s" + filteredPrice);
+        Assert.assertTrue(isAllPricesLessThan(filteredPrice, MAX_ALLOWED_PRICE), "Expected at least one price < " + MAX_ALLOWED_PRICE + ", but actual prices were: " + filteredPrice);
 
         manClothingPage
                 .clickClearFilterButton(CLEAR_PRICE_FILTER_BUTTON)
@@ -164,7 +160,7 @@ public class ProductFilterTests extends BaseTest {
 
         List<String> filteredPrices = manClothingPage.getVisibleProductsInfoTexts(ACTUAL_PRICE);
 
-        Assert.assertTrue(isAllPricesMoreThan(filteredPrices, MIN_ALLOWED_PRICE), "Expected at least one price > 1500, but actual prices were: %s" + filteredPrices);
+        Assert.assertTrue(isAllPricesMoreThan(filteredPrices, MIN_ALLOWED_PRICE), "Expected at least one price > " + MIN_ALLOWED_PRICE + ", but actual prices were: " + filteredPrices);
 
         manClothingPage
                 .selectFilterOption(BRAND_DROPDOWN)
@@ -175,7 +171,7 @@ public class ProductFilterTests extends BaseTest {
         Assert.assertTrue(manClothingPage.getVisibleProductsInfoTexts(PRODUCTS_NAME)
                         .stream()
                         .anyMatch(element -> element.contains(ADIDAS.getValue())),
-                "Expected at least one product name to contain 'adidas', but none were found.");
+                "Expected at least one product name to contain" + ADIDAS.getValue() + ", but none were found.");
 
         manClothingPage
                 .clickClearFilterButton(CLEAR_BRAND_FILTER_BUTTON);
@@ -183,7 +179,7 @@ public class ProductFilterTests extends BaseTest {
         Assert.assertFalse(manClothingPage.getVisibleProductsInfoTexts(PRODUCTS_NAME)
                         .stream()
                         .anyMatch(element -> element.contains(ADIDAS.getValue())),
-                "Expected no product names to contain 'adidas', but some were found.");
+                "Expected no product names to contain" + ADIDAS.getValue() + ", but some were found.");
     }
 
     private boolean isAllPricesMoreThan(List<String> actualPrice, int price) {
