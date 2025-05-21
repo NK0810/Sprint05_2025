@@ -12,8 +12,8 @@ import utils.ConfigReader;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
 import static fragments.HeaderFragment.HeaderElements.*;
-import static pages.UserAccountPage.UserAccountElements.*;
 import static pages.WishlistPage.WishlistElements.*;
 
 public class WishlistTests extends BaseTest {
@@ -78,6 +78,7 @@ public class WishlistTests extends BaseTest {
                 .clickHeaderElement(MY_PROFILE_BUTTON);
 
         userAccountPage
+                .getCustomerSidebarFragment()
                 .scrollToElement(EXIT_SECTION)
                 .clickUserAccountElement(WISHLIST_SECTION);
 
