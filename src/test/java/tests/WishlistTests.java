@@ -111,29 +111,26 @@ public class WishlistTests extends BaseTest {
         ProductPage productPage = new ProductPage(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
 
-        homePage
-                .openUrl()
+        homePage.openUrl()
                 .acceptCookies()
                 .scrollToPromotionalProductCarousel()
                 .clickFirstProduct();
 
         String productName = productPage.getTextFrom(PRODUCT_NAME);
-        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
-        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT));
+        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE));
+        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE));
 
-        productPage
-                .scrollToElement(ADD_TO_WISHLIST_BUTTON)
+        productPage.scrollToElement(ADD_TO_WISHLIST_BUTTON)
                 .clickOnTheButton(ADD_TO_WISHLIST_BUTTON);
 
         String successMessage = productPage.getTextFrom(SUCCESS_MASSAGE);
         String expectedMessage = ADDED_PRODUCT_MASSAGE;
-        Assert.assertEquals(successMessage, expectedMessage ,
-                "Success message incorrect! Expected to contain: " + expectedMessage + ", but got: " + successMessage);
+        Assert.assertEquals(successMessage, expectedMessage,
+                String.format("Expected success message: '%s', but got: '%s'", expectedMessage, successMessage));
 
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
-        homePage
-                .getHeaderFragment()
+        homePage.getHeaderFragment()
                 .scrollToHeader()
                 .clickWishlistButton();
 
@@ -147,11 +144,11 @@ public class WishlistTests extends BaseTest {
         int wishlistRegularPrice = wishlistPage.convertPriceToInt(wishlistPage.getWishlistElementInfo(WISHLIST_PRODUCT_REGULAR_PRICE));
 
         Assert.assertEquals(wishlistProductName, productName,
-                "Product name in wishlist doesn't match the one from product page!");
+                String.format("Expected product name: '%s', but got: '%s'", productName, wishlistProductName));
         Assert.assertEquals(wishlistCurrentPrice, productCurrentPrice,
-                "Current price in wishlist doesn't match the one from product page!");
+                String.format("Expected current price: %s, but got: %s", productCurrentPrice, wishlistCurrentPrice));
         Assert.assertEquals(wishlistRegularPrice, productRegularPrice,
-                "Regular price in wishlist doesn't match the one from product page!");
+                String.format("Expected regular price: %s, but got: %s", productRegularPrice, wishlistRegularPrice));
     }
 
     @Step("Check if product is present in wishlist")
