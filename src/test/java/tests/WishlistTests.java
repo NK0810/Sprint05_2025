@@ -14,15 +14,13 @@ import java.util.NoSuchElementException;
 
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
 import static fragments.HeaderFragment.HeaderElements.*;
-import static pages.HomePage.HomePageElements.LAST_VIEWED_PRODUCT_CURRENT_PRICE;
-import static pages.HomePage.HomePageElements.LAST_VIEWED_PRODUCT_REGULAR_PRICE;
 import static pages.ProductPage.ProductPageElements.*;
 import static pages.WishlistPage.WishlistElements.*;
 
 public class WishlistTests extends BaseTest {
 
     private static final String BASE_REMOVED_PRODUCT_MASSAGE = " видалено зі списку бажань.";
-    private static final String BASE_ADDED_PRODUCT_MASSAGE = " додано до Списку бажань. Натисність";
+    private static final String ADDED_PRODUCT_MASSAGE = "Товар додано до Списку бажань.";
     private static final String EMPTY_WISHLIST_PRODUCT_MASSAGE = "У Вашому Списку бажань немає товарів";
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
@@ -120,16 +118,16 @@ public class WishlistTests extends BaseTest {
                 .clickFirstProduct();
 
         String productName = productPage.getTextFrom(PRODUCT_NAME);
-        int productCurrentPrice = productPage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
-        int productRegularPrice = productPage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
+        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT));
 
         productPage
                 .scrollToElement(ADD_TO_WISHLIST_BUTTON)
                 .clickOnTheButton(ADD_TO_WISHLIST_BUTTON);
 
         String successMessage = productPage.getTextFrom(SUCCESS_MASSAGE);
-        String expectedMessage = productName + BASE_ADDED_PRODUCT_MASSAGE;
-        Assert.assertTrue(successMessage.contains(expectedMessage),
+        String expectedMessage = ADDED_PRODUCT_MASSAGE;
+        Assert.assertEquals(successMessage, expectedMessage ,
                 "Success message incorrect! Expected to contain: " + expectedMessage + ", but got: " + successMessage);
 
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
@@ -141,6 +139,8 @@ public class WishlistTests extends BaseTest {
 
         Assert.assertTrue(isProductPresentInWishlist(FAVORITE_PRODUCT_CARDS),
                 "The product did not appear in the wishlist after being added");
+
+        wishlistPage.scrollToElement(WISHLIST_PRODUCT_REGULAR_PRICE);
 
         String wishlistProductName = wishlistPage.getWishlistElementInfo(WISHLIST_PRODUCT_NAME);
         int wishlistCurrentPrice = wishlistPage.convertPriceToInt(wishlistPage.getWishlistElementInfo(WISHLIST_PRODUCT_CURRENT_PRICE));
