@@ -32,13 +32,13 @@ public class SearchPage extends ProductCatalogPage {
 
     @Step("Scroll to first product")
     public SearchPage scrollToFirstProduct() {
-        scrollToElement(By.xpath(FIRST_PRODUCT_NAME));
+        scrollToElement(By.xpath(PRODUCT_NAMES));
         return this;
     }
 
     @Step("Click on first searched product")
     public SearchPage clickFirstProduct() {
-        waitElementsAreVisible(By.xpath(FIRST_PRODUCT_NAME)).getFirst().click();
+        waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).get(0).click();
         return this;
     }
 }

@@ -29,22 +29,6 @@ public class HomePage extends BasePage<HomePage> {
         this.headerFragment = new HeaderFragment(driver);
     }
 
-    public enum HomePageElements {
-        LAST_VIEWED_PRODUCT_CURRENT_PRICE("//div[@class='result-price-final discount']"),
-        LAST_VIEWED_PRODUCT_REGULAR_PRICE("//div[@class='result-price-old']"),
-        LAST_VIEWED_PRODUCT_NAME("//div[@class='result-column']/a");
-
-        private final By element;
-
-        HomePageElements(String xpath) {
-            this.element = By.xpath(xpath);
-        }
-
-        public By getLocator() {
-            return element;
-        }
-    }
-
     public HeaderFragment getHeaderFragment() {
         return headerFragment;
     }
@@ -70,11 +54,6 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Click on the first product in list product")
     public void clickFirstProduct() {
         waitElementToBeClickable(By.xpath(FIRST_PRODUCT)).click();
-    }
-
-    @Step("Get text from element: {elements}")
-    public String getElementInfo(HomePageElements elements) {
-        return waitElementIsVisible(elements.getLocator()).getText();
     }
 
     @Step("Get text first product in list product")
