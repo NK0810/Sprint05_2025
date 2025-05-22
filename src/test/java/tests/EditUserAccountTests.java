@@ -26,17 +26,15 @@ public class EditUserAccountTests extends BaseTest {
 
     @Test
     @Description("Edit default delivery address required fields only")
-    public void editDefaultDeliveryAddressRequiredFields() {
+    public void editDefaultDeliveryAddressRequiredFieldsTest() {
         LoginPage loginPage = new LoginPage(driver);
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
 
         loginPage.login(EMAIL, PASSWORD);
-
         userAccountPage.getCustomerSidebarFragment()
                 .scrollToElement(ADDRESS_SECTION)
                 .clickUserAccountElement(ADDRESS_SECTION);
-
         userAddressesPage.clickOnElement(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
@@ -66,5 +64,4 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_SAVED, savedMessage));
     }
-
 }

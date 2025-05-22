@@ -83,6 +83,7 @@ public class UserAddressesPage extends EditAddressPage {
         return "(" + buildXpath(sectionTitle, type) + ")[" + index + "]";
     }
 
+    @Step("Building specific expected address in String")
     public static String buildAddress(String... fieldNames) {
         List<String> values = new ArrayList<>();
 
@@ -95,12 +96,5 @@ public class UserAddressesPage extends EditAddressPage {
             }
         }
         return String.join(" ", values);
-    }
-
-    @Step("Convert raw address block to normalized form")
-    public static String convertAddressBlock(String rawAddress) {
-        return rawAddress.replace("tel. ", "")
-                .replaceAll("\\s+", " ")
-                .trim();
     }
 }
