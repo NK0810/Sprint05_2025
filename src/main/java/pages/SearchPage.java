@@ -9,7 +9,6 @@ import java.util.List;
 public class SearchPage extends ProductCatalogPage {
     private static final String PRODUCT_NAMES = "//*[@class ='product-card__name']";
     private static final String SEARCH_QUERY = "//*[@class='breadcrumbs__current-item']";
-    private static final String FIRST_PRODUCT_NAME = "(//*[@class ='product-card__name'])[1]";
 
     public SearchPage(WebDriver driver) {
         super(driver);
