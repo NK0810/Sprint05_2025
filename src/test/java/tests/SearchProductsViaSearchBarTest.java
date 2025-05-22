@@ -11,13 +11,13 @@ import pages.SearchPage;
 
 import java.util.List;
 
+import static fragments.HeaderFragment.PopUpLastViewedProductSection.*;
 import static java.lang.String.format;
-import static pages.HomePage.HomePageElements.*;
 import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
-    private static final String LAST_VIEWED_PRODUCT = "Останні переглянуті продукти";
+    private static final String LAST_VIEWED_PRODUCT_TITLE = "Останні переглянуті продукти";
 
     @Description("Checking the search function and search result accuracy")
     @Test
@@ -177,37 +177,37 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         SearchPage searchPage = new SearchPage(driver);
         ProductPage productPage = new ProductPage(driver);
 
-        SoftAssert softAssert = new SoftAssert();
-
-        homePage
-                .openUrl()
+        homePage.openUrl()
                 .acceptCookies()
-                .clickSearchField();
-
-        homePage.enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchField()
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
-        searchPage
-                .scrollToFirstProduct()
+        searchPage.scrollToFirstProduct()
                 .clickFirstProduct();
 
-        String productName = productPage.getTextFrom(PRODUCT_NAME);
-        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
-        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+        String expectedProductName = productPage.getTextFrom(PRODUCT_NAME);
+        int expectedCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE));
+        int expectedRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE));
 
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage.clickSearchField();
 
-        String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
-        String lastViewedName = homePage.getElementInfo(LAST_VIEWED_PRODUCT_NAME);
-        int lastViewedCurrentPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
-        int lastViewedRegularPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
+        String actualViewedProductTitle = homePage.getLastVievedProductsTitle();
+        String actualViewedName = homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_NAME);
+        int actualCurrentPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
+        int actualRegularPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
 
-        softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
-        softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
-        softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
-        softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
-        softAssert.assertAll();
+        Assert.assertEquals(actualViewedProductTitle, LAST_VIEWED_PRODUCT_TITLE,
+                format("Expected title: %s, actual: %s", LAST_VIEWED_PRODUCT_TITLE, actualViewedProductTitle));
+        Assert.assertEquals(actualViewedName, expectedProductName,
+                format("Expected product name: %s, actual: %s", expectedProductName, actualViewedName));
+        Assert.assertEquals(actualCurrentPrice, expectedCurrentPrice,
+                format("Expected current price: %d, actual: %d", expectedCurrentPrice, actualCurrentPrice));
+        Assert.assertEquals(actualRegularPrice, expectedRegularPrice,
+                format("Expected regular price: %d, actual: %d", expectedRegularPrice, actualRegularPrice));
     }
 }

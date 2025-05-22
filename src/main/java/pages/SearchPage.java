@@ -9,7 +9,6 @@ import java.util.List;
 public class SearchPage extends ProductCatalogPage {
     private static final String PRODUCT_NAMES = "//*[@class ='product-card__name']";
     private static final String SEARCH_QUERY = "//*[@class='breadcrumbs__current-item']";
-    private static final String FIRST_PRODUCT_NAME = "(//*[@class ='product-card__name'])[1]";
 
     public SearchPage(WebDriver driver) {
         super(driver);
@@ -32,13 +31,13 @@ public class SearchPage extends ProductCatalogPage {
 
     @Step("Scroll to first product")
     public SearchPage scrollToFirstProduct() {
-        scrollToElement(By.xpath(FIRST_PRODUCT_NAME));
+        scrollToElement(By.xpath(PRODUCT_NAMES));
         return this;
     }
 
     @Step("Click on first searched product")
     public SearchPage clickFirstProduct() {
-        waitElementsAreVisible(By.xpath(FIRST_PRODUCT_NAME)).getFirst().click();
+        waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).get(0).click();
         return this;
     }
 }
