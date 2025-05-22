@@ -40,7 +40,6 @@ public class UserAddressesPage extends EditAddressPage {
 //        DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
 //        ADDRESS_SAVED_MASSAGE("//div[@data-ui-id='message-success']"),
 //        DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']"),
-//        DELETE_ADDRESS_INFO_IN_POP_UP("(//div[@class='modal-content']/div)[2]");
 
         private final By element;
 
