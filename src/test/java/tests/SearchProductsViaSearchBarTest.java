@@ -5,17 +5,20 @@ import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BrandsPage;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
 
 import java.util.List;
 
+import static fragments.HeaderFragment.PopUpLastViewedProductSection.*;
 import static java.lang.String.format;
 import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
+    private static final String LAST_VIEWED_PRODUCT_TITLE = "Останні переглянуті продукти";
 
     @Description("Checking the search function and search result accuracy")
     @Test
@@ -185,5 +188,46 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
             List<String> sectionBrands = brandsPage.getAllBrandNamesOfSection(title);
             sectionBrands.forEach(name->Assert.assertTrue(name.matches(String.format("^[%s%s].+",title,title.toLowerCase())),String.format("Expected that brand %s starts with %s",name,title)));
         }
+    }
+
+    @Test
+    @Description("Open last viewed product via search")
+    public void openLastViewedProductTest() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickSearchField()
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        searchPage.scrollToFirstProduct()
+                .clickFirstProduct();
+
+        String expectedProductName = productPage.getTextFrom(PRODUCT_NAME);
+        int expectedCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE));
+        int expectedRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE));
+
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        homePage.clickSearchField();
+
+        String actualViewedProductTitle = homePage.getLastVievedProductsTitle();
+        String actualViewedName = homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_NAME);
+        int actualCurrentPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
+        int actualRegularPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
+
+        Assert.assertEquals(actualViewedProductTitle, LAST_VIEWED_PRODUCT_TITLE,
+                format("Expected title: %s, actual: %s", LAST_VIEWED_PRODUCT_TITLE, actualViewedProductTitle));
+        Assert.assertEquals(actualViewedName, expectedProductName,
+                format("Expected product name: %s, actual: %s", expectedProductName, actualViewedName));
+        Assert.assertEquals(actualCurrentPrice, expectedCurrentPrice,
+                format("Expected current price: %d, actual: %d", expectedCurrentPrice, actualCurrentPrice));
+        Assert.assertEquals(actualRegularPrice, expectedRegularPrice,
+                format("Expected regular price: %d, actual: %d", expectedRegularPrice, actualRegularPrice));
     }
 }
