@@ -15,6 +15,7 @@ public class Constant {
         public static final String SURNAME = "Мельник";
         public static final String STREET = "Травнева";
         public static final String HOUSE_NUMBER = "8";
+        public static final String APARTMENT_NUMBER = "89";
         public static final String POST_CODE = "10987";
         public static final String CITY = "Харків";
         public static final String PHONE_NUMBER = "0967693586";
