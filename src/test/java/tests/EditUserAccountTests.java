@@ -1,7 +1,6 @@
 package tests;
 
 import base.BaseTest;
-import constant.Constant;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,8 +20,8 @@ public class EditUserAccountTests extends BaseTest {
     private static final String DEFAULT_DELIVERY_ADDRESS_MASSEGE = "Це адреса доставки за умовчанням.";
     private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
-    private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS =
-            Constant.EditAddressTestData.buildAddress(
+    private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY =
+            UserAddressesPage.buildAddress(
                     "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
 
     @Test
@@ -32,24 +31,21 @@ public class EditUserAccountTests extends BaseTest {
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
 
-        loginPage
-                .login(EMAIL, PASSWORD);
+        loginPage.login(EMAIL, PASSWORD);
 
-        userAccountPage
-                .getCustomerSidebarFragment()
+        userAccountPage.getCustomerSidebarFragment()
                 .scrollToElement(ADDRESS_SECTION)
                 .clickUserAccountElement(ADDRESS_SECTION);
 
-        userAddressesPage
-                .clickOnElement(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
+        userAddressesPage.clickOnElement(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
         String defaultDeliveryMessage = userAddressesPage.getElementText(DEFAULT_ADDRESS_MESSAGE);
         Assert.assertEquals(defaultDeliveryMessage, DEFAULT_DELIVERY_ADDRESS_MASSEGE,
-                "Default delivery message is not visible or incorrect!");
+                String.format("Expected delivery message: '%s', but got: '%s'",
+                        DEFAULT_DELIVERY_ADDRESS_MASSEGE, defaultDeliveryMessage));
 
-        userAddressesPage
-                .enterAddressInfo(NAME_INPUT_FIELD, NAME)
+        userAddressesPage.enterAddressInfo(NAME_INPUT_FIELD, NAME)
                 .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
                 .enterAddressInfo(STREET_INPUT_FIELD, STREET)
                 .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
@@ -58,12 +54,17 @@ public class EditUserAccountTests extends BaseTest {
                 .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
                 .clickOnElement(SAVE_ADDRESS_BUTTON);
 
-        String actualAddress = userAddressesPage.convertAddressBlock(userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK));
-        Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS,
-                "Address data:" + actualAddress + " does not match expected: " + DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS + "");
+        String actualAddress = userAddressesPage.convertAddressBlock(
+                userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK)
+        );
+        Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY,
+                String.format("Expected address: '%s', but got: '%s'",
+                        DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY, actualAddress));
 
         String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
         Assert.assertEquals(savedMessage, ADDRESS_SAVED,
-                "Address save message: " + savedMessage + " not match expected: " + ADDRESS_SAVED + "!");
+                String.format("Expected save message: '%s', but got: '%s'",
+                        ADDRESS_SAVED, savedMessage));
     }
+
 }

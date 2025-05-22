@@ -1,10 +1,13 @@
 package pages;
 
+import constant.Constant;
 import fragments.CustomerSidebarFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +17,10 @@ import utils.LocatorProvider;
 
 
 public class UserAddressesPage extends EditAddressPage {
-    private final CustomerSidebarFragment customerSidebarFragment;
+
+    public UserAddressesPage(WebDriver driver) {
+        super(driver);
+    }
 
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
@@ -56,8 +62,8 @@ public class UserAddressesPage extends EditAddressPage {
         }
     }
 
-    @Step("Get suffix for type: {type}")
-    private static String getSuffixByType(String type) {
+    @Step("Set suffix for type: {type}")
+    private static String suffixByType(String type) {
         return switch (type) {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
@@ -69,7 +75,7 @@ public class UserAddressesPage extends EditAddressPage {
     @Step("Build xpath for section: '{sectionTitle}' and type: '{type}'")
     private static String buildXpath(String sectionTitle, String type) {
         return "//span[text()='" + sectionTitle + "']/ancestor::div[@class='dashboard-info-block__info']"
-                + getSuffixByType(type);
+                + suffixByType(type);
     }
 
     @Step("Build xpath with index for section: '{sectionTitle}', type: '{type}', index: {index}")
@@ -77,13 +83,18 @@ public class UserAddressesPage extends EditAddressPage {
         return "(" + buildXpath(sectionTitle, type) + ")[" + index + "]";
     }
 
-    public UserAddressesPage(WebDriver driver) {
-        super(driver);
-        this.customerSidebarFragment = new CustomerSidebarFragment(driver);
-    }
+    public static String buildAddress(String... fieldNames) {
+        List<String> values = new ArrayList<>();
 
-    public CustomerSidebarFragment getCustomerSidebarFragment() {
-        return customerSidebarFragment;
+        for (String name : fieldNames) {
+            try {
+                Field field = Constant.EditAddressTestData.class.getField(name);
+                values.add((String) field.get(null));
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException("Cannot access field: " + name, e);
+            }
+        }
+        return String.join(" ", values);
     }
 
     @Step("Convert raw address block to normalized form")
@@ -92,5 +103,4 @@ public class UserAddressesPage extends EditAddressPage {
                 .replaceAll("\\s+", " ")
                 .trim();
     }
-
 }
