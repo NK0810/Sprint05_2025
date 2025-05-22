@@ -15,7 +15,8 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     public enum FilterClearButton implements LocatorProvider {
-        CLEAR_PRICE_FILTER_BUTTON("Ціна:");
+        CLEAR_PRICE_FILTER_BUTTON("Ціна:"),
+        CLEAR_BRAND_FILTER_BUTTON("Бренд:");
 
         private String dataValue;
         private final By locator;
@@ -55,7 +56,8 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         ACTUAL_PRICE("//div[@class='c-price__current']"),
         NEW_TAG("//span[@class='product-card__badge product-card__badge--new']"),
         REGULAR_DISCOUNT("//span[contains(text(), 'Звичайна ціна')]"),
-        PRODUCT_NAME("//a[@class='product-card__name']");
+        PRODUCTS_NAME("//a[@class='product-card__name']"),
+        PRODUCTS_CARD("//a[@class='product-card__image-link']");
 
         private final By locator;
 
@@ -70,7 +72,8 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     public enum PriceFilter implements LocatorProvider {
-        MAX_PRICE_INPUT_FIELD("//input[@class='range-slider-input range-slider-input--max input-text']");
+        MAX_PRICE_INPUT_FIELD("//input[@class='range-slider-input range-slider-input--max input-text']"),
+        MIN_PRICE_INPUT_FIELD("//input[@class='range-slider-input range-slider-input--min input-text']");
 
         private final By locator;
 
@@ -134,7 +137,7 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return waitElementsAreUpdated(productCardInfo.getLocator());
     }
 
-    @Step("Type brand name '{brandName}' into search field")
+    @Step("Type brand name {brandName} into search field")
     public ProductCatalogPage typeBrandNameInSearch(ManClothingPage.BrandName brandName, BrandFilter brandFilter) {
         WebElement searchInput = waitElementIsVisible(brandFilter.getLocator());
         searchInput.clear();
@@ -143,11 +146,11 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     }
 
     @Step("Select brand filter option: {brandName}")
-    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName, BrandFilter brandFilter) {
+    public ProductCatalogPage selectBrandOption(ManClothingPage.BrandName brandName) {
         By brandOptionLocator = By.xpath("//label[@class='refinement-label ']//span[text()='" + brandName.getValue() + "']");
 
         scrollToElement(brandOptionLocator);
-        waitElementsAreUpdated(brandFilter.getLocator());
+        waitElementIsVisible(brandOptionLocator);
         waitElementToBeClickable(brandOptionLocator).click();
         return this;
     }
@@ -158,20 +161,16 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         return this;
     }
 
-    @Step("Type price '{price}' into field {field}")
+    @Step("Type price {price} into field {field}")
     public ProductCatalogPage typePriceInInput(PriceFilter field, String price) {
         WebElement priceInput = waitElementIsVisible(field.getLocator());
-        waitElementIsVisible(field.getLocator());
 
-        String selectAll = System.getProperty("os.name").toLowerCase().contains("mac")
-                ? Keys.chord(Keys.COMMAND, "a")
-                : Keys.chord(Keys.CONTROL, "a");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = '';", priceInput);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1];", priceInput, price);
 
-        priceInput.sendKeys(selectAll);
-        priceInput.sendKeys(Keys.DELETE);
-        priceInput.sendKeys(price);
+        dispatchInputAndChangeEvents(priceInput);
+
         priceInput.sendKeys(Keys.ENTER);
-
         return this;
     }
 
@@ -186,5 +185,10 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     public ProductCatalogPage clickClearFilterButton(FilterClearButton locatorProvider) {
         waitElementToBeClickable(locatorProvider.getLocator()).click();
         return this;
+    }
+
+    @Step("Wait for all visible product cards elements located by: {locator}")
+    public List<WebElement> waitForVisibleProductCards(ProductCardInfo locator) {
+        return waitElementsAreVisible(locator.getLocator());
     }
 }
