@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.BrandsPage;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
@@ -165,5 +166,24 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String lastSearchedProductBrand = homePage.getAllLastSearchedProductsBrands().getLast();
         Assert.assertEquals(productBrand, lastSearchedProductBrand,
                 format("Expected that brand %s will have name %s", lastSearchedProductBrand, productBrand));
+    }
+
+    @Description("Checking the search validation and result of search if validation passed")
+    @Test
+    public void CheckBrandList() {
+        HomePage homePage = new HomePage(driver);
+        BrandsPage brandsPage = new BrandsPage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickBrandsLink()
+                .clickAllBrandsLink();
+
+        List<String> sectionTitles = brandsPage.getAllBrandsTitleNames();
+
+        for(String title : sectionTitles){
+            List<String> sectionBrands = brandsPage.getAllBrandNamesOfSection(title);
+            sectionBrands.forEach(name->Assert.assertTrue(name.matches(String.format("^[%s%s].+",title,title.toLowerCase())),String.format("Expected that brand %s starts with %s",name,title)));
+        }
     }
 }
