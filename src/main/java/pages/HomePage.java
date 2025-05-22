@@ -23,7 +23,7 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
     private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
     private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
-    private static final String BRANDS_BUTTON = "//*[@id='brands-menu']";
+    private static final String BRANDS_DROP_DOWN = "//*[@id='brands-menu']";
     private static final String ALL_BRANDS_BUTTON = "//*[@class='brands-menu__popular-button']";
 
     public HomePage(WebDriver driver) {
@@ -106,9 +106,9 @@ public class HomePage extends BasePage<HomePage> {
         return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES)));
     }
 
-    @Step("Click brands list link")
-    public HomePage clickBrandsLink(){
-        waitElementIsVisible(By.xpath(BRANDS_BUTTON)).click();
+    @Step("Click brands drop down")
+    public HomePage clickBrandsDropDown(){
+        waitElementIsVisible(By.xpath(BRANDS_DROP_DOWN)).click();
         return this;
     }
 

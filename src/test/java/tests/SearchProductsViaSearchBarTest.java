@@ -5,7 +5,6 @@ import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BrandsPage;
-import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
@@ -179,7 +178,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         homePage.openUrl()
                 .acceptCookies()
-                .clickBrandsLink()
+                .clickBrandsDropDown()
                 .clickAllBrandsLink();
 
         List<String> sectionTitles = brandsPage.getAllBrandsTitleNames();

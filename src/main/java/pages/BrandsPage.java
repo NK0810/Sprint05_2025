@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import java.util.List;
 
 public class BrandsPage extends BasePage<BrandsPage>{
-    private static final String LIST_SECTION_TITLES = "//section//h5";
+    private static final String LIST_SECTION_TITLES = "//span[@class='alphabet-letter']";
     private static final String BRAND_SECTION = "//section[.//h5[text()='%s']]";
 
     public BrandsPage(WebDriver driver) {super(driver);}
