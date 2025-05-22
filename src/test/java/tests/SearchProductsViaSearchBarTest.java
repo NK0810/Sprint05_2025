@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
@@ -11,10 +12,12 @@ import pages.SearchPage;
 import java.util.List;
 
 import static java.lang.String.format;
+import static pages.HomePage.HomePageElements.*;
 import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
+    private static final String LAST_VIEWED_PRODUCT = "Останні переглянуті продукти";
 
     @Description("Checking the search function and search result accuracy")
     @Test
@@ -26,7 +29,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -50,7 +53,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -74,7 +77,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         homePage
                 .clickSearchField()
-                .enterTextInSeachField(productCode)
+                .enterTextInSearchField(productCode)
                 .clickSearchButton();
 
         actualSearchQuery = searchPage.getSearchQuery();
@@ -97,7 +100,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -133,7 +136,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -165,5 +168,46 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String lastSearchedProductBrand = homePage.getAllLastSearchedProductsBrands().getLast();
         Assert.assertEquals(productBrand, lastSearchedProductBrand,
                 format("Expected that brand %s will have name %s", lastSearchedProductBrand, productBrand));
+    }
+
+    @Test
+    @Description("Open last viewed product via search")
+    public void openLastViewedProductTest() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        SoftAssert softAssert = new SoftAssert();
+
+        homePage
+                .openUrl()
+                .acceptCookies()
+                .clickSearchField();
+
+        homePage.enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        searchPage
+                .scrollToFirstProduct()
+                .clickFirstProduct();
+
+        String productName = productPage.getTextFrom(PRODUCT_NAME);
+        int productCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE_FIRST_PRODUCT));
+        int productRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE_FIRST_PRODUCT).replace("Звичайна ціна:", ""));
+
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        homePage.clickSearchField();
+
+        String lastViewedProductHeader = homePage.getLastVievedProductsTitle();
+        String lastViewedName = homePage.getElementInfo(LAST_VIEWED_PRODUCT_NAME);
+        int lastViewedCurrentPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
+        int lastViewedRegularPrice = homePage.convertPriceToInt(homePage.getElementInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
+
+        softAssert.assertEquals(lastViewedProductHeader, LAST_VIEWED_PRODUCT, "Header does not match section theme");
+        softAssert.assertEquals(lastViewedName, productName, "Product name does not match last viewed.");
+        softAssert.assertEquals(lastViewedCurrentPrice, productCurrentPrice, "Current price does not match.");
+        softAssert.assertEquals(lastViewedRegularPrice, productRegularPrice, "Regular price does not match.");
+        softAssert.assertAll();
     }
 }
