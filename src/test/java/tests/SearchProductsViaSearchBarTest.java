@@ -27,7 +27,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -51,7 +51,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -75,7 +75,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         homePage
                 .clickSearchField()
-                .enterTextInSeachField(productCode)
+                .enterTextInSearchField(productCode)
                 .clickSearchButton();
 
         actualSearchQuery = searchPage.getSearchQuery();
@@ -98,7 +98,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -134,7 +134,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
