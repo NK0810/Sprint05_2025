@@ -65,6 +65,6 @@ public class ShoppingCardTest extends BaseTest {
                 .clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
                 .clickOnTheButton(ACCEPT_TO_DELETE_PRODUCT_FROM_SHOPPING_CARD);
 
-        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Shopping card is empty");
+        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Кошик порожній");
     }
 }
