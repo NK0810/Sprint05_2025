@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pages.ManClothingPage.BrandName.*;
+import static pages.ManClothingPage.FilterOptionManClothingPage.SEASON_DROP_DOWN_BUTTON;
+import static pages.ManClothingPage.FilterOptionManClothingPage.SIZE_DROP_DOWN_BUTTON;
 import static pages.ProductCatalogPage.BrandFilter.BRANDS_SEARCH_FIELD;
 import static pages.ProductCatalogPage.FilterClearButton.CLEAR_BRAND_FILTER_BUTTON;
 import static pages.ProductCatalogPage.FilterClearButton.CLEAR_PRICE_FILTER_BUTTON;
@@ -19,7 +21,7 @@ import static pages.ProductCatalogPage.FilterOption.*;
 import static pages.ProductCatalogPage.PriceFilter.MAX_PRICE_INPUT_FIELD;
 import static pages.ProductCatalogPage.PriceFilter.MIN_PRICE_INPUT_FIELD;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
-import static pages.ProductPage.ProductPageElements.SELECT_SIZE_DROP_DOWN_BUTTON;
+import static pages.ProductPage.ProductPageElements.*;
 
 public class ProductFilterTests extends BaseTest {
     ManClothingPage manClothingPage = new ManClothingPage(driver);
@@ -30,6 +32,7 @@ public class ProductFilterTests extends BaseTest {
     private static final int MIN_ALLOWED_PRICE = 1200;
     private static final String SIZE = "S";
     public static final String SELECTED_CLASS = "refinement-label--checked";
+    private final static String SEASON = "Весна/літо";
 
     @Description("Verify that filtering by 'New arrivals' only displays products marked.")
     @Test
@@ -208,7 +211,7 @@ public class ProductFilterTests extends BaseTest {
                 .clickCloseTrustedShopPopup()
                 .scrollToElement(LAST_PIECES);
         manClothingPage
-                .clickOnSizeDropdownButton()
+                .clickOnDropdownButton(SIZE_DROP_DOWN_BUTTON)
                 .selectSizeFilterOption(SIZE);
 
         String selectedSizeLabelClass = manClothingPage.getSelectedSizeLabelClass();
@@ -231,6 +234,48 @@ public class ProductFilterTests extends BaseTest {
                     "Expected size option to be available, but class contains disallowed value: " + sizeOptionClass);
 
             productPage.goBack();
+        }
+    }
+
+    @Description("Verify that after applying the 'Season' filter, all displayed products have the correct season value in their parameters.")
+    @Test
+    public void seasonFilterTest() {
+        ManClothingPage manClothingPage = new ManClothingPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        manClothingPage
+                .openUrl()
+                .acceptCookies()
+                .clickCloseTrustedShopPopup()
+                .scrollToElement(LAST_PIECES);
+        manClothingPage
+                .clickOnDropdownButton(SEASON_DROP_DOWN_BUTTON)
+                .selectSeasonOption(SEASON);
+
+        String selectedSeasonLabelClass = manClothingPage.getSelectedSizeLabelClass();
+
+        Assert.assertTrue(selectedSeasonLabelClass.contains(SELECTED_CLASS)
+                , "Expected selected season label to contain class: " + SELECTED_CLASS + " but got: " + selectedSeasonLabelClass);
+
+        List<WebElement> productCard = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD);
+
+        for (int i = 0; i < productCard.size(); i++) {
+            WebElement currentProduct = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD).get(i);
+
+            manClothingPage
+                    .scrollToElement(currentProduct);
+            currentProduct.click();
+            productPage
+                    .scrollToElement(PRODUCT_PARAMETERS)
+                    .clickOnTheButton(PRODUCT_PARAMETERS);
+
+            String actualSeason = productPage.getTextFrom(PRODUCT_SEASON_PARAMETER);
+
+            Assert.assertTrue(productPage.getTextFrom(PRODUCT_SEASON_PARAMETER).contains(SEASON)
+                    , "Expected season to contain: '" + SEASON + "', but got: '" + actualSeason + "'");
+
+            productPage.goBack();
+
         }
     }
 }

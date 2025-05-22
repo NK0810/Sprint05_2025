@@ -29,7 +29,6 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
         }
     }
 
-
     public enum FilterOption implements LocatorProvider {
         NEW_ARRIVALS("(//li[@class='refinement-item refinement-item--is_new'])[1]/label"),
         SALE("(//li[@class='refinement-item refinement-item--is_discount'])[1]/label"),
