@@ -47,10 +47,10 @@ public class EditUserAccountTests extends BaseTest {
                 .clickUserAccountElement(ADDRESS_SECTION);
 
         userAddressesPage
-                .clickOnElementINUserAddressPage(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
+                .clickOnElement(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
-        String defaultDeliveryMessage = userAddressesPage.getEditElementInfo(DEFAULT_ADDRESS_MESSAGE);
+        String defaultDeliveryMessage = userAddressesPage.getElementText(DEFAULT_ADDRESS_MESSAGE);
         Assert.assertEquals(defaultDeliveryMessage, DEFAULT_DELIVERY_ADDRESS_MASSEGE,
                 "Default delivery message is not visible or incorrect!");
 
@@ -62,12 +62,12 @@ public class EditUserAccountTests extends BaseTest {
                 .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
                 .enterAddressInfo(CITY_INPUT_FIELD, CITY)
                 .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
-                .clickOnElementInEditAddress(SAVE_ADDRESS_BUTTON);
+                .clickOnElement(SAVE_ADDRESS_BUTTON);
 
-        List<String> actualAddress = userAddressesPage.getUserAddressInfoBlockTextAsList(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK);
+        List<String> actualAddress = userAddressesPage.getInfoBlockTextAsList(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK);
         Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_only, "Address data does not match expected!");
 
-        String savedMessage = userAddressesPage.getUserAddressElementsText(ADDRESS_SAVED_MASSAGE_TEXT);
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
         Assert.assertEquals(savedMessage, ADDRESS_SAVED, "Address save message not shown!");
     }
 }

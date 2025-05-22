@@ -4,10 +4,12 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import utils.LocatorProvider;
+
 
 public abstract class EditAddressPage extends BasePage<EditAddressPage> {
 
-    public enum EditAddressPageElements {
+    public enum EditAddressPageElements implements LocatorProvider {
         PRIVATE_PERSON_RADIO_BUTTON("//label[@for='invoice_private']"),
         COMPANY_RADIO_BUTTON("//label[@for='invoice_company']"),
         NAME_INPUT_FIELD("//input[@name='firstname']"),
@@ -31,6 +33,7 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
             this.element = By.xpath(xpath);
         }
 
+        @Override
         public By getLocator() {
             return element;
         }
@@ -38,12 +41,6 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
 
     public EditAddressPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Step("Click on edit address element: {elements}")
-    public EditAddressPage clickOnElementInEditAddress(EditAddressPageElements elements) {
-        waitElementToBeClickable(elements.getLocator()).click();
-        return this;
     }
 
     @Step("Enter value '{value}' into address field: {element}")
@@ -54,14 +51,20 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
         return this;
     }
 
-    @Step("Get text from edit address element: {element}")
-    public String getEditElementInfo(EditAddressPageElements element) {
-        return waitElementIsVisible(element.getLocator()).getText();
+    @Step("Click on element: {locatorProvider}")
+    public EditAddressPage clickOnElement(LocatorProvider locatorProvider) {
+        waitElementToBeClickable(locatorProvider.getLocator()).click();
+        return this;
     }
 
-    @Step("Scroll to EditAddress element: {elements}")
-    public EditAddressPage scrollToElement(EditAddressPageElements elements) {
-        scrollToElement(elements.getLocator());
+    @Step("Scroll to element: {locatorProvider}")
+    public EditAddressPage scrollToElement(LocatorProvider locatorProvider) {
+        scrollToElement(locatorProvider.getLocator());
         return this;
+    }
+
+    @Step("Get text from element: {locatorProvider}")
+    public String getElementText(LocatorProvider locatorProvider) {
+        return waitElementIsVisible(locatorProvider.getLocator()).getText();
     }
 }

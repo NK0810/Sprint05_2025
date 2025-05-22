@@ -9,11 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import utils.LocatorProvider;
+
 
 public class UserAddressesPage extends EditAddressPage {
     private final CustomerSidebarFragment customerSidebarFragment;
 
-    public enum UserAddressesPageElements {
+    public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK("Платіжна адреса", "address"),
         OTHER_DELIVERY_ADDRESS_INFO_BLOCK("Інші адреси доставки", "address"),
@@ -59,6 +61,7 @@ public class UserAddressesPage extends EditAddressPage {
             this.element = By.xpath(xpath);
         }
 
+        @Override
         public By getLocator() {
             return element;
         }
@@ -74,19 +77,8 @@ public class UserAddressesPage extends EditAddressPage {
         return customerSidebarFragment;
     }
 
-    @Step("Click on user address page element: {elements}")
-    public UserAddressesPage clickOnElementINUserAddressPage(UserAddressesPageElements elements) {
-        waitElementToBeClickable(elements.getLocator()).click();
-        return this;
-    }
-
-    @Step("Get full text from element in user address page: {elements}")
-    public String getUserAddressElementsText(UserAddressesPageElements elements) {
-        return waitElementIsVisible(elements.getLocator()).getText();
-    }
-
     @Step("Get user address as list of address parts from info block: {elements}")
-    public List<String> getUserAddressInfoBlockTextAsList(UserAddressesPageElements elements) {
+    public List<String> getInfoBlockTextAsList(UserAddressesPageElements elements) {
         String addressBlockText = waitElementIsVisible(elements.getLocator()).getText();
         return Arrays.stream(addressBlockText.split("\\R")) // розбити по рядках
                 .map(String::trim)
@@ -99,11 +91,5 @@ public class UserAddressesPage extends EditAddressPage {
                     }
                 })
                 .collect(Collectors.toList());
-    }
-
-    @Step("Scroll to UserAddress element: {elements}")
-    public UserAddressesPage scrollToElement(UserAddressesPageElements elements) {
-        scrollToElement(elements.getLocator());
-        return this;
     }
 }
