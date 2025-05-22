@@ -10,13 +10,19 @@ public class ProductPage extends BasePage<ProductPage> {
 
     public enum ProductPageElements {
         PRODUCT_NAME("//span[@class='base']"),
+        PRODUCT_NAME_IN_CARD_PREVIEW("//a[@data-bind='attr: {href: product_url}, html: product_name']"),
+        PRODUCT_SIZE_IN_POP_UP_REVIEW_SHOPPING_CARD("//span[@data-bind='text: option.value']"),
         ADD_TO_SHOPPING_CART_BUTTON("//button[@class='button button__addtocart button--jumbo tocart action product__add-to-cart red']"),
+        SELECT_SIZE_BUTTON("(//li[@class='visual-ko-select__option '])[2]"),
+        CONFIRM_ADD_TO_CART_BUTTON("//a[@class='block--minicart__button button button__addtocart button--jumbo viewcart']"),
         PRODUCT_PARAMETERS("//*[@id='tab-label-additional_attributes-title']"),
         PRODUCT_CODE("//*[text()='Код']/following-sibling::*"),
         PRODUCT_BRAND("//*[text()='Бренд']/following-sibling::*"),
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
         SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']"),
-        PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']");
+        PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']"),
+        REGULAR_PRICE("//form//*[@Class='c-price__omnibus']"),
+        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span");
 
         private final String locator;
 

@@ -73,7 +73,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery) {
+    public HomePage enterTextInSearchField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
