@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import constant.Constant;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,11 +10,10 @@ import pages.UserAccountPage;
 import pages.UserAddressesPage;
 import utils.ConfigReader;
 
-import java.util.List;
-
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
 import static pages.EditAddressPage.EditAddressPageElements.*;
 import static pages.UserAddressesPage.UserAddressesPageElements.*;
+import static constant.Constant.EditAddressTestData.*;
 
 public class EditUserAccountTests extends BaseTest {
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
@@ -21,15 +21,9 @@ public class EditUserAccountTests extends BaseTest {
     private static final String DEFAULT_DELIVERY_ADDRESS_MASSEGE = "Це адреса доставки за умовчанням.";
     private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
-    private static final String NAME = "Шмек";
-    private static final String SURNAME = "Мельник";
-    private static final String STREET = "Травнева";
-    private static final String HOUSE_NUMBER = "8";
-    private static final String POST_CODE = "10987";
-    private static final String CITY = "Харків";
-    private static final String PHONE_NUMBER = "0967693586";
-    private static final List<String> DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_only = List.of(
-            NAME, SURNAME, STREET, HOUSE_NUMBER, POST_CODE, CITY, PHONE_NUMBER);
+    private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS =
+            Constant.EditAddressTestData.buildAddress(
+                    "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
 
     @Test
     @Description("Edit default delivery address required fields only")
@@ -64,10 +58,12 @@ public class EditUserAccountTests extends BaseTest {
                 .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
                 .clickOnElement(SAVE_ADDRESS_BUTTON);
 
-        List<String> actualAddress = userAddressesPage.getInfoBlockTextAsList(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK);
-        Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_only, "Address data does not match expected!");
+        String actualAddress = userAddressesPage.convertAddressBlock(userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK));
+        Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS,
+                "Address data:" + actualAddress + " does not match expected: " + DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS + "");
 
         String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
-        Assert.assertEquals(savedMessage, ADDRESS_SAVED, "Address save message not shown!");
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+                "Address save message: " + savedMessage + " not match expected: " + ADDRESS_SAVED + "!");
     }
 }
