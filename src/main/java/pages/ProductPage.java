@@ -18,7 +18,9 @@ public class ProductPage extends BasePage<ProductPage> {
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
         SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']"),
         REGULAR_PRICE_FIRST_PRODUCT("//span[@class='c-price__omnibus']/span"),
-        CURRENT_PRICE_FIRST_PRODUCT("(//span[@class='price'])[2]");
+        CURRENT_PRICE_FIRST_PRODUCT("(//span[@class='price'])[2]"),
+        ADD_TO_WISHLIST_BUTTON("//a[@class='action action-to-wishlist add']"),
+        SUCCESS_MASSAGE("//div[@data-ui-id='message-success']");
 
         private final String locator;
 
