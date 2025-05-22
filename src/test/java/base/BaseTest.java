@@ -59,18 +59,18 @@ public class BaseTest {
         LOGGER.info("Driver created");
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        LOGGER.info("tearDown: driver = " + driver);
-        if (driver != null) {
-            try {
-                driver.quit();
-                LOGGER.info("Driver quit");
-            } catch (Exception e) {
-                LOGGER.warn("Не вдалося закрити драйвер: {}", e.getMessage());
-            }
-        } else {
-            LOGGER.warn("Driver був null — нічого не закриваємо");
-        }
-    }
+//    @AfterMethod(alwaysRun = true)
+//    public void tearDown() {
+//        LOGGER.info("tearDown: driver = " + driver);
+//        if (driver != null) {
+//            try {
+//                driver.quit();
+//                LOGGER.info("Driver quit");
+//            } catch (Exception e) {
+//                LOGGER.warn("Не вдалося закрити драйвер: {}", e.getMessage());
+//            }
+//        } else {
+//            LOGGER.warn("Driver був null — нічого не закриваємо");
+//        }
+//    }
 }
