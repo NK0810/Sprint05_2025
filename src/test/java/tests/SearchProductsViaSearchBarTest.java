@@ -64,12 +64,12 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         searchPage.clickFirstSearchProduct();
 
-        productPage.scrollToElement(PRODUCT_PARAMETERS.getBy());
+        productPage.scrollToElement(PRODUCT_PARAMETERS.getLocator());
         productPage.clickOnTheButton(PRODUCT_PARAMETERS);
 
-        productPage.scrollToElement(PRODUCT_CODE.getBy());
+        productPage.scrollToElement(PRODUCT_CODE.getLocator());
         String productCode = productPage.getTextFrom(PRODUCT_CODE);
-        productPage.scrollToElement(BACK_ON_HOME_PAGE.getBy());
+        productPage.scrollToElement(BACK_ON_HOME_PAGE.getLocator());
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage
@@ -121,5 +121,49 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String lastSearchedProductName = homePage.getAllLastSearchedProductsNames().getLast();
         Assert.assertEquals(firstProductName, lastSearchedProductName,
                 format("Expected that product %s will have name %s", lastSearchedProductName, firstProductName));
+    }
+
+    @Description("Checking the last search brand save function and storage accuracy")
+    @Test
+    public void CheckLastSearchBrandSaving() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickSearchField()
+                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        String actualSearchQuery = searchPage.getSearchQuery();
+        String expectedSearchQuery = format("Результати пошуку для: '%s'", SEARCH_QUERY_UKRAINIAN);
+        Assert.assertEquals(actualSearchQuery, expectedSearchQuery,
+                format("Expected message: %s, actual: %s", expectedSearchQuery, actualSearchQuery));
+
+        String firstProductName = searchPage.getSearchedProductsNames().getFirst();
+        Assert.assertTrue(firstProductName.toLowerCase().contains(SEARCH_QUERY_UKRAINIAN.toLowerCase()),
+                format("Expected that %s contains %s", firstProductName, SEARCH_QUERY_UKRAINIAN));
+
+
+        searchPage.clickFirstSearchProduct();
+        productPage.scrollToElement(PRODUCT_PARAMETERS)
+                .clickOnTheButton(PRODUCT_PARAMETERS)
+                .scrollToElement(PRODUCT_BRAND);
+
+        String productBrand = productPage.getTextFrom(PRODUCT_BRAND);
+
+        productPage.scrollToElement(BACK_ON_HOME_PAGE)
+                .clickOnTheButton(BACK_ON_HOME_PAGE);
+        homePage.clickSearchField();
+
+        String expectedTitle = "Останні переглянуті бренди";
+        String actualTitle = homePage.getLastVievedBrandsTitle();
+        Assert.assertEquals(actualTitle, expectedTitle,
+                format("Expected that Title %s will have name %s", actualTitle, expectedTitle));
+
+        String lastSearchedProductBrand = homePage.getAllLastSearchedProductsBrands().getLast();
+        Assert.assertEquals(productBrand, lastSearchedProductBrand,
+                format("Expected that brand %s will have name %s", lastSearchedProductBrand, productBrand));
     }
 }

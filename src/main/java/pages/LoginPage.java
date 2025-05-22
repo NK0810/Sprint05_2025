@@ -3,9 +3,11 @@ package pages;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import utils.ConfigReader;
+import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage<LoginPage> {
     private static final By EMAIL_FIELD = By.xpath("//*[@id='email']");
@@ -26,19 +28,22 @@ public class LoginPage extends BasePage<LoginPage> {
 
     @Step("Enter email: {email}")
     public LoginPage enterEmail(String email) {
-        waitElementIsVisible(EMAIL_FIELD).sendKeys(email);
+        WebElement emailField = waitElementIsVisible(EMAIL_FIELD);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1];", emailField, email);
         return this;
     }
 
     @Step("Enter password")
     public LoginPage enterPassword(String password) {
-        waitElementIsVisible(PASSWORD_FIELD).sendKeys(password);
+        WebElement passwordField = waitElementIsVisible(PASSWORD_FIELD);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1];", passwordField, password);
         return this;
     }
 
     @Step("Click login button")
     public LoginPage clickLogInButton() {
-        waitElementToBeClickable(LOGIN_BUTTON).click();
+        WebElement loginBtn = waitElementToBeClickable(LOGIN_BUTTON);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", loginBtn);
         return this;
     }
 

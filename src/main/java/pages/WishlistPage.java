@@ -6,36 +6,43 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class WishlistPage extends BasePage<WishlistPage> {
     private static final String DELETE_FROM_WISHLIST_BUTTON = "//i[@class='icon-trash-2--before']";
-    private static final String FAVORITE_PRODUCT_CARDS = "//a[@class='product-card__image-link']";
-    private static final String MASSAGE_WISHLIST_IS_EMPTY = "//div[@class='message info empty']";
 
     public WishlistPage(WebDriver driver) {
         super(driver);
+    }
+
+    public enum WishlistElements {
+        MASSAGE_WISHLIST_IS_EMPTY_PROFILE ("//div[@class='message info empty with-button']/span"),
+        MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST ("//div[@data-ui-id]/div"),
+        MASSAGE_WISHLIST_IS_EMPTY ("//div[@class='message info empty']"),
+        WISHLIST_PRODUCT_NAME ("//div[@class='product-card__content']/a"),
+        WISHLIST_FORM ("//form[@class='form-wishlist-items']"),
+        WISHLIST_PRODUCTS ("//li[contains(@class, 'products-grid__list-item')]"),
+        FAVORITE_PRODUCT_CARDS ("//a[@class='product-card__image-link']");
+
+        private final By element;
+
+        WishlistElements(String xpath) {
+            this.element = By.xpath(xpath);
+        }
+
+        public By getLocator() {
+            return element;
+        }
+    }
+
+    @Step("Get wishlist element info: {elements}")
+    public String getWishlistElementInfo(WishlistElements elements) {
+        return waitElementIsVisible(elements.getLocator()).getText();
     }
 
     @Step("Delete product from wishlist")
     public WishlistPage clickDeleteFromWishlistButton() {
         waitElementToBeClickable(By.xpath(DELETE_FROM_WISHLIST_BUTTON)).click();
         return this;
-    }
-
-    public boolean isProductPresentInWishlist() {
-        try {
-            WebElement emptyMessage = waitElementIsVisible(By.xpath(FAVORITE_PRODUCT_CARDS));
-            return emptyMessage.isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
-    }
-
-    public boolean isWishlistEmptyMessageDisplayed() {
-        try {
-            WebElement emptyMessage = waitElementIsVisible(By.xpath(MASSAGE_WISHLIST_IS_EMPTY));
-            return emptyMessage.isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
     }
 }
