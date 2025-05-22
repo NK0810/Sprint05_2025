@@ -1,6 +1,5 @@
 package pages;
 
-import fragments.CustomerSidebarFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -42,7 +41,7 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
     }
 
     @Step("Click on edit address element: {elements}")
-    public EditAddressPage clickOnEditAddressElement(EditAddressPageElements elements) {
+    public EditAddressPage clickOnElementInEditAddress(EditAddressPageElements elements) {
         waitElementToBeClickable(elements.getLocator()).click();
         return this;
     }

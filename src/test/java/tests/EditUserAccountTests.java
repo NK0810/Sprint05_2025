@@ -21,9 +21,15 @@ public class EditUserAccountTests extends BaseTest {
     private static final String DEFAULT_DELIVERY_ADDRESS_MASSEGE = "Це адреса доставки за умовчанням.";
     private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
-    private static final List<String> DEFAULT_DELIVERY_ADDRESS_DATA = List.of(
-            "Шмек", "Мельник", "Травнева", "8", "10987", "Харків", "0967693586"
-    );
+    private static final String NAME = "Шмек";
+    private static final String SURNAME = "Мельник";
+    private static final String STREET = "Травнева";
+    private static final String HOUSE_NUMBER = "8";
+    private static final String POST_CODE = "10987";
+    private static final String CITY = "Харків";
+    private static final String PHONE_NUMBER = "0967693586";
+    private static final List<String> DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_only = List.of(
+            NAME, SURNAME, STREET, HOUSE_NUMBER, POST_CODE, CITY, PHONE_NUMBER);
 
     @Test
     @Description("Edit default delivery address required fields only")
@@ -32,15 +38,8 @@ public class EditUserAccountTests extends BaseTest {
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
 
-        List<String> expectedAddress = DEFAULT_DELIVERY_ADDRESS_DATA;
-
-        loginPage.openLoginPage()
-                .acceptCookies()
-                .enterEmail(EMAIL)
-                .enterPassword(PASSWORD)
-                .clickLogInButton();
-
-        userAccountPage.waitUntilMyAccountPageIsVisible();
+        loginPage
+                .login(EMAIL, PASSWORD);
 
         userAccountPage
                 .getCustomerSidebarFragment()
@@ -48,7 +47,7 @@ public class EditUserAccountTests extends BaseTest {
                 .clickUserAccountElement(ADDRESS_SECTION);
 
         userAddressesPage
-                .clickOnUserAddressPageElement(EDIT_DEAFAULT_DELIVERY_ADDRESS_BUTTON)
+                .clickOnElementINUserAddressPage(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
         String defaultDeliveryMessage = userAddressesPage.getEditElementInfo(DEFAULT_ADDRESS_MESSAGE);
@@ -56,17 +55,17 @@ public class EditUserAccountTests extends BaseTest {
                 "Default delivery message is not visible or incorrect!");
 
         userAddressesPage
-                .enterAddressInfo(NAME_INPUT_FIELD, expectedAddress.get(0))
-                .enterAddressInfo(SURNAME_INPUT_FIELD, expectedAddress.get(1))
-                .enterAddressInfo(STREET_INPUT_FIELD, expectedAddress.get(2))
-                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, expectedAddress.get(3))
-                .enterAddressInfo(POST_CODE_INPUT_FIELD, expectedAddress.get(4))
-                .enterAddressInfo(CITY_INPUT_FIELD, expectedAddress.get(5))
-                .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, expectedAddress.get(6))
-                .clickOnEditAddressElement(SAVE_ADDRESS_BUTTON);
+                .enterAddressInfo(NAME_INPUT_FIELD, NAME)
+                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
+                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
+                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
+                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
+                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
+                .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
+                .clickOnElementInEditAddress(SAVE_ADDRESS_BUTTON);
 
-        List<String> actualAddress = userAddressesPage.getUserAddressInfoText(DEAFAULT_DELIVERY_ADDRESS_INFO_BLOCK);
-        Assert.assertEquals(actualAddress, expectedAddress, "Address data does not match expected!");
+        List<String> actualAddress = userAddressesPage.getUserAddressInfoBlockTextAsList(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK);
+        Assert.assertEquals(actualAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_only, "Address data does not match expected!");
 
         String savedMessage = userAddressesPage.getUserAddressElementsText(ADDRESS_SAVED_MASSAGE_TEXT);
         Assert.assertEquals(savedMessage, ADDRESS_SAVED, "Address save message not shown!");

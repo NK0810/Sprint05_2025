@@ -53,4 +53,15 @@ public class LoginPage extends BasePage<LoginPage> {
     public String getEmailErrorColor() {
         return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getCssValue("color");
     }
+
+    @Step("Login in Sportano Account")
+    public LoginPage login(String email, String password) {
+        openLoginPage();
+        acceptCookies();
+        enterEmail(email);
+        enterPassword(password);
+        clickLogInButton();
+        return this;
+    }
+
 }
