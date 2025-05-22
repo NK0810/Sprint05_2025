@@ -259,7 +259,7 @@ public class ProductFilterTests extends BaseTest {
 
         List<WebElement> productCard = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD);
 
-        for (int i = 0; i < 57; i++) {
+        for (int i = 0; i < productCard.size(); i++) {
             WebElement currentProduct = manClothingPage.waitForVisibleProductCards(PRODUCTS_CARD).get(i);
 
             manClothingPage
@@ -272,7 +272,7 @@ public class ProductFilterTests extends BaseTest {
             String actualSeason = productPage.getTextFrom(PRODUCT_SEASON_PARAMETER);
 
             Assert.assertTrue(productPage.getTextFrom(PRODUCT_SEASON_PARAMETER).contains(SEASON)
-                    ,"Expected season to contain: '" + SEASON + "', but got: '" + actualSeason + "'");
+                    , "Expected season to contain: '" + SEASON + "', but got: '" + actualSeason + "'");
 
             productPage.goBack();
 
