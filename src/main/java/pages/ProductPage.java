@@ -1,10 +1,13 @@
 package pages;
 
+import fragments.ShoppingCardFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ProductPage extends BasePage<ProductPage> {
+    private final ShoppingCardFragment shopingCardFragment;
+
     public enum ProductPageElements {
         PRODUCT_NAME("//span[@class='base']"),
         PRODUCT_NAME_IN_CARD_PREVIEW("//a[@data-bind='attr: {href: product_url}, html: product_name']"),
@@ -17,6 +20,7 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_BRAND("//*[text()='Бренд']/following-sibling::*"),
         BACK_ON_HOME_PAGE("//*[contains(@class,'home')]/*"),
         SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']"),
+        PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']"),
         REGULAR_PRICE("//form//*[@Class='c-price__omnibus']"),
         CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span");
 
@@ -31,8 +35,13 @@ public class ProductPage extends BasePage<ProductPage> {
         }
     }
 
+    public ShoppingCardFragment getShoppingCardFragment() {
+        return shopingCardFragment;
+    }
+
     public ProductPage(WebDriver driver) {
         super(driver);
+        this.shopingCardFragment = new ShoppingCardFragment(driver);
     }
 
     @Step("Get text: {locator}")

@@ -8,12 +8,13 @@ import pages.HomePage;
 import pages.ProductPage;
 import pages.ShoppingCardPage;
 
+import static fragments.ShoppingCardFragment.ShoppingCardElements.*;
 import static pages.ProductPage.ProductPageElements.*;
 import static pages.ShoppingCardPage.ShoppingCartElements.*;
 import static pages.ShoppingCardPage.ShoppingCartElements.PRODUCT_NAME;
 
 public class ShoppingCardTest extends BaseTest {
-    ShoppingCardPage shoppingCardPage = new ShoppingCardPage(driver);
+    private final static String SIZE = "36 EU";
 
     @Description("Verify Add, Remove, and Update Quantity in Shopping Cart")
     @Test
@@ -37,13 +38,15 @@ public class ShoppingCardTest extends BaseTest {
 
         productPage
                 .clickOnTheButton(ADD_TO_SHOPPING_CART_BUTTON)
-                .clickOnTheButton(SELECT_SIZE_BUTTON);
+                .getShoppingCardFragment()
+                .selectSize(SIZE);
 
-        Assert.assertEquals(nameProductInHomePage, productPage.getTextFrom(PRODUCT_NAME_IN_CARD_PREVIEW), "Product name in cart preview does not match product on homepage.");
+        Assert.assertEquals(nameProductInHomePage, productPage.getShoppingCardFragment().getTextFrom(PRODUCT_NAME_IN_CARD_PREVIEW), "Product name in cart preview does not match product on homepage.");
 
-        String sizeProduct = productPage.getTextFrom(PRODUCT_SIZE_IN_POP_UP_REVIEW_SHOPPING_CARD);
+        String sizeProduct = productPage.getShoppingCardFragment().getTextFrom(PRODUCT_SIZE_IN_POP_UP_REVIEW_SHOPPING_CARD);
 
         productPage
+                .getShoppingCardFragment()
                 .clickOnTheButton(CONFIRM_ADD_TO_CART_BUTTON);
 
         Assert.assertEquals(nameProductInHomePage, shoppingCardPage.getTextFromLocator(PRODUCT_NAME), "Product name in shopping cart does not match the one on the homepage.");
@@ -56,12 +59,12 @@ public class ShoppingCardTest extends BaseTest {
         String regularPriceProduct = shoppingCardPage.getTextFromLocator(PRODUCT_PRICE);
         String updatePriceProduct = shoppingCardPage.waitForProductInfoAndGetText(PRODUCT_PRICE_UPDATE);
 
-        Assert.assertEquals(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2 , shoppingCardPage.convertPriceToInt(updatePriceProduct));
+        Assert.assertEquals(shoppingCardPage.convertPriceToInt(regularPriceProduct) * 2, shoppingCardPage.convertPriceToInt(updatePriceProduct));
 
         shoppingCardPage
                 .clickOnTheButton(DELETE_PRODUCT_FROM_SHOPPING_CARD_BUTTON)
                 .clickOnTheButton(ACCEPT_TO_DELETE_PRODUCT_FROM_SHOPPING_CARD);
 
-        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Кошик порожній");
+        Assert.assertEquals(shoppingCardPage.getTextFromLocator(CART_EMPTY_TEXT), "Shopping card is empty");
     }
 }
