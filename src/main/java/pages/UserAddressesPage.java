@@ -25,21 +25,23 @@ public class UserAddressesPage extends EditAddressPage {
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
-        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div");
-
+        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
+        ADD_DELIVERY_ADDRESS_BUTTON("Інші адреси доставки", "add-delivery"),
+        ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
+        CLOSE_MASSAGE_BUTTON("//span[@data-role='message-close']"),
         //For future use
 //        DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK("Платіжна адреса", "address"),
 //        OTHER_DELIVERY_ADDRESS_INFO_BLOCK("Інші адреси доставки", "address"),
-//        OTHER_PAYMENT_ADDRESS_INFO_BLOCK("Інші платіжні адреси", "address"),
+        OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
 //        EDIT_DEFAULT_PAYMENT_ADDRESS_BUTTON("Платіжна адреса", "edit"),
 //        EDIT_OTHER_DELIVERY_ADDRESS_BUTTON_1("Інші адреси доставки", "edit", 1),
 //        EDIT_OTHER_DELIVERY_ADDRESS_BUTTON_2("Інші адреси доставки", "edit", 2),
 //        EDIT_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "edit", 1),
 //        EDIT_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_2("Інші платіжні адреси", "edit", 2),
 //        DELETE_OTHER_DELIVERY_ADDRESS_BUTTON_1("Інші адреси доставки", "delete", 1),
-//        DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
+        DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
 //        ADDRESS_SAVED_MASSAGE("//div[@data-ui-id='message-success']"),
-//        DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']"),
+        DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']");
 
         private final By element;
 
@@ -67,6 +69,8 @@ public class UserAddressesPage extends EditAddressPage {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
             case "delete" -> "//a[@class='action delete dashboard-info-block__link']";
+            case "add-payment" -> "//a[@class='address-new' and span[text()='Додайте адресу рахунку-фактури']]";
+            case "add-delivery" -> "//a[@class='address-new' and span[text()='Додати адресу доставки']]";
             default -> throw new IllegalArgumentException("Unsupported type: " + type);
         };
     }

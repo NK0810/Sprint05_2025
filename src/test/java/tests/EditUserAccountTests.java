@@ -20,9 +20,13 @@ public class EditUserAccountTests extends BaseTest {
     private static final String DEFAULT_DELIVERY_ADDRESS_MASSEGE = "Це адреса доставки за умовчанням.";
     private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
+    private static final String ADDRESS_DELETED = "Ви видалили адресу.";
     private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY =
             UserAddressesPage.buildAddress(
                     "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
+    private static final String OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK =
+            UserAddressesPage.buildAddress(
+                    "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "APARTMENT_NUMBER", "POST_CODE", "CITY");
 
     @Test
     @Description("Edit default delivery address required fields only")
@@ -63,5 +67,51 @@ public class EditUserAccountTests extends BaseTest {
         Assert.assertEquals(savedMessage, ADDRESS_SAVED,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_SAVED, savedMessage));
+    }
+
+    @Test
+    @Description("Create and delete other private payment address")
+    public void createAndDeleteOtherPaymentAddressTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        UserAccountPage userAccountPage = new UserAccountPage(driver);
+        UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
+
+        loginPage.login(EMAIL, PASSWORD);
+        userAccountPage.getCustomerSidebarFragment()
+                .scrollToElement(ADDRESS_SECTION)
+                .clickUserAccountElement(ADDRESS_SECTION);
+        userAddressesPage.scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
+                .clickOnElement(ADD_PAYMENT_ADDRESS_BUTTON)
+                .scrollToElement(SAVE_ADDRESS_BUTTON)
+                .enterAddressInfo(NAME_INPUT_FIELD, NAME)
+                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
+                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
+                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
+                .enterAddressInfo(APARTMENT_NUMBER_INPUT_FIELD, APARTMENT_NUMBER)
+                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
+                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
+                .clickOnElement(SAVE_ADDRESS_BUTTON)
+                .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON);
+        String actualAddress = userAddressesPage.convertAddressBlock(
+                userAddressesPage.getElementText(OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1)
+        );
+        Assert.assertEquals(actualAddress, OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK,
+                String.format("Expected address: '%s', but got: '%s'",
+                        OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK, actualAddress));
+
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+                String.format("Expected save message: '%s', but got: '%s'",
+                        ADDRESS_SAVED, savedMessage));
+
+        userAddressesPage.clickOnElement(CLOSE_MASSAGE_BUTTON)
+                .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
+                .clickOnElement(DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1)
+                .clickOnElement(DELETE_ADDRESS_BUTTON_IN_POP_UP);
+
+        String deletedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
+        Assert.assertEquals(deletedMessage, ADDRESS_DELETED,
+                String.format("Expected save message: '%s', but got: '%s'",
+                        ADDRESS_DELETED, deletedMessage));
     }
 }
