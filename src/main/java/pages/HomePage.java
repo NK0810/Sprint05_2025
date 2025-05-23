@@ -106,7 +106,7 @@ public class HomePage extends BasePage<HomePage> {
         return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES)));
     }
 
-    @Step("Click brands drop down")
+    @Step("Click brands drop down trigger")
     public HomePage clickBrandsDropDown() {
         waitElementIsVisible(By.xpath(BRANDS_DROP_DOWN)).click();
         return this;
