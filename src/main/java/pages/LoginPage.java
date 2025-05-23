@@ -55,6 +55,17 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
+    @Step("Login in Sportano Account")
+    public LoginPage login(String email, String password) {
+        openLoginPage();
+        acceptCookies();
+        enterEmail(email);
+        enterPassword(password);
+        clickLogInButton();
+        return this;
+    }
+
+
     @Step("Get email error text")
     public String getEmailErrorText() {
         return waitElementIsVisible(EMAIL_ERROR_MESSAGE).getText();
