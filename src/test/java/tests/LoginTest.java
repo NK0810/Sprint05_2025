@@ -9,7 +9,7 @@ import utils.ConfigReader;
 
 public class LoginTest extends base.BaseTest {
 
-    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account";
+    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/";
     private static final String LOGIN_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/login";
     private static final String TEXT_OUT = "Вийти";
     private static final String EMAIL_ERROR_MESSAGE_TEXT = "Введіть дійсну e-mail адресу (наприклад: johndoe@domain.com.).";
