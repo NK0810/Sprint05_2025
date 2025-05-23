@@ -3,9 +3,7 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import utils.LocatorProvider;
-
 
 public class UserAddressesPage extends EditAddressPage {
 
@@ -15,8 +13,17 @@ public class UserAddressesPage extends EditAddressPage {
 
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
+        DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK("Платіжна адреса", "address"),
+        OTHER_DELIVERY_ADDRESS_INFO_BLOCK_1("Інші адреси доставки", "address", 1),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
-        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div");
+        EDIT_DEFAULT_PAYMENT_ADDRESS_BUTTON("Платіжна адреса", "edit"),
+        ADDRESS_SAVED_MESSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
+        ADD_DELIVERY_ADDRESS_BUTTON("Інші адреси доставки", "add-delivery"),
+        ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
+        CLOSE_MESSAGE_BUTTON("//span[@data-role='message-close']"),
+        OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
+        DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
+        DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']");
 
         private final By element;
 
@@ -39,11 +46,13 @@ public class UserAddressesPage extends EditAddressPage {
     }
 
     @Step("get suffix for type: {type}")
-    private static String пуеSuffixByType(String type) {
+    private static String getSuffixByType(String type) {
         return switch (type) {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
             case "delete" -> "//a[@class='action delete dashboard-info-block__link']";
+            case "add-payment" -> "//a[@class='address-new' and span[text()='Додайте адресу рахунку-фактури']]";
+            case "add-delivery" -> "//a[@class='address-new' and span[text()='Додати адресу доставки']]";
             default -> throw new IllegalArgumentException("Unsupported type: " + type);
         };
     }
@@ -52,7 +61,7 @@ public class UserAddressesPage extends EditAddressPage {
     private static String buildXpath(String sectionTitle, String type) {
         return String.format(
                 "//span[text()='%s']/ancestor::div[@class='dashboard-info-block__info']%s",
-                sectionTitle, пуеSuffixByType(type)
+                sectionTitle, getSuffixByType(type)
         );
     }
 
