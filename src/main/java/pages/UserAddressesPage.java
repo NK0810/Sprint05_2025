@@ -3,9 +3,7 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import utils.LocatorProvider;
-
 
 public class UserAddressesPage extends EditAddressPage {
 
@@ -16,10 +14,9 @@ public class UserAddressesPage extends EditAddressPage {
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
-        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div");
-        ADD_DELIVERY_ADDRESS_BUTTON("Інші адреси доставки", "add-delivery"),
+        ADDRESS_SAVED_MESSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
         ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
-        CLOSE_MASSAGE_BUTTON("//span[@data-role='message-close']"),
+        CLOSE_MESSAGE_BUTTON("//span[@data-role='message-close']"),
         OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
         DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
         DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']");
@@ -45,7 +42,7 @@ public class UserAddressesPage extends EditAddressPage {
     }
 
     @Step("get suffix for type: {type}")
-    private static String пуеSuffixByType(String type) {
+    private static String getSuffixByType(String type) {
         return switch (type) {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
@@ -60,7 +57,7 @@ public class UserAddressesPage extends EditAddressPage {
     private static String buildXpath(String sectionTitle, String type) {
         return String.format(
                 "//span[text()='%s']/ancestor::div[@class='dashboard-info-block__info']%s",
-                sectionTitle, пуеSuffixByType(type)
+                sectionTitle, getSuffixByType(type)
         );
     }
 

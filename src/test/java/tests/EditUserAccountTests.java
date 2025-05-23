@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
@@ -16,19 +17,18 @@ import java.util.List;
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
 import static pages.EditAddressPage.EditAddressPageElements.*;
 import static pages.UserAddressesPage.UserAddressesPageElements.*;
-import static constant.Constant.EditAddressTestData.*;
 
 public class EditUserAccountTests extends BaseTest {
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
-    private static final String DEFAULT_DELIVERY_ADDRESS_MASSEGE = "Це адреса доставки за умовчанням.";
-    private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
+    private static final String DEFAULT_DELIVERY_ADDRESS_MESSEGE = "Це адреса доставки за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
     private static final String ADDRESS_DELETED = "Ви видалили адресу.";
     private static final String NAME = "Шмек";
     private static final String SURNAME = "Мельник";
     private static final String STREET = "Травнева";
     private static final String HOUSE_NUMBER = "8";
+    private static final String APARTMENT_NUMBER = "16";
     private static final String POST_CODE = "10987";
     private static final String CITY = "Харків";
     private static final String PHONE_NUMBER = "0967693586";
@@ -52,9 +52,9 @@ public class EditUserAccountTests extends BaseTest {
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
         String defaultDeliveryMessage = userAddressesPage.getElementText(DEFAULT_ADDRESS_MESSAGE);
-        Assert.assertEquals(defaultDeliveryMessage, DEFAULT_DELIVERY_ADDRESS_MASSEGE,
+        Assert.assertEquals(defaultDeliveryMessage, DEFAULT_DELIVERY_ADDRESS_MESSEGE,
                 String.format("Expected delivery message: '%s', but got: '%s'",
-                        DEFAULT_DELIVERY_ADDRESS_MASSEGE, defaultDeliveryMessage));
+                        DEFAULT_DELIVERY_ADDRESS_MESSEGE, defaultDeliveryMessage));
 
         userAddressesPage.enterAddressInfo(NAME_INPUT_FIELD, NAME)
                 .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
@@ -72,24 +72,10 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected address: '%s', but got: '%s'",
                         DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY, actualAddress));
 
-        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
         Assert.assertEquals(savedMessage, ADDRESS_SAVED,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_SAVED, savedMessage));
-    }
-
-    @Step("Building specific expected address in String")
-    public static String buildAddress(String... fieldNames) {
-        List<String> values = new ArrayList<>();
-        for (String name : fieldNames) {
-            try {
-                Field field = EditUserAccountTests.class.getDeclaredField(name);
-                values.add((String) field.get(null));
-            } catch (Exception e) {
-                throw new RuntimeException("Can't read field: " + name, e);
-            }
-        }
-        return String.join(" ", values);
     }
 
     @Test
@@ -122,19 +108,33 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected address: '%s', but got: '%s'",
                         OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK, actualAddress));
 
-        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
         Assert.assertEquals(savedMessage, ADDRESS_SAVED,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_SAVED, savedMessage));
 
-        userAddressesPage.clickOnElement(CLOSE_MASSAGE_BUTTON)
+        userAddressesPage.clickOnElement(CLOSE_MESSAGE_BUTTON)
                 .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
                 .clickOnElement(DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1)
                 .clickOnElement(DELETE_ADDRESS_BUTTON_IN_POP_UP);
 
-        String deletedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MASSAGE_TEXT);
+        String deletedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
         Assert.assertEquals(deletedMessage, ADDRESS_DELETED,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_DELETED, deletedMessage));
+    }
+
+    @Step("Building specific expected address in String")
+    public static String buildAddress(String... fieldNames) {
+        List<String> values = new ArrayList<>();
+        for (String name : fieldNames) {
+            try {
+                Field field = EditUserAccountTests.class.getDeclaredField(name);
+                values.add((String) field.get(null));
+            } catch (Exception e) {
+                throw new RuntimeException("Can't read field: " + name, e);
+            }
+        }
+        return String.join(" ", values);
     }
 }
