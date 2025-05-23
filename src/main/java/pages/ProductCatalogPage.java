@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     private static final String CLOSE_EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
+    private static final String CLEAR_ALL_FILTER_BUTTON = ("//li[@class='applied-filters__clear']");
 
     public enum FilterClearButton implements LocatorProvider {
         CLEAR_PRICE_FILTER_BUTTON("Ціна:"),
@@ -186,5 +187,11 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     @Step("Wait for all visible product cards elements located by: {locator}")
     public List<WebElement> waitForVisibleProductCards(ProductCardInfo locator) {
         return waitElementsAreVisible(locator.getLocator());
+    }
+
+    @Step("Click on the Clear All Filters button")
+    public ProductCatalogPage clickOnTheCloseAllFilter(){
+        waitElementToBeClickable(By.xpath(CLEAR_ALL_FILTER_BUTTON)).click();
+        return this;
     }
 }

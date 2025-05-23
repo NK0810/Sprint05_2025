@@ -19,6 +19,8 @@ public class ProductPage extends BasePage<ProductPage> {
         PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']"),
         REGULAR_PRICE("//form//*[@Class='c-price__omnibus']"),
         CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span"),
+        CLOSE_SELECT_SIZE_BUTTON("//p[@class='visual-ko-select__list-options-wrapper__header heading6']/following-sibling::i");
+        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span"),
         ADD_TO_WISHLIST_BUTTON("//a[@class='action action-to-wishlist add']"),
         SUCCESS_MASSAGE("//div[@data-ui-id='message-success']");
 
