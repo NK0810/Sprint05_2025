@@ -2,20 +2,27 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Owner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.BrandsPage;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.SearchPage;
 
 import java.util.List;
 
+import static constant.Constant.Owners.BOHDAN;
+import static constant.Constant.Owners.IGOR;
+import static fragments.HeaderFragment.PopUpLastViewedProductSection.*;
 import static java.lang.String.format;
 import static pages.ProductPage.ProductPageElements.*;
 
 public class SearchProductsViaSearchBarTest extends BaseTest {
     private static final String SEARCH_QUERY_UKRAINIAN = "Кросівки";
+    private static final String LAST_VIEWED_PRODUCT_TITLE = "Останні переглянуті продукти";
 
+    @Owner(BOHDAN)
     @Description("Checking the search function and search result accuracy")
     @Test
     public void CheckSearchWithCorrectQueryUkr() {
@@ -26,7 +33,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -39,6 +46,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 format("Expected that %s contains %s", name, SEARCH_QUERY_UKRAINIAN)));
     }
 
+    @Owner(BOHDAN)
     @Description("Checking the search function and search result accuracy by product code")
     @Test
     public void CheckSearchByProductCode() {
@@ -50,7 +58,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 .openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -64,17 +72,17 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         searchPage.clickFirstSearchProduct();
 
-        productPage.scrollToElement(PRODUCT_PARAMETERS.getLocator());
+        productPage.scrollToElement(PRODUCT_PARAMETERS);
         productPage.clickOnTheButton(PRODUCT_PARAMETERS);
 
-        productPage.scrollToElement(PRODUCT_CODE.getLocator());
+        productPage.scrollToElement(PRODUCT_CODE);
         String productCode = productPage.getTextFrom(PRODUCT_CODE);
-        productPage.scrollToElement(BACK_ON_HOME_PAGE.getLocator());
+        productPage.scrollToElement(BACK_ON_HOME_PAGE);
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
 
         homePage
                 .clickSearchField()
-                .enterTextInSeachField(productCode)
+                .enterTextInSearchField(productCode)
                 .clickSearchButton();
 
         actualSearchQuery = searchPage.getSearchQuery();
@@ -87,6 +95,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 format("Expected that product %s will have name %s", productName2, productName2));
     }
 
+    @Owner(BOHDAN)
     @Description("Checking the last search save function and storage accuracy")
     @Test
     public void CheckLastSearchQuerySaving() {
@@ -97,7 +106,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -123,6 +132,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
                 format("Expected that product %s will have name %s", lastSearchedProductName, firstProductName));
     }
 
+    @Owner(BOHDAN)
     @Description("Checking the last search brand save function and storage accuracy")
     @Test
     public void CheckLastSearchBrandSaving() {
@@ -133,7 +143,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         homePage.openUrl()
                 .acceptCookies()
                 .clickSearchField()
-                .enterTextInSeachField(SEARCH_QUERY_UKRAINIAN)
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
                 .clickSearchButton();
 
         String actualSearchQuery = searchPage.getSearchQuery();
@@ -165,5 +175,68 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
         String lastSearchedProductBrand = homePage.getAllLastSearchedProductsBrands().getLast();
         Assert.assertEquals(productBrand, lastSearchedProductBrand,
                 format("Expected that brand %s will have name %s", lastSearchedProductBrand, productBrand));
+    }
+
+    @Owner(BOHDAN)
+    @Description("Checking the search validation and result of search if validation passed")
+    @Test
+    public void CheckBrandList() {
+        HomePage homePage = new HomePage(driver);
+        BrandsPage brandsPage = new BrandsPage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickBrandsDropDown()
+                .clickAllBrandsLink();
+
+        List<String> sectionTitles = brandsPage.getAllBrandsTitleNames();
+
+        for (String title : sectionTitles) {
+            List<String> sectionBrands = brandsPage.getAllBrandNamesOfSection(title);
+            sectionBrands.forEach(name -> Assert.assertTrue(name.matches(String.format("^[%s%s].+", title, title.toLowerCase())),
+                    String.format("Expected that brand %s starts with %s", name, title)));
+        }
+    }
+
+    @Owner(IGOR)
+    @Test
+    @Description("Open last viewed product via search")
+    public void openLastViewedProductTest() {
+        HomePage homePage = new HomePage(driver);
+        SearchPage searchPage = new SearchPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickSearchField()
+                .enterTextInSearchField(SEARCH_QUERY_UKRAINIAN)
+                .clickSearchButton();
+
+        searchPage.scrollToFirstProduct()
+                .clickFirstProduct();
+
+        String expectedProductName = productPage.getTextFrom(PRODUCT_NAME);
+        int expectedCurrentPrice = homePage.convertPriceToInt(productPage.getTextFrom(CURRENT_PRICE));
+        int expectedRegularPrice = homePage.convertPriceToInt(productPage.getTextFrom(REGULAR_PRICE));
+
+        productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
+
+        homePage.clickSearchField();
+
+        String actualViewedProductTitle = homePage.getLastVievedProductsTitle();
+        String actualViewedName = homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_NAME);
+        int actualCurrentPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_CURRENT_PRICE));
+        int actualRegularPrice = homePage.convertPriceToInt(
+                homePage.getHeaderFragment().getLastViewedProductPopUpInfo(LAST_VIEWED_PRODUCT_REGULAR_PRICE));
+
+        Assert.assertEquals(actualViewedProductTitle, LAST_VIEWED_PRODUCT_TITLE,
+                format("Expected title: %s, actual: %s", LAST_VIEWED_PRODUCT_TITLE, actualViewedProductTitle));
+        Assert.assertEquals(actualViewedName, expectedProductName,
+                format("Expected product name: %s, actual: %s", expectedProductName, actualViewedName));
+        Assert.assertEquals(actualCurrentPrice, expectedCurrentPrice,
+                format("Expected current price: %d, actual: %d", expectedCurrentPrice, actualCurrentPrice));
+        Assert.assertEquals(actualRegularPrice, expectedRegularPrice,
+                format("Expected regular price: %d, actual: %d", expectedRegularPrice, actualRegularPrice));
     }
 }

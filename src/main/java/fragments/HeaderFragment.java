@@ -4,7 +4,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
-import pages.ProductCatalogPage;
 
 public class HeaderFragment extends BasePage {
     private static final String WISHLIST_BUTTON = "//div[@class='wishlist__inner']";
@@ -28,6 +27,27 @@ public class HeaderFragment extends BasePage {
         public By getLocator() {
             return element;
         }
+    }
+
+    public enum PopUpLastViewedProductSection {
+        LAST_VIEWED_PRODUCT_CURRENT_PRICE("//div[@class='result-price-final discount']"),
+        LAST_VIEWED_PRODUCT_REGULAR_PRICE("//div[@class='result-price-old']"),
+        LAST_VIEWED_PRODUCT_NAME("//div[@class='result-column']/a");
+
+        private final By element;
+
+        PopUpLastViewedProductSection(String xpath) {
+            this.element = By.xpath(xpath);
+        }
+
+        public By getLocator() {
+            return element;
+        }
+    }
+
+    @Step("Get text from element: {elements}")
+    public String getLastViewedProductPopUpInfo(PopUpLastViewedProductSection elements) {
+        return waitElementIsVisible(elements.getLocator()).getText();
     }
 
     @Step("Go to wishlist")
