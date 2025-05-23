@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Owner;
 import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,11 +11,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static constant.Constant.Owners.NAZAR;
 import static pages.ProductCatalogPage.ProductCardInfo.*;
 import static fragments.SortFragment.SortOptions.*;
 
 public class SortingByLowestAndHighestPriceTest extends BaseTest {
 
+    @Owner(NAZAR)
     @Description("Verifies that products are correctly sorted by lowest and highest price on the category page.")
     @Test
     public void checkSortPriceLowestAndHighestTest() {

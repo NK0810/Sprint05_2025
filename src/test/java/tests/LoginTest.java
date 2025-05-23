@@ -1,21 +1,26 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
 import pages.UserAccountPage;
 import utils.ConfigReader;
 
+import static constant.Constant.Owners.IGOR;
+import static constant.Constant.Owners.STAS;
+
 public class LoginTest extends base.BaseTest {
 
-    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account";
+    private static final String USER_ACCOUNT_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/";
     private static final String LOGIN_URL = ConfigReader.getProperty("production.baseUrl") + "/customer/account/login";
     private static final String TEXT_OUT = "Вийти";
     private static final String EMAIL_ERROR_MESSAGE_TEXT = "Введіть дійсну e-mail адресу (наприклад: johndoe@domain.com.).";
 
     private final String invalidEmail = ConfigReader.getProperty("UserEmail").replace("@", "");
 
+    @Owner(STAS)
     @Test
     @Description("Login user")
     public void loginUserTest() {
@@ -42,6 +47,7 @@ public class LoginTest extends base.BaseTest {
         softAssert.assertAll();
     }
 
+    @Owner(IGOR)
     @Test
     @Description("Login with invalid email format")
     public void loginViaInvalidEmail() {

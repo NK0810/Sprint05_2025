@@ -6,19 +6,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Properties;
 
+@Listeners({utils.Listeners.class, io.qameta.allure.testng.AllureTestNg.class})
 public class BaseTest {
     public WebDriver driver;
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     protected static final Properties properties = new Properties();
-
     public WebDriver getDriver() {
         return driver;
     }
@@ -71,4 +73,5 @@ public class BaseTest {
             LOGGER.warn("Driver був null — нічого не закриваємо");
         }
     }
+
 }
