@@ -2,13 +2,16 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Owner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import utils.ConfigReader;
+import static constant.Constant.Owners.TARAS;
 
 public class NewsLetterTest extends BaseTest {
 
+    @Owner(TARAS)
     @Description("Subscribe on newsletter")
     @Test
     public void NewsletterTest() {
