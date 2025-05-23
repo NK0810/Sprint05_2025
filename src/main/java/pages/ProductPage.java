@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ProductPage extends BasePage<ProductPage> {
-    private final ShoppingCardFragment shopingCardFragment;
+    private final ShoppingCardFragment shoppingCardFragment;
 
     public enum ProductPageElements {
         PRODUCT_NAME("//span[@class='base']"),
@@ -35,12 +35,12 @@ public class ProductPage extends BasePage<ProductPage> {
     }
 
     public ShoppingCardFragment getShoppingCardFragment() {
-        return shopingCardFragment;
+        return shoppingCardFragment;
     }
 
     public ProductPage(WebDriver driver) {
         super(driver);
-        this.shopingCardFragment = new ShoppingCardFragment(driver);
+        this.shoppingCardFragment = new ShoppingCardFragment(driver);
     }
 
     @Step("Get text: {locator}")

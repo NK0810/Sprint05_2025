@@ -12,6 +12,10 @@ public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     private static final String CLOSE_EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
     private static final String CLEAR_ALL_FILTER_BUTTON = ("//li[@class='applied-filters__clear']");
 
+    public interface LocatorProvider {
+        By getLocator();
+    }
+
     public enum FilterClearButton implements LocatorProvider {
         CLEAR_PRICE_FILTER_BUTTON("Ціна:"),
         CLEAR_BRAND_FILTER_BUTTON("Бренд:");
