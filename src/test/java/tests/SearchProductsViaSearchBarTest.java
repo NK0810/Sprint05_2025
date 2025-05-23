@@ -178,7 +178,7 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
     }
 
     @Owner(BOHDAN)
-    @Description("Checking the search validation and result of search if validation passed")
+    @Description("Checking brand matching to his section on brands page list")
     @Test
     public void CheckBrandList() {
         HomePage homePage = new HomePage(driver);
@@ -193,7 +193,26 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         for (String title : sectionTitles) {
             List<String> sectionBrands = brandsPage.getAllBrandNamesOfSection(title);
-            sectionBrands.forEach(name -> Assert.assertTrue(name.matches(String.format("^[%s%s].+", title, title.toLowerCase())),
+            sectionBrands.forEach(name -> Assert.assertTrue(name.toUpperCase().matches(String.format("^[%s].*", title)),
+                    String.format("Expected that brand %s starts with %s", name, title)));
+        }
+    }
+
+    @Owner(BOHDAN)
+    @Description("Checking brand matching to his section on home page")
+    @Test
+    public void CheckBrandListHomePage() {
+        HomePage homePage = new HomePage(driver);
+
+        homePage.openUrl()
+                .acceptCookies()
+                .clickBrandsDropDown();
+
+        List<String> sectionTitles = homePage.getAllBrandsTitleNames();
+
+        for (String title : sectionTitles) {
+            List<String> sectionBrands = homePage.getAllBrandNamesOfSection(title);
+            sectionBrands.forEach(name -> Assert.assertTrue(name.toUpperCase().matches(String.format("^[%s].*", title)),
                     String.format("Expected that brand %s starts with %s", name, title)));
         }
     }
