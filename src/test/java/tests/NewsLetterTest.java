@@ -31,7 +31,6 @@ public class NewsLetterTest extends BaseTest {
 
         Assert.assertTrue(homePage.isConfirmationRegistrationMessageVisible(),
                         "Confirmation message not displayed");
-
     }
 }
 
