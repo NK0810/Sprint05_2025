@@ -183,10 +183,10 @@ public class SearchProductsViaSearchBarTest extends BaseTest {
 
         List<String> sectionTitles = brandsPage.getAllBrandsTitleNames();
 
-        for(String title : sectionTitles){
+        for (String title : sectionTitles) {
             List<String> sectionBrands = brandsPage.getAllBrandNamesOfSection(title);
-            sectionBrands.forEach(name->Assert.assertTrue(name.matches(String.format("^[%s%s].+", title, title.toLowerCase())),
-                    String.format("Expected that brand %s starts with %s",name,title)));
+            sectionBrands.forEach(name -> Assert.assertTrue(name.matches(String.format("^[%s%s].+", title, title.toLowerCase())),
+                    String.format("Expected that brand %s starts with %s", name, title)));
         }
     }
 

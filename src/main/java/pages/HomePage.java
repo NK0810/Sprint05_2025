@@ -107,13 +107,13 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Click brands drop down")
-    public HomePage clickBrandsDropDown(){
+    public HomePage clickBrandsDropDown() {
         waitElementIsVisible(By.xpath(BRANDS_DROP_DOWN)).click();
         return this;
     }
 
     @Step("Click all brands list link")
-    public HomePage clickAllBrandsLink(){
+    public HomePage clickAllBrandsLink() {
         waitElementIsVisible(By.xpath(ALL_BRANDS_BUTTON)).click();
         return this;
     }
