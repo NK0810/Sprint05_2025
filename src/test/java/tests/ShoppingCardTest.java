@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Owner;
 import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -8,6 +9,7 @@ import pages.HomePage;
 import pages.ProductPage;
 import pages.ShoppingCardPage;
 
+import static constant.Constant.Owners.NAZAR;
 import static fragments.ShoppingCardFragment.ShoppingCardElements.*;
 import static pages.ProductPage.ProductPageElements.*;
 import static pages.ShoppingCardPage.ShoppingCartElements.*;
@@ -16,6 +18,7 @@ import static pages.ShoppingCardPage.ShoppingCartElements.PRODUCT_NAME;
 public class ShoppingCardTest extends BaseTest {
     private final static String SIZE = "36 EU";
 
+    @Owner(NAZAR)
     @Description("Verify Add, Remove, and Update Quantity in Shopping Cart")
     @Test
     public void addDeleteAndUpdateQuantity() {
