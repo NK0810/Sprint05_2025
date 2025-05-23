@@ -3,12 +3,16 @@ package tests;
 import base.BaseTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
+import org.apache.commons.compress.archivers.tar.TarArchiveSparseEntry;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.UserAccountPage;
 import utils.ConfigReader;
+import constant.Constant;
+
+import static constant.Constant.Owners.TARAS;
 
 public class EditPersonalData extends BaseTest {
     private static final String BASE_NAME = "Anton";
@@ -18,6 +22,7 @@ public class EditPersonalData extends BaseTest {
     private static final String NEW_NAME = BASE_NAME + generateRandomLetter();
     private static final String NEW_SURNAME = BASE_SURNAME + generateRandomLetter();
 
+    @Owner(TARAS)
     @Description("Edit user name and choose agreements")
     @Test
     public void EditPersonalDataTest() throws InterruptedException {
