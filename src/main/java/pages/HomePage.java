@@ -34,6 +34,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String REGISTRATION_CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
     private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
     private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
+    private static final String BRANDS_DROP_DOWN = "//*[@id='brands-menu']";
+    private static final String ALL_BRANDS_BUTTON = "//*[@class='brands-menu__popular-button']";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -73,12 +75,12 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get price in home page")
-    public String getProductPrice(){
+    public String getProductPrice() {
         return waitElementIsVisible(By.xpath(PRICE_FIRST_PRODUCT)).getText();
     }
 
     @Step("Click search field")
-    public HomePage clickSearchField(){
+    public HomePage clickSearchField() {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
         return this;
     }
@@ -155,5 +157,16 @@ public class HomePage extends BasePage<HomePage> {
         waitElementIsVisible(By.xpath(SEND_EMAIL_INPUT_FIELD)).sendKeys(email);
         return this;
     }
-}
 
+    @Step("Click brands drop down trigger")
+    public HomePage clickBrandsDropDown() {
+        waitElementIsVisible(By.xpath(BRANDS_DROP_DOWN)).click();
+        return this;
+    }
+
+    @Step("Click all brands list link")
+    public HomePage clickAllBrandsLink() {
+        waitElementIsVisible(By.xpath(ALL_BRANDS_BUTTON)).click();
+        return this;
+    }
+}

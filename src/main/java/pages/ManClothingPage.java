@@ -1,12 +1,13 @@
 package pages;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 
 
 public class ManClothingPage extends ProductCatalogPage {
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
+    private static final String SELECT_FILTER_LABEL = "//label[@class='refinement-label refinement-label--checked']";
 
     public ManClothingPage(WebDriver driver) {
         super(driver);
@@ -14,8 +15,7 @@ public class ManClothingPage extends ProductCatalogPage {
 
     public enum BrandName {
         ADIDAS("adidas"),
-        ALPINUS("Alpinus"),
-        CCM("CCM");
+        ALPINUS("Alpinus");
 
         private final String value;
 
@@ -28,9 +28,55 @@ public class ManClothingPage extends ProductCatalogPage {
         }
     }
 
+    public enum FilterOptionManClothingPage {
+        SIZE_DROP_DOWN_BUTTON("//div[@data-attr='rozmiar_wyswietlany']"),
+        SEASON_DROP_DOWN_BUTTON("//div[@data-attr='sezon']");
+
+        private final String locator;
+
+        FilterOptionManClothingPage(String locator) {
+            this.locator = locator;
+        }
+
+        public By getLocator() {
+            return By.xpath(locator);
+        }
+
+    }
+
     @Step("Open man clothing page")
     public ManClothingPage openUrl() {
         driver.get(URL);
+        return this;
+    }
+
+    @Step("Click on the {locator} dropdown button")
+    public ManClothingPage clickOnDropdownButton(FilterOptionManClothingPage locator) {
+        waitElementIsVisible(locator.getLocator());
+        waitElementToBeClickable(locator.getLocator()).click();
+        return this;
+    }
+
+    @Step("Select size filter option: {size}")
+    public ManClothingPage selectSizeFilterOption(String size) {
+        By sizeButton = By.xpath("//span[text()='" + size + "']");
+        scrollToElement(sizeButton);
+        waitElementIsVisible(sizeButton);
+        waitElementToBeClickable(sizeButton).click();
+        return this;
+    }
+
+    @Step("Get class attribute from the selected size label")
+    public String getSelectedSizeLabelClass() {
+        return getClassValueFromElement(By.xpath(SELECT_FILTER_LABEL));
+    }
+
+    @Step("Select season filter option: {season}")
+    public ManClothingPage selectSeasonOption(String season) {
+        By seasonButton = By.xpath("//span[text()='" + season + "']");
+        scrollToElement(seasonButton);
+        waitElementIsVisible(seasonButton);
+        waitElementToBeClickable(seasonButton).click();
         return this;
     }
 }

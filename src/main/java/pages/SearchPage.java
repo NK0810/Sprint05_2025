@@ -28,4 +28,16 @@ public class SearchPage extends ProductCatalogPage {
         waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).getFirst().click();
         return this;
     }
+
+    @Step("Scroll to first product")
+    public SearchPage scrollToFirstProduct() {
+        scrollToElement(By.xpath(PRODUCT_NAMES));
+        return this;
+    }
+
+    @Step("Click on first searched product")
+    public SearchPage clickFirstProduct() {
+        waitElementsAreVisible(By.xpath(PRODUCT_NAMES)).get(0).click();
+        return this;
+    }
 }
