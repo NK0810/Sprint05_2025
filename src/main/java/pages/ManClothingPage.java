@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 public class ManClothingPage extends ProductCatalogPage {
     private static final String URL = BASE_URL + "/cholovik/cholovichij-odjag";
     private static final String SELECT_FILTER_LABEL = "//label[@class='refinement-label refinement-label--checked']";
+    private static final String FILTERS_LABEL = "//li[@class='refinement-item refinement-item--sezon']";
 
     public ManClothingPage(WebDriver driver) {
         super(driver);
@@ -15,7 +16,8 @@ public class ManClothingPage extends ProductCatalogPage {
 
     public enum BrandName {
         ADIDAS("adidas"),
-        ALPINUS("Alpinus");
+        ALPINUS("Alpinus"),
+        ASICS("ASICS");
 
         private final String value;
 
@@ -71,12 +73,34 @@ public class ManClothingPage extends ProductCatalogPage {
         return getClassValueFromElement(By.xpath(SELECT_FILTER_LABEL));
     }
 
-    @Step("Select season filter option: {season}")
+    @Step("Select season filter and option: {season}")
     public ManClothingPage selectSeasonOption(String season) {
+        By seasonButton = By.xpath("//span[text()='" + season + "']");
+        waitElementsAreUpdated(By.xpath(FILTERS_LABEL));
+        waitElementIsVisible(seasonButton);
+        waitElementToBeClickable(seasonButton).click();
+        return this;
+    }
+
+    @Step("Select and scroll season filter and option: {season}")
+    public ManClothingPage selectAndScrollSeasonOption(String season) {
         By seasonButton = By.xpath("//span[text()='" + season + "']");
         scrollToElement(seasonButton);
         waitElementIsVisible(seasonButton);
         waitElementToBeClickable(seasonButton).click();
         return this;
+    }
+
+    @Step("Scroll to element {locator}")
+    public ManClothingPage scrollToElement(FilterOptionManClothingPage locator) {
+        scrollToElement(locator.getLocator());
+        return this;
+    }
+
+    @Step("Check if at least one product name contains brand: {brand}")
+    public boolean isBrandPresentInProductNames(BrandName brand, ProductCardInfo info) {
+        return getVisibleProductsInfoTexts(info)
+                .stream()
+                .anyMatch(name -> name.contains(brand.getValue()));
     }
 }

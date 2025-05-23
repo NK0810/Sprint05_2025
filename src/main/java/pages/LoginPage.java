@@ -1,13 +1,9 @@
 package pages;
 
-import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.Test;
-import utils.ConfigReader;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage<LoginPage> {

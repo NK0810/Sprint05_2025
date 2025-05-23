@@ -5,8 +5,10 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 public class ProductPage extends BasePage<ProductPage> {
-    private final ShoppingCardFragment shopingCardFragment;
+    private final ShoppingCardFragment shoppingCardFragment;
 
     public enum ProductPageElements {
         PRODUCT_NAME("//span[@class='base']"),
@@ -18,7 +20,10 @@ public class ProductPage extends BasePage<ProductPage> {
         SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']"),
         PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']"),
         REGULAR_PRICE("//form//*[@Class='c-price__omnibus']"),
-        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span");
+        CLOSE_SELECT_SIZE_BUTTON("//p[@class='visual-ko-select__list-options-wrapper__header heading6']/following-sibling::i"),
+        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span"),
+        ADD_TO_WISHLIST_BUTTON("//a[@class='action action-to-wishlist add']"),
+        SUCCESS_MASSAGE("//div[@data-ui-id='message-success']");
 
         private final String locator;
 
@@ -32,12 +37,12 @@ public class ProductPage extends BasePage<ProductPage> {
     }
 
     public ShoppingCardFragment getShoppingCardFragment() {
-        return shopingCardFragment;
+        return shoppingCardFragment;
     }
 
     public ProductPage(WebDriver driver) {
         super(driver);
-        this.shopingCardFragment = new ShoppingCardFragment(driver);
+        this.shoppingCardFragment = new ShoppingCardFragment(driver);
     }
 
     @Step("Get text: {locator}")
