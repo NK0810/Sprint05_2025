@@ -96,4 +96,11 @@ public class ManClothingPage extends ProductCatalogPage {
         scrollToElement(locator.getLocator());
         return this;
     }
+
+    @Step("Check if at least one product name contains brand: {brand}")
+    public boolean isBrandPresentInProductNames(BrandName brand, ProductCardInfo info) {
+        return getVisibleProductsInfoTexts(info)
+                .stream()
+                .anyMatch(name -> name.contains(brand.getValue()));
+    }
 }

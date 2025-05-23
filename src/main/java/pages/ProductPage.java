@@ -5,6 +5,8 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 public class ProductPage extends BasePage<ProductPage> {
     private final ShoppingCardFragment shoppingCardFragment;
 

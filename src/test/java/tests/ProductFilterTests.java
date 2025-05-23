@@ -309,9 +309,7 @@ public class ProductFilterTests extends BaseTest {
                 .selectBrandOption(ASICS)
                 .waitProductsInfoAreUpdated(PRODUCTS_NAME);
 
-        Assert.assertTrue(manClothingPage.getVisibleProductsInfoTexts(PRODUCTS_NAME)
-                        .stream()
-                        .anyMatch(element -> element.contains(ASICS.getValue())),
+        Assert.assertTrue(manClothingPage.isBrandPresentInProductNames(ASICS, PRODUCTS_NAME),
                 "Expected at least one product name to contain" + ASICS.getValue() + ", but none were found.");
 
         manClothingPage
