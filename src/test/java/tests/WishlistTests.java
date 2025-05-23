@@ -22,9 +22,9 @@ import static pages.WishlistPage.WishlistElements.*;
 
 public class WishlistTests extends BaseTest {
 
-    private static final String BASE_REMOVED_PRODUCT_MASSAGE = " видалено зі списку бажань.";
-    private static final String ADDED_PRODUCT_MASSAGE = "Товар додано до Списку бажань.";
-    private static final String EMPTY_WISHLIST_PRODUCT_MASSAGE = "У Вашому Списку бажань немає товарів";
+    private static final String BASE_REMOVED_PRODUCT_MESSAGE = " видалено зі списку бажань.";
+    private static final String ADDED_PRODUCT_MESSAGE = "Товар додано до Списку бажань.";
+    private static final String EMPTY_WISHLIST_PRODUCT_MESSAGE = "У Вашому Списку бажань немає товарів";
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
 
@@ -49,7 +49,7 @@ public class WishlistTests extends BaseTest {
 
         wishlistPage.clickDeleteFromWishlistButton();
 
-        Assert.assertTrue(isWishlistEmptyMessageDisplayed(MASSAGE_WISHLIST_IS_EMPTY),
+        Assert.assertTrue(isWishlistEmptyMessageDisplayed(MESSAGE_WISHLIST_IS_EMPTY),
                 "Expected empty wishlist message to be displayed, but it was not found");
         Assert.assertFalse(isProductPresentInWishlist(FAVORITE_PRODUCT_CARDS),
                 "The product is appear in the wishlist after being deleted");
@@ -64,28 +64,18 @@ public class WishlistTests extends BaseTest {
         UserAccountPage userAccountPage = new UserAccountPage(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
 
-        loginPage
-                .openLoginPage()
-                .acceptCookies()
-                .enterEmail(EMAIL)
-                .enterPassword(PASSWORD)
-                .clickLogInButton();
-
+        loginPage.login(EMAIL, PASSWORD);
         userAccountPage.waitUntilMyAccountPageIsVisible();
-
-        homePage
-                .getHeaderFragment()
+        homePage.getHeaderFragment()
                 .clickHeaderElement(HEADER_LOGO);
-        homePage
-                .scrollToPromotionalProductCarousel()
+        homePage.scrollToPromotionalProductCarousel()
                 .clickAddToWishlistButton()
                 .getHeaderFragment()
                 .scrollToHeader()
                 .clickHeaderElement(USER_ICON_BUTTON)
                 .clickHeaderElement(MY_PROFILE_BUTTON);
 
-        userAccountPage
-                .getCustomerSidebarFragment()
+        userAccountPage.getCustomerSidebarFragment()
                 .scrollToElement(EXIT_SECTION)
                 .clickUserAccountElement(WISHLIST_SECTION);
 
@@ -93,17 +83,17 @@ public class WishlistTests extends BaseTest {
 
         wishlistPage.clickDeleteFromWishlistButton();
 
-        String expectedMessage = productName + BASE_REMOVED_PRODUCT_MASSAGE;
-        String actualMessage = wishlistPage.getWishlistElementInfo(MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST);
-        String actualEmptyMassage = wishlistPage.getWishlistElementInfo(MASSAGE_WISHLIST_IS_EMPTY_PROFILE);
+        String expectedMessage = productName + BASE_REMOVED_PRODUCT_MESSAGE;
+        String actualMessage = wishlistPage.getWishlistElementInfo(MESSAGE_PRODUCT_REMOVED_FROM_WISHLIST);
+        String actualEmptyMassage = wishlistPage.getWishlistElementInfo(MESSAGE_WISHLIST_IS_EMPTY_PROFILE);
 
         Assert.assertEquals(actualMessage, expectedMessage,
                 "Incorrect removal message!");
-        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MASSAGE_PRODUCT_REMOVED_FROM_WISHLIST),
+        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MESSAGE_PRODUCT_REMOVED_FROM_WISHLIST),
                 "Expected message doesn't display: " + expectedMessage);
-        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MASSAGE_WISHLIST_IS_EMPTY_PROFILE),
+        Assert.assertTrue(isWishlistElementInUserAccountDisplayed(MESSAGE_WISHLIST_IS_EMPTY_PROFILE),
                 "Expected wishlist to be empty!");
-        Assert.assertEquals(actualEmptyMassage, EMPTY_WISHLIST_PRODUCT_MASSAGE,
+        Assert.assertEquals(actualEmptyMassage, EMPTY_WISHLIST_PRODUCT_MESSAGE,
                 "Incorrect empty wishlist message!");
         Assert.assertTrue(isWishlistEmpty(WISHLIST_FORM, WISHLIST_PRODUCTS),
                 "Wishlist form is not empty — product items are still present.");
@@ -129,12 +119,11 @@ public class WishlistTests extends BaseTest {
                 .clickOnTheButton(ADD_TO_WISHLIST_BUTTON);
 
         String successMessage = productPage.getTextFrom(SUCCESS_MASSAGE);
-        String expectedMessage = ADDED_PRODUCT_MASSAGE;
+        String expectedMessage = ADDED_PRODUCT_MESSAGE;
         Assert.assertEquals(successMessage, expectedMessage,
                 String.format("Expected success message: '%s', but got: '%s'", expectedMessage, successMessage));
 
         productPage.clickOnTheButton(BACK_ON_HOME_PAGE);
-
         homePage.getHeaderFragment()
                 .scrollToHeader()
                 .clickWishlistButton();
