@@ -1,6 +1,7 @@
 package pages;
 
 import fragments.CookiesFragment;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -92,5 +93,12 @@ public class BasePage<T extends BasePage<T>> {
     public void scrollToElement(WebElement element) {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
+    }
+
+    @Step("Convert raw address block to normalized form")
+    public static String convertAddressBlock(String rawAddress) {
+        return rawAddress.replace("tel. ", "")
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 }
