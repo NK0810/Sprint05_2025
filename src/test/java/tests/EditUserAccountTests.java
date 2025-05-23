@@ -35,8 +35,17 @@ public class EditUserAccountTests extends BaseTest {
     private static final String POST_CODE = "10987";
     private static final String CITY = "Харків";
     private static final String PHONE_NUMBER = "0967693586";
+    private static final String NAME2 = "Денис";
+    private static final String SURNAME2 = "Ткач";
+    private static final String STREET2 = "Корольова";
+    private static final String HOUSE_NUMBER2 = "76";
+    private static final String POST_CODE2 = "13065";
+    private static final String CITY2 = "Київ";
+    private static final String PHONE_NUMBER2 = "0681963458";
     private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY = buildAddress(
-                    "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
+            "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
+    private static final String DEFAULT_DELIVERY_ADDRESS_2_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY = buildAddress(
+            "NAME2", "SURNAME2", "STREET2", "HOUSE_NUMBER2", "POST_CODE2", "CITY2", "PHONE_NUMBER2");
     private static final String DEFAULT_COMPANY_PAYMENT_ADDRESS_IN_INFO_BLOCK = buildAddress(
             "NAME", "SURNAME", "COMPANY_NAME", "TAX_IDENTIFICATION_NUMBER", "STREET", "HOUSE_NUMBER", "APARTMENT_NUMBER", "POST_CODE", "CITY");
     private static final String OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK = buildAddress(
@@ -172,6 +181,63 @@ public class EditUserAccountTests extends BaseTest {
         Assert.assertEquals(savedMessage, ADDRESS_SAVED,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_SAVED, savedMessage));
+    }
+
+    @Test
+    @Description("Use new delivery address as default")
+    public void useAsDefaultDeliveryAddressTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        UserAccountPage userAccountPage = new UserAccountPage(driver);
+        UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
+
+        loginPage.login(EMAIL, PASSWORD);
+        userAccountPage.getCustomerSidebarFragment()
+                .scrollToElement(ADDRESS_SECTION)
+                .clickUserAccountElement(ADDRESS_SECTION);
+        userAddressesPage.clickOnElement(EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON)
+                .scrollToElement(SAVE_ADDRESS_BUTTON)
+                .enterAddressInfo(NAME_INPUT_FIELD, NAME)
+                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
+                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
+                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
+                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
+                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
+                .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
+                .clickOnElement(SAVE_ADDRESS_BUTTON)
+                .scrollToElement(ADD_DELIVERY_ADDRESS_BUTTON)
+                .clickOnElement(ADD_DELIVERY_ADDRESS_BUTTON)
+                .scrollToElement(SAVE_ADDRESS_BUTTON)
+                .enterAddressInfo(NAME_INPUT_FIELD, NAME2)
+                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME2)
+                .enterAddressInfo(STREET_INPUT_FIELD, STREET2)
+                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER2)
+                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE2)
+                .enterAddressInfo(CITY_INPUT_FIELD, CITY2)
+                .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER2)
+                .clickOnElement(USE_AS_DEFAULT_DELIVERY_ADDRESS_CHECKBOX)
+                .clickOnElement(SAVE_ADDRESS_BUTTON);
+
+        String actualDefaultAddress = userAddressesPage.convertAddressBlock(
+                userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK));
+
+        Assert.assertEquals(actualDefaultAddress, DEFAULT_DELIVERY_ADDRESS_2_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY,
+                String.format("Expected new default delivery address: '%s', but got: '%s'",
+                        DEFAULT_DELIVERY_ADDRESS_2_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY, actualDefaultAddress));
+
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+                String.format("Expected save message: '%s', but got: '%s'",
+                        ADDRESS_SAVED, savedMessage));
+
+        userAddressesPage.scrollToElement(OTHER_DELIVERY_ADDRESS_INFO_BLOCK_1);
+
+        String actualOtherAddress = userAddressesPage.convertAddressBlock(
+                userAddressesPage.getElementText(OTHER_DELIVERY_ADDRESS_INFO_BLOCK_1));
+
+        Assert.assertEquals(actualOtherAddress, DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY,
+                String.format("Expected new delivery address: '%s', but got: '%s'",
+                        DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY, actualOtherAddress));
+
     }
 
     @Step("Building specific expected address in String")

@@ -22,6 +22,7 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
         CITY_INPUT_FIELD("//input[@name='city']"),
         PHONE_NUMBER_INPUT_FIELD("//input[@name='telephone']"),
         SAVE_ADDRESS_BUTTON("//button[@data-action='save-address']"),
+        USE_AS_DEFAULT_DELIVERY_ADDRESS_CHECKBOX("//label[@for='primary_shipping']"),
         DEFAULT_ADDRESS_MESSAGE("//div[@class='message info']/span");
 
         private final By element;

@@ -14,9 +14,11 @@ public class UserAddressesPage extends EditAddressPage {
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK("Платіжна адреса", "address"),
+        OTHER_DELIVERY_ADDRESS_INFO_BLOCK_1("Інші адреси доставки", "address", 1),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
         EDIT_DEFAULT_PAYMENT_ADDRESS_BUTTON("Платіжна адреса", "edit"),
         ADDRESS_SAVED_MESSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
+        ADD_DELIVERY_ADDRESS_BUTTON("Інші адреси доставки", "add-delivery"),
         ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
         CLOSE_MESSAGE_BUTTON("//span[@data-role='message-close']"),
         OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
