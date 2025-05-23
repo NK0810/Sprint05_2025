@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.Owner;
 import jdk.jfr.Description;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -11,6 +12,8 @@ import pages.ProductPage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static constant.Constant.Owners.IGOR;
+import static constant.Constant.Owners.NAZAR;
 import static pages.ManClothingPage.BrandName.*;
 import static pages.ManClothingPage.FilterOptionManClothingPage.SEASON_DROP_DOWN_BUTTON;
 import static pages.ManClothingPage.FilterOptionManClothingPage.SIZE_DROP_DOWN_BUTTON;
@@ -34,6 +37,7 @@ public class ProductFilterTests extends BaseTest {
     public static final String SELECTED_CLASS = "refinement-label--checked";
     private final static String SEASON = "Весна/літо";
 
+    @Owner(NAZAR)
     @Description("Verify that filtering by 'New arrivals' only displays products marked.")
     @Test
     public void filterByNewArrivalsTest() {
@@ -56,6 +60,7 @@ public class ProductFilterTests extends BaseTest {
                 "Some products do not have the 'Новий' tag: " + noNewTagProducts);
     }
 
+    @Owner(NAZAR)
     @Description("Verify that the discount filter correctly displays only products with active discounts.")
     @Test
     public void filterBySalesTest() {
@@ -86,6 +91,7 @@ public class ProductFilterTests extends BaseTest {
         return false;
     }
 
+    @Owner(IGOR)
     @Description("Verify only brand-specific products are shown after applying brand filter using search for brand filter")
     @Test
     public void filteredProductsByBrandViaSearchTest() {
@@ -111,6 +117,7 @@ public class ProductFilterTests extends BaseTest {
                 "Some products do not contain expected brand name '" + ALPINUS.getValue() + "': " + invalidNames);
     }
 
+    @Owner(NAZAR)
     @Description("Verify that after removing the price filter, the full product list is restored to its original state.")
     @Test
     public void shouldRestoreProductListAfterRemovingPriceFilterTest() {
@@ -151,6 +158,7 @@ public class ProductFilterTests extends BaseTest {
         return intPrices.stream().allMatch(element -> element < price);
     }
 
+    @Owner(NAZAR)
     @Description("Check that products are correctly filtered by price and brand (Adidas), and that clearing the brand filter removes Adidas products from the results.")
     @Test
     public void checkClearFilterBrandAndLowPriceTest() {
@@ -199,6 +207,7 @@ public class ProductFilterTests extends BaseTest {
         return intPrices.stream().allMatch(element -> element > price);
     }
 
+    @Owner(NAZAR)
     @Description("Verify that the selected size filter is correctly applied and that all visible products have the selected size available (not disabled or out of stock).")
     @Test
     public void checkSizeFilterTest() {
@@ -237,6 +246,7 @@ public class ProductFilterTests extends BaseTest {
         }
     }
 
+    @Owner(NAZAR)
     @Description("Verify that after applying the 'Season' filter, all displayed products have the correct season value in their parameters.")
     @Test
     public void seasonFilterTest() {

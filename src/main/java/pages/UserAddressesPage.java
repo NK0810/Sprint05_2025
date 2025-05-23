@@ -1,17 +1,8 @@
 package pages;
 
-import constant.Constant;
-import fragments.CustomerSidebarFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import utils.LocatorProvider;
 
@@ -25,22 +16,12 @@ public class UserAddressesPage extends EditAddressPage {
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
-        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
+        ADDRESS_SAVED_MASSAGE_TEXT("//div[@data-ui-id='message-success']/div");
         ADD_DELIVERY_ADDRESS_BUTTON("Інші адреси доставки", "add-delivery"),
         ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
         CLOSE_MASSAGE_BUTTON("//span[@data-role='message-close']"),
-        //For future use
-//        DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK("Платіжна адреса", "address"),
-//        OTHER_DELIVERY_ADDRESS_INFO_BLOCK("Інші адреси доставки", "address"),
         OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
-//        EDIT_DEFAULT_PAYMENT_ADDRESS_BUTTON("Платіжна адреса", "edit"),
-//        EDIT_OTHER_DELIVERY_ADDRESS_BUTTON_1("Інші адреси доставки", "edit", 1),
-//        EDIT_OTHER_DELIVERY_ADDRESS_BUTTON_2("Інші адреси доставки", "edit", 2),
-//        EDIT_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "edit", 1),
-//        EDIT_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_2("Інші платіжні адреси", "edit", 2),
-//        DELETE_OTHER_DELIVERY_ADDRESS_BUTTON_1("Інші адреси доставки", "delete", 1),
         DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
-//        ADDRESS_SAVED_MASSAGE("//div[@data-ui-id='message-success']"),
         DELETE_ADDRESS_BUTTON_IN_POP_UP("//button[@class='button__primary button--regular button--delete']");
 
         private final By element;
@@ -63,8 +44,8 @@ public class UserAddressesPage extends EditAddressPage {
         }
     }
 
-    @Step("Set suffix for type: {type}")
-    private static String suffixByType(String type) {
+    @Step("get suffix for type: {type}")
+    private static String пуеSuffixByType(String type) {
         return switch (type) {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
@@ -75,29 +56,16 @@ public class UserAddressesPage extends EditAddressPage {
         };
     }
 
-    @Step("Build xpath for section: '{sectionTitle}' and type: '{type}'")
+    @Step("Build XPath for section: '{sectionTitle}' and type: '{type}'")
     private static String buildXpath(String sectionTitle, String type) {
-        return "//span[text()='" + sectionTitle + "']/ancestor::div[@class='dashboard-info-block__info']"
-                + suffixByType(type);
+        return String.format(
+                "//span[text()='%s']/ancestor::div[@class='dashboard-info-block__info']%s",
+                sectionTitle, пуеSuffixByType(type)
+        );
     }
 
-    @Step("Build xpath with index for section: '{sectionTitle}', type: '{type}', index: {index}")
+    @Step("Build XPath with index for section: '{sectionTitle}', type: '{type}', index: {index}")
     private static String buildXpathWithIndex(String sectionTitle, String type, int index) {
-        return "(" + buildXpath(sectionTitle, type) + ")[" + index + "]";
-    }
-
-    @Step("Building specific expected address in String")
-    public static String buildAddress(String... fieldNames) {
-        List<String> values = new ArrayList<>();
-
-        for (String name : fieldNames) {
-            try {
-                Field field = Constant.EditAddressTestData.class.getField(name);
-                values.add((String) field.get(null));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException("Cannot access field: " + name, e);
-            }
-        }
-        return String.join(" ", values);
+        return String.format("(%s)[%d]", buildXpath(sectionTitle, type), index);
     }
 }

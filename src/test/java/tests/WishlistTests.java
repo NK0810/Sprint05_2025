@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -12,6 +13,8 @@ import utils.ConfigReader;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static constant.Constant.Owners.IGOR;
+import static constant.Constant.Owners.NAZAR;
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
 import static fragments.HeaderFragment.HeaderElements.*;
 import static pages.WishlistPage.WishlistElements.*;
@@ -23,6 +26,7 @@ public class WishlistTests extends BaseTest {
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
 
+    @Owner(NAZAR)
     @Test
     @Description("Verify that a product can be added to the wishlist and then removed from it via the home page")
     public void checkAdditionToWishlistTest() {
@@ -49,6 +53,7 @@ public class WishlistTests extends BaseTest {
                 "The product is appear in the wishlist after being deleted");
     }
 
+    @Owner(IGOR)
     @Test
     @Description("Remove from favorites on the favorites page in your personal account")
     public void removeFromFavoritesInProfilePage() {
