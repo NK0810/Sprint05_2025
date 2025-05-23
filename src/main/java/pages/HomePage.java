@@ -1,11 +1,15 @@
 package pages;
 
+import common.CommonActions;
 import fragments.HeaderFragment;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
@@ -21,6 +25,13 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
+    private static final String NEWS_LETTER_BLOCK = "//*[@class='block-newsletter']";
+    private static final String SEND_EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
+    private static final String REGISTRATION_BUTTON = "//div[@class='block-newsletter__field']/div/button";
+    private static final String CLICK_POPUP_REGISTRATION = "//div[@class='modal-newsletter__control']/button";
+    private static final String NEWS_LETTER_CHECK_BOX = "//*[@class='checkbox-label']";
+    private static final String REGISTRATION_POP_UP_TITLE = "//header[@class='modal-header']";
+    private static final String REGISTRATION_CONFIRMATION_MESSAGE = "//*[@data-ui-id='message-success']";
     private static final String LAST_VIEVED_BRANDS_NAMES = "//*[@class='autocomplete-results__popular-brand-item']//span";
     private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
     private static final String BRANDS_DROP_DOWN = "//*[@id='brands-menu']";
@@ -75,7 +86,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSearchField(String searchQuery) {
+    public HomePage enterTextInSeachField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
@@ -84,6 +95,40 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage clickSearchButton() {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
+    }
+
+    @Step("Scroll on subscribe on newsletter block")
+    public HomePage scrollToSubscribeOnNewsLetterBlock() {
+        scrollToElement(By.xpath(NEWS_LETTER_BLOCK));
+        return this;
+    }
+
+    @Step("Click to registration button ")
+    public HomePage clickRegistrationButton() {
+        waitElementToBeClickable(By.xpath(REGISTRATION_BUTTON)).click();
+        return this;
+    }
+
+    @Step("Click checkbox on pop up")
+    public HomePage clickCheckBoxOnPopUp() {
+        waitElementToBeClickable(By.xpath(NEWS_LETTER_CHECK_BOX)).click();
+        return this;
+    }
+
+    @Step("Click registration on popup ")
+    public HomePage clickRegistratiOnPopUp() {
+        waitElementToBeClickable(By.xpath(CLICK_POPUP_REGISTRATION)).click();
+        return this;
+    }
+
+    @Step("Is registration pop-up visible")
+    public boolean isPopUpVisible() {
+        return waitElementIsVisible(By.xpath(REGISTRATION_POP_UP_TITLE)).isDisplayed();
+    }
+
+    @Step("Is confirmation registration message visible")
+    public boolean isConfirmationRegistrationMessageVisible() {
+        return waitElementIsVisible(By.xpath(REGISTRATION_CONFIRMATION_MESSAGE)).isDisplayed();
     }
 
     @Step("Get list of names of last searched product")
@@ -104,6 +149,13 @@ public class HomePage extends BasePage<HomePage> {
     @Step("Get list of names of last searched brand")
     public List<String> getAllLastSearchedProductsBrands() {
         return getTextsFromList(waitElementsAreVisible(By.xpath(LAST_VIEVED_BRANDS_NAMES)));
+    }
+
+    @Step
+    @Description("User Email Input To Subscribe Field")
+    public HomePage enterEmail(String email) {
+        waitElementIsVisible(By.xpath(SEND_EMAIL_INPUT_FIELD)).sendKeys(email);
+        return this;
     }
 
     @Step("Click brands drop down trigger")
