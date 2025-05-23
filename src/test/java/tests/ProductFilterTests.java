@@ -289,7 +289,7 @@ public class ProductFilterTests extends BaseTest {
         }
     }
 
-    @Description("Verify that all applied filters affect the product list as expected, and that clicking 'Clear All Filters' restores the original product list.")
+    @Description("Verify that all applied filters affect the product list as expected, and that clicking Clear All Filters restores the original product list.")
     @Owner(NAZAR)
     @Test
     public void closeAllFilterTest() {
