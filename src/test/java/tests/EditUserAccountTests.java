@@ -22,7 +22,7 @@ public class EditUserAccountTests extends BaseTest {
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
     private static final String DEFAULT_DELIVERY_ADDRESS_MESSEGE = "Це адреса доставки за умовчанням.";
-    private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
+    private static final String DEFAULT_PAYMENT_ADDRESS_MESSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED = "Адресу збережено.";
     private static final String ADDRESS_DELETED = "Ви видалили адресу.";
     private static final String NAME = "Шмек";
@@ -154,9 +154,9 @@ public class EditUserAccountTests extends BaseTest {
                 .scrollToElement(SAVE_ADDRESS_BUTTON);
 
         String defaultDeliveryMessage = userAddressesPage.getElementText(DEFAULT_ADDRESS_MESSAGE);
-        Assert.assertEquals(defaultDeliveryMessage, DEFAULT_PAYMENT_ADDRESS_MASSEGE,
+        Assert.assertEquals(defaultDeliveryMessage, DEFAULT_PAYMENT_ADDRESS_MESSEGE,
                 String.format("Expected delivery message: '%s', but got: '%s'",
-                        DEFAULT_PAYMENT_ADDRESS_MASSEGE, defaultDeliveryMessage));
+                        DEFAULT_PAYMENT_ADDRESS_MESSEGE, defaultDeliveryMessage));
 
                 userAddressesPage.enterAddressInfo(NAME_INPUT_FIELD, NAME)
                 .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
