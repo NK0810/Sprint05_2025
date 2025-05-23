@@ -18,7 +18,9 @@ public class ProductPage extends BasePage<ProductPage> {
         SELECT_SIZE_DROP_DOWN_BUTTON("//div[@class='visual-ko-select visual-ko-select--rozmiar ']"),
         PRODUCT_SEASON_PARAMETER("(//div[@class='c-product-attribute'])[4]/span[@class='c-product-attribute__value']"),
         REGULAR_PRICE("//form//*[@Class='c-price__omnibus']"),
-        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span");
+        CURRENT_PRICE("//form//*[@data-price-type='finalPrice']/span"),
+        ADD_TO_WISHLIST_BUTTON("//a[@class='action action-to-wishlist add']"),
+        SUCCESS_MASSAGE("//div[@data-ui-id='message-success']");
 
         private final String locator;
 

@@ -3,16 +3,13 @@ package pages;
 import fragments.SortFragment;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
+import utils.LocatorProvider;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class ProductCatalogPage extends BasePage<ProductCatalogPage> {
     private static final String CLOSE_EXCELLENT_POP_UP = "//div[@class='js-trusted-shop-close']";
-
-    public interface LocatorProvider {
-        By getLocator();
-    }
 
     public enum FilterClearButton implements LocatorProvider {
         CLEAR_PRICE_FILTER_BUTTON("Ціна:"),

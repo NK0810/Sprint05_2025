@@ -12,8 +12,9 @@ public class CustomerSidebarFragment extends BasePage<CustomerSidebarFragment> {
     }
 
     public enum CustomerSidebarElements {
-        EXIT_SECTION("//a[text()='Вийти ']"),
-        WISHLIST_SECTION("//a[text()='Список бажань']");
+        EXIT_SECTION("(//a[@href='https://sportano.ua/customer/account/logout/'])[2]"),
+        WISHLIST_SECTION("(//a[@href='https://sportano.ua/wishlist/'])[3]"),
+        ADDRESS_SECTION("//a[@href='https://sportano.ua/customer/address/']");
 
         private final By element;
 

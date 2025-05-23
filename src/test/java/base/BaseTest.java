@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
@@ -20,7 +21,6 @@ public class BaseTest {
     public WebDriver driver;
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     protected static final Properties properties = new Properties();
-
     public WebDriver getDriver() {
         return driver;
     }
