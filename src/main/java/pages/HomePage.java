@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,9 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
+    private static final String FACEBOOK_FOOTER_BUTTON = "//img[@src='https://sportano.ua/media/footer/facebook.png']";
+    private static final String INSTAGRAM_FOOTER_BUTTON = "//img[@src='https://sportano.ua/media/footer/instagram.png']";
+    private static final String FOOTER = "//div[@class='footer-bottom__socials']";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -62,30 +66,30 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get price in home page")
-    public String getProductPrice(){
+    public String getProductPrice() {
         return waitElementIsVisible(By.xpath(PRICE_FIRST_PRODUCT)).getText();
     }
 
     @Step("Click search field")
-    public HomePage clickSearchField(){
+    public HomePage clickSearchField() {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).click();
         return this;
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery){
+    public HomePage enterTextInSeachField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
 
     @Step("Click search button")
-    public HomePage clickSearchButton(){
+    public HomePage clickSearchButton() {
         waitElementToBeClickable(By.xpath(SEARCH_BUTTON)).click();
         return this;
     }
 
     @Step("Get list of names of last searched product")
-    public List<String> getAllLastSearchedProductsNames(){
+    public List<String> getAllLastSearchedProductsNames() {
         return waitElementsAreVisible(By.xpath(LAST_VIEVED_PRODUCTS_NAMES))
                 .stream()
                 .map(WebElement::getText)
@@ -93,7 +97,46 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Get title of last searched products")
-    public String getLastVievedProductsTitle(){
+    public String getLastVievedProductsTitle() {
         return waitElementIsVisible(By.xpath(LAST_VIEWED_PRODUCTS_TITLE)).getText();
+    }
+
+    @Step("Click on the facebook button")
+    public HomePage clickOnTheFacebookButton() {
+        waitElementToBeClickable(By.xpath(FACEBOOK_FOOTER_BUTTON)).click();
+        return this;
+    }
+
+    @Step("Click on the instagram button")
+    public HomePage clickOnTheInstagramButton() {
+        waitElementToBeClickable(By.xpath(INSTAGRAM_FOOTER_BUTTON)).click();
+        return this;
+    }
+
+    @Step("Scroll to the footer")
+    public HomePage scrollToFooter() {
+        scrollToElement(By.xpath(FOOTER));
+        return this;
+    }
+
+    @Step("Check when the url be https://www.facebook.com/sportano.ua/")
+    public boolean urlFacebook() {
+        return wait.until(ExpectedConditions.urlToBe("https://www.facebook.com/sportano.ua/"));
+    }
+
+    @Step("Check when the url be https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fsportano.ua%2F&is_from_rle")
+    public boolean urlInstagram() {
+        return wait.until(ExpectedConditions.urlToBe("https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fsportano.ua%2F&is_from_rle"));
+    }
+
+    @Step("Switch to the new tab")
+    public void switchToNewTab() {
+        String originalWindow = driver.getWindowHandle();
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
     }
 }
