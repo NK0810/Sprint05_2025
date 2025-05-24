@@ -1,15 +1,13 @@
 package pages;
 
-import common.CommonActions;
 import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
@@ -86,7 +84,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery) {
+    public HomePage enterTextInSearchField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
@@ -168,5 +166,21 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage clickAllBrandsLink() {
         waitElementIsVisible(By.xpath(ALL_BRANDS_BUTTON)).click();
         return this;
+    }
+
+    @Step("Check when the URL contains: {expectedUrl}")
+    public boolean urlContainsExpected(String expectedUrl) {
+        return wait.until(ExpectedConditions.urlContains(expectedUrl));
+    }
+
+    @Step("Switch to the new tab")
+    public void switchToNewTab() {
+        String originalWindow = driver.getWindowHandle();
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
     }
 }
