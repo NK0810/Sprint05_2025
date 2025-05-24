@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import fragments.FooterFragment;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,21 +14,23 @@ public class FacebookAndInstagramFooterCheckTest extends BaseTest {
     public void facebookAndInstagramFooters() {
         String originalWindow = driver.getWindowHandle();
         HomePage homePage = new HomePage(driver);
-        homePage.openUrl()
-                .acceptCookies()
-                .scrollToFooter()
-                .clickOnTheFacebookButton()
-                .switchToNewTab();
+        FooterFragment footerFragment = new FooterFragment(driver);
 
-        Assert.assertTrue(homePage.urlFacebook());
+        homePage.openUrl()
+                .acceptCookies();
+        footerFragment.scrollToFooter()
+                .clickOnTheFacebookButton();
+        homePage.switchToNewTab();
+
+        homePage.urlContainsExpected("https://www.facebook.com");
 
         driver.close();
         driver.switchTo().window(originalWindow);
 
-        homePage.clickOnTheInstagramButton()
-                .switchToNewTab();
+        footerFragment.clickOnTheInstagramButton();
+        homePage.switchToNewTab();
 
-        Assert.assertTrue(homePage.urlInstagram());
+        homePage.urlContainsExpected("https://www.instagram.com");
 
         driver.close();
         driver.switchTo().window(originalWindow);

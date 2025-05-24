@@ -23,9 +23,6 @@ public class HomePage extends BasePage<HomePage> {
     private static final String SEARCH_BUTTON = "//*[@class='autocomplete__actions']/button";
     private static final String LAST_VIEVED_PRODUCTS_NAMES = "//*[@class='result-column']/a";
     private static final String LAST_VIEWED_PRODUCTS_TITLE = "//*[@class='autocomplete-results__products']//span";
-    private static final String FACEBOOK_FOOTER_BUTTON = "//img[@src='https://sportano.ua/media/footer/facebook.png']";
-    private static final String INSTAGRAM_FOOTER_BUTTON = "//img[@src='https://sportano.ua/media/footer/instagram.png']";
-    private static final String FOOTER = "//div[@class='footer-bottom__socials']";
     private static final String NEWS_LETTER_BLOCK = "//*[@class='block-newsletter']";
     private static final String SEND_EMAIL_INPUT_FIELD = "//input[@id='newsletter']";
     private static final String REGISTRATION_BUTTON = "//div[@class='block-newsletter__field']/div/button";
@@ -171,32 +168,9 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Click on the facebook button")
-    public HomePage clickOnTheFacebookButton() {
-        waitElementToBeClickable(By.xpath(FACEBOOK_FOOTER_BUTTON)).click();
-        return this;
-    }
-
-    @Step("Click on the instagram button")
-    public HomePage clickOnTheInstagramButton() {
-        waitElementToBeClickable(By.xpath(INSTAGRAM_FOOTER_BUTTON)).click();
-        return this;
-    }
-
-    @Step("Scroll to the footer")
-    public HomePage scrollToFooter() {
-        scrollToElement(By.xpath(FOOTER));
-        return this;
-    }
-
-    @Step("Check when the url be https://www.facebook.com/sportano.ua/")
-    public boolean urlFacebook() {
-        return wait.until(ExpectedConditions.urlToBe("https://www.facebook.com/sportano.ua/"));
-    }
-
-    @Step("Check when the url be https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fsportano.ua%2F&is_from_rle")
-    public boolean urlInstagram() {
-        return wait.until(ExpectedConditions.urlToBe("https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fsportano.ua%2F&is_from_rle"));
+    @Step("Check when the URL contains: {expectedUrl}")
+    public boolean urlContainsExpected(String expectedUrl) {
+        return wait.until(ExpectedConditions.urlContains(expectedUrl));
     }
 
     @Step("Switch to the new tab")
