@@ -107,7 +107,7 @@ public class BasePage<T extends BasePage<T>> {
     }
 
     public WebDriver switchToOriginalPage(String originalWindowHandle) {
-        driver.close(); // закриває поточну вкладку
-        return driver.switchTo().window(originalWindowHandle); // повертається до попередньої
+        driver.close();
+        return driver.switchTo().window(originalWindowHandle);
     }
 }
