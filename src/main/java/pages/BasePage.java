@@ -101,4 +101,13 @@ public class BasePage<T extends BasePage<T>> {
                 .replaceAll("\\s+", " ")
                 .trim();
     }
+
+    public String getSiteUrl(){
+        return driver.getCurrentUrl();
+    }
+
+    public WebDriver switchToOriginalPage(String originalWindowHandle) {
+        driver.close(); // закриває поточну вкладку
+        return driver.switchTo().window(originalWindowHandle); // повертається до попередньої
+    }
 }

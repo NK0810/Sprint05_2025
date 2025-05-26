@@ -25,7 +25,7 @@ public class FooterFragment extends BasePage<FooterFragment> {
     }
 
     @Step("Scroll to the footer")
-    public FooterFragment scrollToFooter() {
+    public FooterFragment scrollToFooterSocials() {
         scrollToElement(By.xpath(FOOTER_SOCIALS));
         return this;
     }

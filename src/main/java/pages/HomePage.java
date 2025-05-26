@@ -174,11 +174,6 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Step("Check when the URL contains: {expectedUrl}")
-    public boolean urlContainsExpected(String expectedUrl) {
-        return wait.until(ExpectedConditions.urlContains(expectedUrl));
-    }
-
     @Step("Switch to the new tab")
     public void switchToNewTab() {
         String originalWindow = driver.getWindowHandle();
