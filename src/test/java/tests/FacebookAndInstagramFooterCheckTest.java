@@ -5,7 +5,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.BasePage;
 import pages.HomePage;
 import static constant.Constant.Owners.MAKS;
 
@@ -27,17 +26,13 @@ public class FacebookAndInstagramFooterCheckTest extends BaseTest {
                 .clickOnTheFacebookButton();
         homePage.switchToNewTab();
 
-        String facebookUrl = homePage.getSiteUrl();
-        Assert.assertTrue(facebookUrl.contains(FACEBOOK_URL));
+        Assert.assertTrue(homePage.getSiteUrl().contains(FACEBOOK_URL));
 
         homePage.switchToOriginalPage(originalWindow);
         homePage.getFooterFragment()
                 .clickOnTheInstagramButton();
         homePage.switchToNewTab();
 
-        String instagramUrl = homePage.getSiteUrl();
-        Assert.assertTrue(instagramUrl.contains(INSTAGRAM_URL));
-
-        homePage.switchToOriginalPage(originalWindow);
+        Assert.assertTrue(homePage.getSiteUrl().contains(INSTAGRAM_URL));
     }
 }
