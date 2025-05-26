@@ -7,6 +7,7 @@ import pages.BasePage;
 
 public class FooterFragment extends BasePage<FooterFragment> {
     public FooterFragment(WebDriver driver) { super(driver); }
+
     private static final String FACEBOOK_FOOTER_BUTTON = ("//img[@src='https://sportano.ua/media/footer/facebook.png']");
     private static final String INSTAGRAM_FOOTER_BUTTON = ("//img[@src='https://sportano.ua/media/footer/instagram.png']");
     private static final String FOOTER_SOCIALS = ("//div[@class='footer-bottom__socials']");

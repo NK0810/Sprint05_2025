@@ -1,36 +1,38 @@
 package tests;
 
 import base.BaseTest;
-import fragments.FooterFragment;
 import io.qameta.allure.Description;
-import org.testng.Assert;
+import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 import pages.HomePage;
+import static constant.Constant.Owners.MAKS;
 
 public class FacebookAndInstagramFooterCheckTest extends BaseTest {
+    private static final String FACEBOOK_URL = "https://www.facebook.com";
+    private static final String INSTAGRAM_URL = "https://www.instagram.com";
 
+    @Owner(MAKS)
     @Test
-    @Description("Перевірка переходів по іконках Facebook та Instagram у футері сайту")
+    @Description("Checking clicks on Facebook and Instagram icons in the footer of a website")
     public void facebookAndInstagramFooters() {
         String originalWindow = driver.getWindowHandle();
         HomePage homePage = new HomePage(driver);
-        FooterFragment footerFragment = new FooterFragment(driver);
 
         homePage.openUrl()
-                .acceptCookies();
-        footerFragment.scrollToFooter()
+                .acceptCookies()
+                .getFooterFragment().scrollToFooter()
                 .clickOnTheFacebookButton();
         homePage.switchToNewTab();
 
-        homePage.urlContainsExpected("https://www.facebook.com");
+        homePage.urlContainsExpected(FACEBOOK_URL);
 
         driver.close();
         driver.switchTo().window(originalWindow);
 
-        footerFragment.clickOnTheInstagramButton();
+        homePage.getFooterFragment().clickOnTheInstagramButton();
         homePage.switchToNewTab();
 
-        homePage.urlContainsExpected("https://www.instagram.com");
+        homePage.urlContainsExpected(INSTAGRAM_URL);
 
         driver.close();
         driver.switchTo().window(originalWindow);
