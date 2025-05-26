@@ -1,5 +1,6 @@
 package pages;
 
+import fragments.FooterFragment;
 import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
+    private final FooterFragment footerFragment;
 
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
@@ -39,10 +41,15 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage(WebDriver driver) {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
+        this.footerFragment = new FooterFragment(driver);
     }
 
     public HeaderFragment getHeaderFragment() {
         return headerFragment;
+    }
+
+    public FooterFragment getFooterFragment() {
+        return footerFragment;
     }
 
     @Step("Open home page")
@@ -180,5 +187,16 @@ public class HomePage extends BasePage<HomePage> {
         scrollToElement(element);
         waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES));
         return getTextsFromList(waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES)));
+    }
+
+    @Step("Switch to the new tab")
+    public void switchToNewTab() {
+        String originalWindow = driver.getWindowHandle();
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
     }
 }
