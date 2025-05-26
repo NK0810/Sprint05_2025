@@ -33,8 +33,8 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
     private static final String BRANDS_DROP_DOWN = "//*[@id='brands-menu']";
     private static final String ALL_BRANDS_BUTTON = "//*[@class='brands-menu__popular-button']";
-    private static final String BRANDS_HEADERS = "//*[@class='brands-menu__brands']/h4";
-    private static final String BRAND_SECTION = "//*[@class='brands-menu__child'][contains(@style,'flex')]/a";
+    private static final String BRANDS_TITLES = "//*[@class='brands-menu__brands']/h4";
+    private static final String SECTION_BRANDS_NAMES = "//*[@class='brands-menu__child'][contains(@style,'flex')]/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -171,14 +171,14 @@ public class HomePage extends BasePage<HomePage> {
 
     @Step("Get list of title names of letter sections")
     public List<String> getAllBrandsTitleNames() {
-        return getTextsFromList(waitElementsAreVisible(By.xpath(BRANDS_HEADERS)));
+        return getTextsFromList(waitElementsAreVisible(By.xpath(BRANDS_TITLES)));
     }
 
     @Step("Get list of brand names of {title} section")
     public List<String> getAllBrandNamesOfSection(String title) {
-        By element = By.xpath(BRANDS_HEADERS + String.format("[text()='%s']", title));
+        By element = By.xpath(BRANDS_TITLES + String.format("[text()='%s']", title));
         scrollToElement(element);
-        waitElementsAreVisible(By.xpath(BRAND_SECTION));
-        return getTextsFromList(waitElementsAreVisible(By.xpath(BRAND_SECTION)));
+        waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES));
+        return getTextsFromList(waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES)));
     }
 }
