@@ -18,7 +18,7 @@ public class UserAddressesPage extends EditAddressPage {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
         EDIT_DEFAULT_DELIVERY_ADDRESS_BUTTON("Адреса доставки за умовчанням", "edit"),
         ADDRESS_SAVED_MESSAGE_TEXT("//div[@data-ui-id='message-success']/div"),
-        ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add-payment"),
+        ADD_PAYMENT_ADDRESS_BUTTON("Інші платіжні адреси", "add"),
         CLOSE_MESSAGE_BUTTON("//span[@data-role='message-close']"),
         OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1("Інші платіжні адреси", "address", 1),
         DELETE_OTHER_PAYMENT_ADDRESS_ADDRESS_BUTTON_1("Інші платіжні адреси", "delete", 1),
@@ -50,8 +50,7 @@ public class UserAddressesPage extends EditAddressPage {
             case "address" -> "//address";
             case "edit" -> "//a[@class='action edit dashboard-info-block__link']";
             case "delete" -> "//a[@class='action delete dashboard-info-block__link']";
-            case "add-payment" -> "//a[@class='address-new' and span[text()='Додайте адресу рахунку-фактури']]";
-            case "add-delivery" -> "//a[@class='address-new' and span[text()='Додати адресу доставки']]";
+            case "add" -> "//a[@class='address-new']";
             default -> throw new IllegalArgumentException("Unsupported type: " + type);
         };
     }
