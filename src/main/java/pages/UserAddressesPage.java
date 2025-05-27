@@ -3,7 +3,17 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import utils.LocatorProvider;
+
+import static pages.EditAddressPage.EditAddressPageElements.*;
+import static pages.EditAddressPage.EditAddressPageElements.APARTMENT_NUMBER_INPUT_FIELD;
+import static pages.EditAddressPage.EditAddressPageElements.CITY_INPUT_FIELD;
+import static pages.EditAddressPage.EditAddressPageElements.HOUSE_NUMBER_INPUT_FIELD;
+import static pages.EditAddressPage.EditAddressPageElements.POST_CODE_INPUT_FIELD;
+import static pages.EditAddressPage.EditAddressPageElements.SAVE_ADDRESS_BUTTON;
+import static pages.EditAddressPage.EditAddressPageElements.STREET_INPUT_FIELD;
+import static pages.UserAddressesPage.UserAddressesPageElements.ADD_PAYMENT_ADDRESS_BUTTON;
 
 public class UserAddressesPage extends EditAddressPage {
 
@@ -64,5 +74,55 @@ public class UserAddressesPage extends EditAddressPage {
     @Step("Build XPath with index for section: '{sectionTitle}', type: '{type}', index: {index}")
     private static String buildXpathWithIndex(String sectionTitle, String type, int index) {
         return String.format("(%s)[%d]", buildXpath(sectionTitle, type), index);
+    }
+
+    @Step("Enter value '{value}' into field: {element}")
+    public UserAddressesPage enterInfo(EditAddressPageElements element, String value) {
+        WebElement field = waitElementIsVisible(element.getLocator());
+        field.clear();
+        field.sendKeys(value);
+        return this;
+    }
+
+    @Step("Click on element: {locatorProvider}")
+    public UserAddressesPage clickOnElement(LocatorProvider locatorProvider) {
+        waitElementToBeClickable(locatorProvider.getLocator()).click();
+        return this;
+    }
+
+    @Step("Scroll to element: {locatorProvider}")
+    public UserAddressesPage scrollToElement(LocatorProvider locatorProvider) {
+        scrollToElement(locatorProvider.getLocator());
+        return this;
+    }
+
+    @Step("Get text from element: {locatorProvider}")
+    public String getElementText(LocatorProvider locatorProvider) {
+        return waitElementIsVisible(locatorProvider.getLocator()).getText();
+    }
+
+    @Step("Enter only required fields for delivery address and save")
+    public UserAddressesPage enterDeliveryAddressOnlyRequiredFields(
+            String name, String surname, String street, String houseNumber, String postCode, String city, String phoneNumber) {
+        return this.enterInfo(EditAddressPageElements.NAME_INPUT_FIELD, name)
+                .enterInfo(EditAddressPageElements.SURNAME_INPUT_FIELD, surname)
+                .enterInfo(EditAddressPageElements.STREET_INPUT_FIELD, street)
+                .enterInfo(EditAddressPageElements.HOUSE_NUMBER_INPUT_FIELD, houseNumber)
+                .enterInfo(EditAddressPageElements.POST_CODE_INPUT_FIELD, postCode)
+                .enterInfo(EditAddressPageElements.CITY_INPUT_FIELD, city)
+                .enterInfo(EditAddressPageElements.PHONE_NUMBER_INPUT_FIELD, phoneNumber)
+                .clickOnElement(EditAddressPageElements.SAVE_ADDRESS_BUTTON);
+    }
+    @Step("Enter only required fields for delivery address and save")
+    public UserAddressesPage enterPaymentAddress(
+            String name, String surname, String street, String houseNumber, String apartmentNumber, String postCode, String city) {
+        return this.enterInfo(NAME_INPUT_FIELD, name)
+                .enterInfo(SURNAME_INPUT_FIELD, surname)
+                .enterInfo(STREET_INPUT_FIELD, street)
+                .enterInfo(HOUSE_NUMBER_INPUT_FIELD, houseNumber)
+                .enterInfo(APARTMENT_NUMBER_INPUT_FIELD, apartmentNumber)
+                .enterInfo(POST_CODE_INPUT_FIELD, postCode)
+                .enterInfo(CITY_INPUT_FIELD, city)
+                .clickOnElement(SAVE_ADDRESS_BUTTON);
     }
 }

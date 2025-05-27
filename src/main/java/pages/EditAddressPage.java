@@ -36,29 +36,4 @@ public abstract class EditAddressPage extends BasePage<EditAddressPage> {
     public EditAddressPage(WebDriver driver) {
         super(driver);
     }
-
-    @Step("Enter value '{value}' into address field: {element}")
-    public EditAddressPage enterAddressInfo(EditAddressPageElements element, String value) {
-        WebElement field = waitElementIsVisible(element.getLocator());
-        field.clear();
-        field.sendKeys(value);
-        return this;
-    }
-
-    @Step("Click on element: {locatorProvider}")
-    public EditAddressPage clickOnElement(LocatorProvider locatorProvider) {
-        waitElementToBeClickable(locatorProvider.getLocator()).click();
-        return this;
-    }
-
-    @Step("Scroll to element: {locatorProvider}")
-    public EditAddressPage scrollToElement(LocatorProvider locatorProvider) {
-        scrollToElement(locatorProvider.getLocator());
-        return this;
-    }
-
-    @Step("Get text from element: {locatorProvider}")
-    public String getElementText(LocatorProvider locatorProvider) {
-        return waitElementIsVisible(locatorProvider.getLocator()).getText();
-    }
 }
