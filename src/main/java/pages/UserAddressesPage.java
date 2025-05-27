@@ -7,13 +7,6 @@ import org.openqa.selenium.WebElement;
 import utils.LocatorProvider;
 
 import static pages.EditAddressPage.EditAddressPageElements.*;
-import static pages.EditAddressPage.EditAddressPageElements.APARTMENT_NUMBER_INPUT_FIELD;
-import static pages.EditAddressPage.EditAddressPageElements.CITY_INPUT_FIELD;
-import static pages.EditAddressPage.EditAddressPageElements.HOUSE_NUMBER_INPUT_FIELD;
-import static pages.EditAddressPage.EditAddressPageElements.POST_CODE_INPUT_FIELD;
-import static pages.EditAddressPage.EditAddressPageElements.SAVE_ADDRESS_BUTTON;
-import static pages.EditAddressPage.EditAddressPageElements.STREET_INPUT_FIELD;
-import static pages.UserAddressesPage.UserAddressesPageElements.ADD_PAYMENT_ADDRESS_BUTTON;
 
 public class UserAddressesPage extends EditAddressPage {
 
