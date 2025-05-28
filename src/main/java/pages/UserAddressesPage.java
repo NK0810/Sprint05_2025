@@ -6,13 +6,36 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.LocatorProvider;
 
-import static pages.EditAddressPage.EditAddressPageElements.*;
+import java.util.Map;
 
-public class UserAddressesPage extends EditAddressPage {
+import static pages.UserAddressesPage.EditAddressPageElements.*;
 
-    public UserAddressesPage(WebDriver driver) {
-        super(driver);
+public class UserAddressesPage extends BasePage<UserAddressesPage> {
+
+    public enum EditAddressPageElements implements LocatorProvider {
+        NAME_INPUT_FIELD("//input[@name='firstname']"),
+        SURNAME_INPUT_FIELD("//input[@name='lastname']"),
+        STREET_INPUT_FIELD("//input[@name='street[1]']"),
+        HOUSE_NUMBER_INPUT_FIELD("//input[@name='street[2]']"),
+        APARTMENT_NUMBER_INPUT_FIELD("//input[@name='street[3]']"),
+        POST_CODE_INPUT_FIELD("//input[@name='postcode']"),
+        CITY_INPUT_FIELD("//input[@name='city']"),
+        PHONE_NUMBER_INPUT_FIELD("//input[@name='telephone']"),
+        SAVE_ADDRESS_BUTTON("//button[@data-action='save-address']"),
+        DEFAULT_ADDRESS_MESSAGE("//div[@class='message info']/span");
+
+        private final By element;
+
+        EditAddressPageElements(String xpath) {
+            this.element = By.xpath(xpath);
+        }
+
+        @Override
+        public By getLocator() {
+            return element;
+        }
     }
+
 
     public enum UserAddressesPageElements implements LocatorProvider {
         DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK("Адреса доставки за умовчанням", "address"),
@@ -44,6 +67,10 @@ public class UserAddressesPage extends EditAddressPage {
         }
     }
 
+    public UserAddressesPage(WebDriver driver) {
+        super(driver);
+    }
+
     @Step("get suffix for type: {type}")
     private static String getSuffixByType(String type) {
         return switch (type) {
@@ -69,8 +96,8 @@ public class UserAddressesPage extends EditAddressPage {
     }
 
     @Step("Enter value '{value}' into field: {element}")
-    public UserAddressesPage enterInfo(EditAddressPageElements element, String value) {
-        WebElement field = waitElementIsVisible(element.getLocator());
+    public UserAddressesPage enterInfo(LocatorProvider locatorProvider, String value) {
+        WebElement field = waitElementIsVisible(locatorProvider.getLocator());
         field.clear();
         field.sendKeys(value);
         return this;
@@ -93,28 +120,40 @@ public class UserAddressesPage extends EditAddressPage {
         return waitElementIsVisible(locatorProvider.getLocator()).getText();
     }
 
-    @Step("Enter only required fields for delivery address and save")
-    public UserAddressesPage enterDeliveryAddressOnlyRequiredFields(
-            String name, String surname, String street, String houseNumber, String postCode, String city, String phoneNumber) {
-        return this.enterInfo(EditAddressPageElements.NAME_INPUT_FIELD, name)
-                .enterInfo(EditAddressPageElements.SURNAME_INPUT_FIELD, surname)
-                .enterInfo(EditAddressPageElements.STREET_INPUT_FIELD, street)
-                .enterInfo(EditAddressPageElements.HOUSE_NUMBER_INPUT_FIELD, houseNumber)
-                .enterInfo(EditAddressPageElements.POST_CODE_INPUT_FIELD, postCode)
-                .enterInfo(EditAddressPageElements.CITY_INPUT_FIELD, city)
-                .enterInfo(EditAddressPageElements.PHONE_NUMBER_INPUT_FIELD, phoneNumber)
-                .clickOnElement(EditAddressPageElements.SAVE_ADDRESS_BUTTON);
+    @Step("Enter address fields from map and save")
+    public UserAddressesPage enterAddressInfo(Map<EditAddressPageElements, String> addressData) {
+        for (Map.Entry<EditAddressPageElements, String> entry : addressData.entrySet()) {
+            String value = entry.getValue();
+            if (value != null && !value.isBlank()) {
+                enterInfo(entry.getKey(), value);
+            }
+        }
+        return clickOnElement(SAVE_ADDRESS_BUTTON);
     }
-    @Step("Enter only required fields for delivery address and save")
-    public UserAddressesPage enterPaymentAddress(
+
+    public static Map<EditAddressPageElements, String> deliveryAddressRequieredFields(
+            String name, String surname, String street, String houseNumber, String postCode, String city, String phoneNumber) {
+        return Map.of(
+                NAME_INPUT_FIELD, name,
+                SURNAME_INPUT_FIELD, surname,
+                STREET_INPUT_FIELD, street,
+                HOUSE_NUMBER_INPUT_FIELD, houseNumber,
+                POST_CODE_INPUT_FIELD, postCode,
+                CITY_INPUT_FIELD, city,
+                PHONE_NUMBER_INPUT_FIELD, phoneNumber
+        );
+    }
+
+    public static Map<EditAddressPageElements, String> paymentAddress(
             String name, String surname, String street, String houseNumber, String apartmentNumber, String postCode, String city) {
-        return this.enterInfo(NAME_INPUT_FIELD, name)
-                .enterInfo(SURNAME_INPUT_FIELD, surname)
-                .enterInfo(STREET_INPUT_FIELD, street)
-                .enterInfo(HOUSE_NUMBER_INPUT_FIELD, houseNumber)
-                .enterInfo(APARTMENT_NUMBER_INPUT_FIELD, apartmentNumber)
-                .enterInfo(POST_CODE_INPUT_FIELD, postCode)
-                .enterInfo(CITY_INPUT_FIELD, city)
-                .clickOnElement(SAVE_ADDRESS_BUTTON);
+        return Map.of(
+                NAME_INPUT_FIELD, name,
+                SURNAME_INPUT_FIELD, surname,
+                STREET_INPUT_FIELD, street,
+                HOUSE_NUMBER_INPUT_FIELD, houseNumber,
+                APARTMENT_NUMBER_INPUT_FIELD, apartmentNumber,
+                POST_CODE_INPUT_FIELD, postCode,
+                CITY_INPUT_FIELD, city
+        );
     }
 }

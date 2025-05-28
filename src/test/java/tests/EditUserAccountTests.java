@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
-import static pages.EditAddressPage.EditAddressPageElements.*;
+import static pages.UserAddressesPage.EditAddressPageElements.*;
 import static pages.UserAddressesPage.UserAddressesPageElements.*;
 
 public class EditUserAccountTests extends BaseTest {
@@ -56,8 +56,8 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected delivery message: '%s', but got: '%s'",
                         DEFAULT_DELIVERY_ADDRESS_MESSEGE, defaultDeliveryMessage));
 
-        userAddressesPage.enterDeliveryAddressOnlyRequiredFields(
-                NAME, SURNAME, STREET, HOUSE_NUMBER, POST_CODE, CITY, PHONE_NUMBER);
+        userAddressesPage.enterAddressInfo(UserAddressesPage.deliveryAddressRequieredFields(
+                NAME, SURNAME, STREET, HOUSE_NUMBER, POST_CODE, CITY, PHONE_NUMBER));
 
         String actualAddress = userAddressesPage.convertAddressBlock(
                 userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK)
@@ -86,8 +86,8 @@ public class EditUserAccountTests extends BaseTest {
         userAddressesPage.scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
                 .clickOnElement(ADD_PAYMENT_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON)
-                .enterPaymentAddress(
-                        NAME, SURNAME, STREET, HOUSE_NUMBER, APARTMENT_NUMBER, POST_CODE, CITY)
+                .enterAddressInfo(UserAddressesPage.paymentAddress(
+                        NAME, SURNAME, STREET, HOUSE_NUMBER, APARTMENT_NUMBER, POST_CODE, CITY))
                 .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON);
         String actualAddress = userAddressesPage.convertAddressBlock(
                 userAddressesPage.getElementText(OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1)
