@@ -22,10 +22,13 @@ public class EditUserAccountTests extends BaseTest {
     private static final String EMAIL = ConfigReader.getProperty("UserEmail");
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
     private static final String DEFAULT_DELIVERY_ADDRESS_MESSEGE = "Це адреса доставки за умовчанням.";
+    private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
     private static final String ADDRESS_SAVED_MESSEGE = "Адресу збережено.";
     private static final String ADDRESS_DELETED_MESSEGE = "Ви видалили адресу.";
     private static final String NAME = "Шмек";
     private static final String SURNAME = "Мельник";
+    private static final String TAX_IDENTIFICATION_NUMBER = "7815516551";
+    private static final String COMPANY_NAME = "MONSTER.INC";
     private static final String STREET = "Травнева";
     private static final String HOUSE_NUMBER = "8";
     private static final String APARTMENT_NUMBER = "16";
@@ -34,6 +37,8 @@ public class EditUserAccountTests extends BaseTest {
     private static final String PHONE_NUMBER = "0967693586";
     private static final String DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY = buildAddress(
                     "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "POST_CODE", "CITY", "PHONE_NUMBER");
+    private static final String DEFAULT_COMPANY_PAYMENT_ADDRESS_IN_INFO_BLOCK = buildAddress(
+            "NAME", "SURNAME", "COMPANY_NAME", "TAX_IDENTIFICATION_NUMBER", "STREET", "HOUSE_NUMBER", "APARTMENT_NUMBER", "POST_CODE", "CITY");
     private static final String OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK = buildAddress(
                     "NAME", "SURNAME", "STREET", "HOUSE_NUMBER", "APARTMENT_NUMBER", "POST_CODE", "CITY");
 
@@ -110,6 +115,43 @@ public class EditUserAccountTests extends BaseTest {
         Assert.assertEquals(deletedMessage, ADDRESS_DELETED_MESSEGE,
                 String.format("Expected save message: '%s', but got: '%s'",
                         ADDRESS_DELETED_MESSEGE, deletedMessage));
+    }
+
+    @Test
+    @Description("Edit default company payment address")
+    public void editDefaultCompanyPaymentAddressTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        UserAccountPage userAccountPage = new UserAccountPage(driver);
+        UserAddressesPage userAddressesPage = new UserAddressesPage(driver);
+
+        loginPage.login(EMAIL, PASSWORD);
+        userAccountPage.getCustomerSidebarFragment()
+                .scrollToElement(ADDRESS_SECTION)
+                .clickUserAccountElement(ADDRESS_SECTION);
+        userAddressesPage.clickOnElement(EDIT_DEFAULT_PAYMENT_ADDRESS_BUTTON)
+                .clickOnElement(COMPANY_RADIO_BUTTON)
+                .scrollToElement(SAVE_ADDRESS_BUTTON);
+
+        String defaultDeliveryMessage = userAddressesPage.getElementText(DEFAULT_ADDRESS_MESSAGE);
+        Assert.assertEquals(defaultDeliveryMessage, DEFAULT_PAYMENT_ADDRESS_MASSEGE,
+                String.format("Expected delivery message: '%s', but got: '%s'",
+                        DEFAULT_PAYMENT_ADDRESS_MASSEGE, defaultDeliveryMessage));
+
+                userAddressesPage.enterAddressInfo(UserAddressesPage.paymentAddressCompany(
+                        NAME, SURNAME, COMPANY_NAME, TAX_IDENTIFICATION_NUMBER,
+                        STREET, HOUSE_NUMBER, APARTMENT_NUMBER, POST_CODE, CITY));
+
+        String actualAddress = userAddressesPage.convertAddressBlock(
+                userAddressesPage.getElementText(DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK));
+
+        Assert.assertEquals(actualAddress, DEFAULT_COMPANY_PAYMENT_ADDRESS_IN_INFO_BLOCK,
+                String.format("Expected address: '%s', but got: '%s'",
+                        DEFAULT_COMPANY_PAYMENT_ADDRESS_IN_INFO_BLOCK, actualAddress));
+
+        String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED_MESSEGE,
+                String.format("Expected save message: '%s', but got: '%s'",
+                        ADDRESS_SAVED_MESSEGE, savedMessage));
     }
 
     @Step("Building specific expected address in String")

@@ -98,6 +98,7 @@ public class BasePage<T extends BasePage<T>> {
     @Step("Convert raw address block to normalized form")
     public static String convertAddressBlock(String rawAddress) {
         return rawAddress.replace("tel. ", "")
+                .replace("NIP", "")
                 .replace(",", "")
                 .replaceAll("\\s+", " ")
                 .trim();
