@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fragments.CustomerSidebarFragment.CustomerSidebarElements.*;
-import static pages.EditAddressPage.EditAddressPageElements.*;
+import static pages.UserAddressesPage.EditAddressPageElements.*;
 import static pages.UserAddressesPage.UserAddressesPageElements.*;
 
 public class EditUserAccountTests extends BaseTest {
@@ -23,8 +23,8 @@ public class EditUserAccountTests extends BaseTest {
     private static final String PASSWORD = ConfigReader.getProperty("UserPassword");
     private static final String DEFAULT_DELIVERY_ADDRESS_MESSEGE = "Це адреса доставки за умовчанням.";
     private static final String DEFAULT_PAYMENT_ADDRESS_MASSEGE = "Це платіжна адреса за умовчанням.";
-    private static final String ADDRESS_SAVED = "Адресу збережено.";
-    private static final String ADDRESS_DELETED = "Ви видалили адресу.";
+    private static final String ADDRESS_SAVED_MESSEGE = "Адресу збережено.";
+    private static final String ADDRESS_DELETED_MESSEGE = "Ви видалили адресу.";
     private static final String NAME = "Шмек";
     private static final String SURNAME = "Мельник";
     private static final String TAX_IDENTIFICATION_NUMBER = "7815516551";
@@ -61,14 +61,8 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected delivery message: '%s', but got: '%s'",
                         DEFAULT_DELIVERY_ADDRESS_MESSEGE, defaultDeliveryMessage));
 
-        userAddressesPage.enterAddressInfo(NAME_INPUT_FIELD, NAME)
-                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
-                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
-                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
-                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
-                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
-                .enterAddressInfo(PHONE_NUMBER_INPUT_FIELD, PHONE_NUMBER)
-                .clickOnElement(SAVE_ADDRESS_BUTTON);
+        userAddressesPage.enterAddressInfo(UserAddressesPage.deliveryAddressRequieredFields(
+                NAME, SURNAME, STREET, HOUSE_NUMBER, POST_CODE, CITY, PHONE_NUMBER));
 
         String actualAddress = userAddressesPage.convertAddressBlock(
                 userAddressesPage.getElementText(DEFAULT_DELIVERY_ADDRESS_INFO_BLOCK)
@@ -78,9 +72,9 @@ public class EditUserAccountTests extends BaseTest {
                         DEFAULT_DELIVERY_ADDRESS_IN_INFO_BLOCK_REQUIRED_FIELDS_ONLY, actualAddress));
 
         String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
-        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED_MESSEGE,
                 String.format("Expected save message: '%s', but got: '%s'",
-                        ADDRESS_SAVED, savedMessage));
+                        ADDRESS_SAVED_MESSEGE, savedMessage));
     }
 
     @Test
@@ -97,14 +91,8 @@ public class EditUserAccountTests extends BaseTest {
         userAddressesPage.scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
                 .clickOnElement(ADD_PAYMENT_ADDRESS_BUTTON)
                 .scrollToElement(SAVE_ADDRESS_BUTTON)
-                .enterAddressInfo(NAME_INPUT_FIELD, NAME)
-                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
-                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
-                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
-                .enterAddressInfo(APARTMENT_NUMBER_INPUT_FIELD, APARTMENT_NUMBER)
-                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
-                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
-                .clickOnElement(SAVE_ADDRESS_BUTTON)
+                .enterAddressInfo(UserAddressesPage.paymentAddress(
+                        NAME, SURNAME, STREET, HOUSE_NUMBER, APARTMENT_NUMBER, POST_CODE, CITY))
                 .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON);
         String actualAddress = userAddressesPage.convertAddressBlock(
                 userAddressesPage.getElementText(OTHER_PAYMENT_ADDRESS_INFO_BLOCK_1)
@@ -114,9 +102,9 @@ public class EditUserAccountTests extends BaseTest {
                         OTHER_PAYMENT_ADDRESS_IN_INFO_BLOCK, actualAddress));
 
         String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
-        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED_MESSEGE,
                 String.format("Expected save message: '%s', but got: '%s'",
-                        ADDRESS_SAVED, savedMessage));
+                        ADDRESS_SAVED_MESSEGE, savedMessage));
 
         userAddressesPage.clickOnElement(CLOSE_MESSAGE_BUTTON)
                 .scrollToElement(ADD_PAYMENT_ADDRESS_BUTTON)
@@ -124,9 +112,9 @@ public class EditUserAccountTests extends BaseTest {
                 .clickOnElement(DELETE_ADDRESS_BUTTON_IN_POP_UP);
 
         String deletedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
-        Assert.assertEquals(deletedMessage, ADDRESS_DELETED,
+        Assert.assertEquals(deletedMessage, ADDRESS_DELETED_MESSEGE,
                 String.format("Expected save message: '%s', but got: '%s'",
-                        ADDRESS_DELETED, deletedMessage));
+                        ADDRESS_DELETED_MESSEGE, deletedMessage));
     }
 
     @Test

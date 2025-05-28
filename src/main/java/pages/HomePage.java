@@ -1,18 +1,17 @@
 package pages;
 
-import common.CommonActions;
+import fragments.FooterFragment;
 import fragments.HeaderFragment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage extends BasePage<HomePage> {
     private final HeaderFragment headerFragment;
+    private final FooterFragment footerFragment;
 
     private static final String HOME_URL = BASE_URL;
     private static final String LIST_OF_GOODS = "//li[@aria-label]";
@@ -36,14 +35,21 @@ public class HomePage extends BasePage<HomePage> {
     private static final String LAST_VIEWED_BRANDS_TITLE = "//*[@class='autocomplete-results__popular-brands']/*/span";
     private static final String BRANDS_DROP_DOWN = "//*[@id='brands-menu']";
     private static final String ALL_BRANDS_BUTTON = "//*[@class='brands-menu__popular-button']";
+    private static final String BRANDS_TITLES = "//*[@class='brands-menu__brands']/h4";
+    private static final String SECTION_BRANDS_NAMES = "//*[@class='brands-menu__child'][contains(@style,'flex')]/a";
 
     public HomePage(WebDriver driver) {
         super(driver);
         this.headerFragment = new HeaderFragment(driver);
+        this.footerFragment = new FooterFragment(driver);
     }
 
     public HeaderFragment getHeaderFragment() {
         return headerFragment;
+    }
+
+    public FooterFragment getFooterFragment() {
+        return footerFragment;
     }
 
     @Step("Open home page")
@@ -86,7 +92,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     @Step("Enter search query")
-    public HomePage enterTextInSeachField(String searchQuery) {
+    public HomePage enterTextInSearchField(String searchQuery) {
         waitElementToBeClickable(By.xpath(SEARCH_FIELD)).sendKeys(searchQuery);
         return this;
     }
@@ -168,5 +174,29 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage clickAllBrandsLink() {
         waitElementIsVisible(By.xpath(ALL_BRANDS_BUTTON)).click();
         return this;
+    }
+
+    @Step("Get list of title names of letter sections")
+    public List<String> getAllBrandsTitleNames() {
+        return getTextsFromList(waitElementsAreVisible(By.xpath(BRANDS_TITLES)));
+    }
+
+    @Step("Get list of brand names of {title} section")
+    public List<String> getAllBrandNamesOfSection(String title) {
+        By element = By.xpath(BRANDS_TITLES + String.format("[text()='%s']", title));
+        scrollToElement(element);
+        waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES));
+        return getTextsFromList(waitElementsAreVisible(By.xpath(SECTION_BRANDS_NAMES)));
+    }
+
+    @Step("Switch to the new tab")
+    public void switchToNewTab() {
+        String originalWindow = driver.getWindowHandle();
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
     }
 }
