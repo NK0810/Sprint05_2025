@@ -137,17 +137,9 @@ public class EditUserAccountTests extends BaseTest {
                 String.format("Expected delivery message: '%s', but got: '%s'",
                         DEFAULT_PAYMENT_ADDRESS_MASSEGE, defaultDeliveryMessage));
 
-                userAddressesPage.enterAddressInfo(NAME_INPUT_FIELD, NAME)
-                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
-                .enterAddressInfo(COMPANY_NAME_INPUT_FIELD, COMPANY_NAME)
-                .enterAddressInfo(TAX_IDENTIFICATION_NUMBER_INPUT_FIELD, TAX_IDENTIFICATION_NUMBER)
-                .enterAddressInfo(SURNAME_INPUT_FIELD, SURNAME)
-                .enterAddressInfo(STREET_INPUT_FIELD, STREET)
-                .enterAddressInfo(HOUSE_NUMBER_INPUT_FIELD, HOUSE_NUMBER)
-                .enterAddressInfo(APARTMENT_NUMBER_INPUT_FIELD, APARTMENT_NUMBER)
-                .enterAddressInfo(POST_CODE_INPUT_FIELD, POST_CODE)
-                .enterAddressInfo(CITY_INPUT_FIELD, CITY)
-                .clickOnElement(SAVE_ADDRESS_BUTTON);
+                userAddressesPage.enterAddressInfo(UserAddressesPage.paymentAddressCompany(
+                        NAME, SURNAME, COMPANY_NAME, TAX_IDENTIFICATION_NUMBER,
+                        STREET, HOUSE_NUMBER, APARTMENT_NUMBER, POST_CODE, CITY));
 
         String actualAddress = userAddressesPage.convertAddressBlock(
                 userAddressesPage.getElementText(DEFAULT_PAYMENT_ADDRESS_INFO_BLOCK));
@@ -157,9 +149,9 @@ public class EditUserAccountTests extends BaseTest {
                         DEFAULT_COMPANY_PAYMENT_ADDRESS_IN_INFO_BLOCK, actualAddress));
 
         String savedMessage = userAddressesPage.getElementText(ADDRESS_SAVED_MESSAGE_TEXT);
-        Assert.assertEquals(savedMessage, ADDRESS_SAVED,
+        Assert.assertEquals(savedMessage, ADDRESS_SAVED_MESSEGE,
                 String.format("Expected save message: '%s', but got: '%s'",
-                        ADDRESS_SAVED, savedMessage));
+                        ADDRESS_SAVED_MESSEGE, savedMessage));
     }
 
     @Step("Building specific expected address in String")

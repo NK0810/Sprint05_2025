@@ -13,7 +13,10 @@ import static pages.UserAddressesPage.EditAddressPageElements.*;
 public class UserAddressesPage extends BasePage<UserAddressesPage> {
 
     public enum EditAddressPageElements implements LocatorProvider {
+        COMPANY_RADIO_BUTTON("//label[@for='invoice_company']"),
         NAME_INPUT_FIELD("//input[@name='firstname']"),
+        COMPANY_NAME_INPUT_FIELD("//input[@name='company']"),
+        TAX_IDENTIFICATION_NUMBER_INPUT_FIELD("//input[@name='vat_id']"),
         SURNAME_INPUT_FIELD("//input[@name='lastname']"),
         STREET_INPUT_FIELD("//input[@name='street[1]']"),
         HOUSE_NUMBER_INPUT_FIELD("//input[@name='street[2]']"),
@@ -151,6 +154,21 @@ public class UserAddressesPage extends BasePage<UserAddressesPage> {
         return Map.of(
                 NAME_INPUT_FIELD, name,
                 SURNAME_INPUT_FIELD, surname,
+                STREET_INPUT_FIELD, street,
+                HOUSE_NUMBER_INPUT_FIELD, houseNumber,
+                APARTMENT_NUMBER_INPUT_FIELD, apartmentNumber,
+                POST_CODE_INPUT_FIELD, postCode,
+                CITY_INPUT_FIELD, city
+        );
+    }
+
+    public static Map<EditAddressPageElements, String> paymentAddressCompany(String name, String surname, String companyName, String taxId,
+            String street, String houseNumber, String apartmentNumber, String postCode, String city) {
+        return Map.of(
+                NAME_INPUT_FIELD, name,
+                SURNAME_INPUT_FIELD, surname,
+                COMPANY_NAME_INPUT_FIELD, companyName,
+                TAX_IDENTIFICATION_NUMBER_INPUT_FIELD, taxId,
                 STREET_INPUT_FIELD, street,
                 HOUSE_NUMBER_INPUT_FIELD, houseNumber,
                 APARTMENT_NUMBER_INPUT_FIELD, apartmentNumber,
